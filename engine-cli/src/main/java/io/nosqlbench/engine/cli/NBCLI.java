@@ -16,7 +16,6 @@
 
 package io.nosqlbench.engine.cli;
 
-import io.nosqlbench.docexporter.BundledMarkdownExporter;
 import io.nosqlbench.docsys.core.NBWebServerApp;
 import io.nosqlbench.engine.api.activityapi.cyclelog.outputs.cyclelog.CycleLogDumperUtility;
 import io.nosqlbench.engine.api.activityapi.cyclelog.outputs.cyclelog.CycleLogImporterUtility;
@@ -41,7 +40,6 @@ import io.nosqlbench.nb.api.content.Content;
 import io.nosqlbench.nb.api.content.NBIO;
 import io.nosqlbench.nb.api.errors.BasicError;
 import io.nosqlbench.nb.api.logging.NBLogLevel;
-import io.nosqlbench.nb.api.markdown.exporter.MarkdownExporter;
 import io.nosqlbench.nb.api.metadata.SessionNamer;
 import io.nosqlbench.nb.api.metadata.SystemId;
 import io.nosqlbench.virtdata.userlibs.apps.VirtDataMainApp;
@@ -188,8 +186,7 @@ public class NBCLI {
         }
 
         if (args.length > 0 && args[0].toLowerCase().equals("export-docs")) {
-            BundledMarkdownExporter.main(Arrays.copyOfRange(args,1,args.length));
-            System.exit(0);
+            throw new RuntimeException("the export-docs command has been deprecated. Update your scripts.");
         }
         if (args.length > 0 && args[0].toLowerCase().equals("virtdata")) {
             VirtDataMainApp.main(Arrays.copyOfRange(args, 1, args.length));
@@ -197,10 +194,6 @@ public class NBCLI {
         }
         if (args.length > 0 && args[0].toLowerCase().matches("docserver|appserver")) {
             NBWebServerApp.main(Arrays.copyOfRange(args, 1, args.length));
-            System.exit(0);
-        }
-        if (args.length > 0 && args[0].toLowerCase().equals(MarkdownExporter.APP_NAME)) {
-            MarkdownExporter.main(Arrays.copyOfRange(args, 1, args.length));
             System.exit(0);
         }
 

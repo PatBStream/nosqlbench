@@ -22,7 +22,6 @@ import io.nosqlbench.nb.api.content.NBIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -101,7 +100,6 @@ public class ConfigLoader {
 
         if (data.startsWith("IMPORT{") && data.endsWith("}")) {
             String filename = data.substring("IMPORT{".length(), data.length() - 1);
-            Path filepath = Path.of(filename);
 
             data = NBIO.all().name(filename).first()
                     .map(c -> {
@@ -111,9 +109,8 @@ public class ConfigLoader {
         }
 
         if (data.startsWith("{") || data.startsWith("[")) {
-            JsonParser parser = new JsonParser();
 
-            JsonElement jsonElement = parser.parse(data);
+            JsonElement jsonElement = JsonParser.parseString(data);
             if (jsonElement.isJsonArray()) {
                 JsonArray asJsonArray = jsonElement.getAsJsonArray();
                 for (JsonElement element : asJsonArray) {

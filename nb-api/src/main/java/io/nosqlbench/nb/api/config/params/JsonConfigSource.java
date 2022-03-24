@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JsonConfigSource implements ConfigSource {
-    private final static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private String name;
 
     @Override
@@ -44,8 +43,7 @@ public class JsonConfigSource implements ConfigSource {
 
         // Pull JSON element from data
         if (data instanceof CharSequence) {
-            JsonParser p = new JsonParser();
-            element = p.parse(data.toString());
+            element = JsonParser.parseString(data.toString());
         } else if (data instanceof JsonElement) {
             element = (JsonElement) data;
         }
@@ -54,7 +52,7 @@ public class JsonConfigSource implements ConfigSource {
         List<ElementData> elements = new ArrayList<>();
 
 
-        if (element.isJsonArray()) {
+        if (element!=null && element.isJsonArray()) {
             JsonArray ary = element.getAsJsonArray();
             for (JsonElement jsonElem : ary) {
                 if (jsonElem.isJsonObject()) {
@@ -64,15 +62,15 @@ public class JsonConfigSource implements ConfigSource {
                         + jsonElem.getClass().getSimpleName());
                 }
             }
-        } else if (element.isJsonObject()) {
+        } else if (element != null && element.isJsonObject()) {
             elements.add(new JsonBackedConfigElement(null,element.getAsJsonObject()));
-        } else if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
+        } else if (element != null && element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
             String asString = element.getAsJsonPrimitive().getAsString();
             ElementData e = DataSources.element(name,asString);
             elements.add(e);
         } else {
             throw new RuntimeException("Invalid object type for element:" +
-                element.getClass().getSimpleName());
+                (element==null? "NULL" : element.getClass().getSimpleName()));
         }
 
         return elements;
@@ -82,12 +80,5 @@ public class JsonConfigSource implements ConfigSource {
     public String getName() {
         return this.name;
     }
-//
-//    @Override
-//    public ElementData getOneElementData(Object src) {
-//        JsonElement element = (JsonElement) src;
-//
-//
-//    }
 
 }

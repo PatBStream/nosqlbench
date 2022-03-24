@@ -16,8 +16,6 @@
 
 package io.nosqlbench.docsys.core;
 
-import io.nosqlbench.docsys.DocsysDefaultAppPath;
-import io.nosqlbench.docapi.Docs;
 import io.nosqlbench.docsys.api.WebServiceObject;
 import io.nosqlbench.docsys.handlers.FavIconHandler;
 import io.nosqlbench.nb.annotations.Maturity;
@@ -208,19 +206,6 @@ public class NBWebServer implements Runnable {
                 handlers.addHandler(favIconHandler);
                 break;
             }
-        }
-
-        if (basePaths.size() == 0) {
-            Docs docs = new Docs();
-            // Load static path contexts which are published within the runtime.
-            docs.merge(DocsysPathLoader.loadStaticPaths());
-
-            // If none claims the "docsys-app" namespace, then install the
-            // default static copy of the docs app
-            if (!docs.getPathMap().containsKey("docsys-app")) {
-                docs.merge(new DocsysDefaultAppPath().getDocs());
-            }
-            basePaths.addAll(docs.getPaths());
         }
 
         for (Path basePath : basePaths) {
