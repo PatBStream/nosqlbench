@@ -16,10 +16,7 @@
 
 package io.nosqlbench.docsapi;
 
-import io.nosqlbench.nb.annotations.DocsBundle;
-import io.nosqlbench.nb.annotations.DocsExporter;
-import io.nosqlbench.nb.annotations.MarkdownScanner;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.*;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
@@ -32,8 +29,8 @@ import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
+import java.io.IOException;
 import java.io.Writer;
-import java.lang.annotation.Annotation;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -48,6 +45,8 @@ import java.util.regex.Pattern;
 @Service(value=javax.annotation.processing.Processor.class,selector = "PackageDocsProcessor")
 public class PackageDocsProcessor extends AbstractProcessor {
     public final static String SERVICE_NAME = Service.class.getCanonicalName();
+
+    private int rounds=0;
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
@@ -76,30 +75,17 @@ public class PackageDocsProcessor extends AbstractProcessor {
         this.typeUtils = processingEnv.getTypeUtils();
     }
 
-//    private Writer getWriterForClass(String className, Element... elements) {
-//        return writers.computeIfAbsent(className, s -> {
-//            try {
-//                return filer.createResource(StandardLocation.CLASS_OUTPUT, "", "META-INF/services/" + s, elements)
-//                        .openWriter();
-//            } catch (IOException e) {
-//                messenger.printMessage(Diagnostic.Kind.ERROR, e.toString());
-//                return null;
-//            }
-//        });
-//    }
-
     @SuppressWarnings("unchecked")
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        rounds++;
+        messenger.printMessage(Diagnostic.Kind.NOTE,"round " + rounds);
 
-        List<DocsBundle> targets = new ArrayList<>();
-        Set<DocsBundle> sourcepaths = new LinkedHashSet<>();
-        try {
-            for (String annotationType : this.getSupportedAnnotationTypes()) {
-                Class<? extends Annotation> annotationClass =
-                    (Class<? extends Annotation>) Class.forName(annotationType);
-                Set<? extends Element> tsms = roundEnv.getElementsAnnotatedWith(annotationClass);
+        try (AtomicZipBuffer zipwriter= new AtomicZipBuffer(filer)) {
 
+            DocsBundles targets = new DocsBundles();
+            try {
+                Set<? extends Element> tsms = roundEnv.getElementsAnnotatedWith(PackageDocs.class);
                 for (Element element : tsms) {
                     PackageDocs packagedocs = element.getAnnotation(PackageDocs.class);
                     String as = packagedocs.as();
@@ -115,21 +101,30 @@ public class PackageDocsProcessor extends AbstractProcessor {
                     } else {
                         throw new RuntimeException("unrecognized documented element type" + element.getClass());
                     }
-                    Path dir = Path.of(referenceFile.getName()).getParent();
+                    Path sourceDir = Path.of(referenceFile.getName()).getParent();
                     List<Pattern> patterns = Arrays.stream(packagedocs.matchers()).map(Pattern::compile).toList();
-                    MarkdownScanner scanner = new MarkdownScanner(dir, patterns);
-                    Files.walkFileTree(dir, scanner);
+                    MarkdownScanner scanner = new MarkdownScanner(sourceDir, patterns);
+                    Files.walkFileTree(sourceDir, scanner);
+                    List<VirtualizedPath> virtualizedPaths = scanner
+                        .getRelativePaths()
+                        .stream()
+                        .map(p -> new VirtualizedPath(sourceDir, p))
+                        .toList();
 
-                    targets.add(new DocsBundle(dir, scanner.getRelativePaths(), as));
+                    DocsBundle bundle  = new DocsBundle(as, virtualizedPaths, element);
+                    targets.addBundle(bundle);
                 }
+
+            } catch (Exception e) {
+                messenger.printMessage(Diagnostic.Kind.ERROR, e.toString());
             }
 
-        } catch (Exception e) {
-            messenger.printMessage(Diagnostic.Kind.ERROR, e.toString());
-        }
+            if (targets.values().size()>0) {
+                zipwriter.export(targets);
+            }
 
-        for (DocsBundle target : targets) {
-            new DocsExporter().export(target);
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
         }
 
         return true;

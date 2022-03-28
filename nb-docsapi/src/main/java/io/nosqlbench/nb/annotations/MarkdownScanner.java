@@ -45,12 +45,15 @@ public class MarkdownScanner implements FileVisitor<Path> {
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         String filename = file.getFileName().toString();
 
+        boolean matched=false;
         for (Pattern filter : matchers) {
-            if (!filter.asMatchPredicate().test(filename)) {
-                paths.add(file);
+            if (filter.asMatchPredicate().test(filename)) {
+                matched=true;
+                break;
             }
         }
-        if (file.getFileName().toString().endsWith(".md")) {
+        if (matched) {
+            paths.add(file);
         }
         return FileVisitResult.CONTINUE;
     }

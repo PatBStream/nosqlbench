@@ -16,8 +16,8 @@
 
 package io.nosqlbench.nb.annotations;
 
-import java.nio.file.Path;
-import java.util.List;
+import javax.lang.model.element.Element;
+import java.util.*;
 
 /**
  *
@@ -30,10 +30,30 @@ import java.util.List;
  *     The included files will be added to a file in relative path from current working directory.</li>
  * </ul></p>
  *
- *
- * @param dir Is the base directory of the content
- * @param relativePaths are the paths which are included, relative to the dir
  * @param saveAs is the target output file or directory.
+ * @param relativePaths are the paths which are included, relative to the sourceDir
+ * @param originatingElement The originating elements for the contained paths
  */
-public record DocsBundle(Path dir, List<Path> relativePaths, String saveAs) {
+public record DocsBundle(String saveAs, Collection<VirtualizedPath> relativePaths, Element... originatingElement) {
+
+    public DocsBundle merge(DocsBundle other) {
+        if (saveAs.equals(other.saveAs)) {
+
+            Set<VirtualizedPath> combinedPaths = new HashSet<>();
+            combinedPaths.addAll(relativePaths);
+            combinedPaths.addAll(other.relativePaths);
+
+            List<Element> combinedOriginating = new ArrayList<>();
+            combinedOriginating.addAll(Arrays.stream(originatingElement).toList());
+            combinedOriginating.addAll(Arrays.stream(other.originatingElement).toList());
+
+            return new DocsBundle(
+                saveAs,
+                combinedPaths,
+                combinedOriginating.toArray(new Element[0])
+            );
+        } else {
+            throw new RuntimeException("unable to merge two different saveAs specs");
+        }
+    }
 }
