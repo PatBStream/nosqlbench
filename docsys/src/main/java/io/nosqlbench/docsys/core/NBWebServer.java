@@ -18,8 +18,6 @@ package io.nosqlbench.docsys.core;
 
 import io.nosqlbench.docsys.api.WebServiceObject;
 import io.nosqlbench.docsys.handlers.FavIconHandler;
-import io.nosqlbench.nb.annotations.Maturity;
-import io.nosqlbench.nb.api.spi.SimpleServiceLoader;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.ServletRegistration;
 import org.apache.logging.log4j.LogManager;
@@ -138,8 +136,8 @@ public class NBWebServer implements Runnable {
                 .collect(Collectors.toList());
         }
 
-        SimpleServiceLoader<WebServiceObject> svcLoader = new SimpleServiceLoader<>(WebServiceObject.class, Maturity.Any);
-        svcLoader.getNamedProviders().stream().map(p -> p.provider)
+        ServiceLoader.load(WebServiceObject.class)
+            .stream()
             .forEach(p -> {
                 Class<? extends WebServiceObject> c = p.type();
                 logger.info("Adding web service object: " + c.getSimpleName());

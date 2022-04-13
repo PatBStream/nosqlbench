@@ -18,7 +18,7 @@ package io.nosqlbench.engine.rest.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.nosqlbench.docsys.api.WebServiceObject;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Service;
 import io.nosqlbench.virtdata.userlibs.apps.docsapp.AutoDocsWebService;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
