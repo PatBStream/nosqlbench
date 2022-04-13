@@ -14,7 +14,9 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>nosqlbench</artifactId>
@@ -47,31 +49,33 @@
         <module>engine-extensions</module>
         <module>engine-docker</module>
         <module>engine-cli</module>
-        <module>engine-rest</module>
+        <!--        <module>engine-rest</module>-->
         <module>engine-clients</module>
         <module>drivers-api</module>
         <module>adapters-api</module>
 
         <!-- driver modules -->
-        <module>adapter-cqld4</module>
-        <module>adapter-dynamodb</module>
         <module>driver-diag</module>
         <module>driver-stdout</module>
+        <module>adapter-cqld4</module>
+        <module>adapter-dynamodb</module>
         <module>driver-tcp</module>
         <module>driver-http</module>
-        <module>driver-kafka</module>
         <module>driver-mongodb</module>
         <module>driver-jmx</module>
         <module>driver-jdbc</module>
         <module>driver-cockroachdb</module>
         <module>driver-pulsar</module>
+        <module>driver-kafka</module>
         <module>driver-jms</module>
 
 
         <!-- VIRTDATA MODULES -->
 
+        <module>virtdata-annotations</module>
         <module>virtdata-api</module>
         <module>virtdata-lang</module>
+        <module>virtdata-lib-template</module>
         <module>virtdata-realdata</module>
         <module>virtdata-lib-basics</module>
         <module>virtdata-lib-random</module>
@@ -79,8 +83,8 @@
         <module>virtdata-lib-realer</module>
         <module>virtdata-userlibs</module>
 
-        <!-- Documentation -->
-        <module>docsys</module>
+        <!-- TODO: This needs to be reviewed and refactored as a services API -->
+        <!--        <module>docsys</module>-->
 
     </modules>
 

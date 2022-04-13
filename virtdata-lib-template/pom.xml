@@ -14,9 +14,13 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <artifactId>virtdata-lib-template</artifactId>
+    <packaging>pom</packaging>
 
     <parent>
         <artifactId>mvn-defaults</artifactId>
@@ -25,51 +29,22 @@
         <relativePath>../mvn-defaults</relativePath>
     </parent>
 
-    <artifactId>nb-docsapi</artifactId>
-    <packaging>jar</packaging>
-    <name>${project.artifactId}</name>
-    <description>
-        The docs API that is used by NoSQLBench.
-        Include this into other modules via the nb-api dependency.
-    </description>
+
+    <name>virtdata-lib-template</name>
+    <url>http://nosqlbench.io/</url>
 
     <dependencies>
 
         <dependency>
             <groupId>io.nosqlbench</groupId>
-            <artifactId>nb-annotations</artifactId>
+            <artifactId>virtdata-api</artifactId>
             <version>4.17.12-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>net.sf.jopt-simple</groupId>
-            <artifactId>jopt-simple</artifactId>
-            <version>5.0.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vladsch.flexmark</groupId>
-            <artifactId>flexmark-ext-yaml-front-matter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vladsch.flexmark</groupId>
-            <artifactId>flexmark-html2md-converter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.rvesse</groupId>
-            <artifactId>airline</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
+            <groupId>io.nosqlbench</groupId>
+            <artifactId>virtdata-annotations</artifactId>
+            <version>4.17.12-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
@@ -85,30 +60,23 @@
                     <target>17</target>
                     <source>17</source>
                     <release>17</release>
-                    <proc>none</proc>
                     <compilerArgs>
-                        <arg>-proc:none</arg>
                         <arg>--enable-preview</arg>
                     </compilerArgs>
                     <verbose>true</verbose>
-
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>io.nosqlbench</groupId>
+                            <artifactId>virtdata-annotations</artifactId>
+                            <version>${version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                     <!--<compilerArgument>-Xdoclint:all</compilerArgument>-->
                     <!--                    <compilerArgument>-Xlint:all</compilerArgument>-->
                 </configuration>
             </plugin>
-
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>docs-for-testing-only/**</exclude>
-                </excludes>
-                <includes>
-                    <include>**</include>
-                </includes>
-            </resource>
-        </resources>
     </build>
+
 
 </project>

@@ -17,59 +17,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <artifactId>virtdata-annotations</artifactId>
+    <packaging>jar</packaging>
 
     <parent>
-        <artifactId>mvn-defaults</artifactId>
         <groupId>io.nosqlbench</groupId>
+        <artifactId>mvn-defaults</artifactId>
         <version>4.17.12-SNAPSHOT</version>
         <relativePath>../mvn-defaults</relativePath>
     </parent>
 
-    <artifactId>nb-docsapi</artifactId>
-    <packaging>jar</packaging>
-    <name>${project.artifactId}</name>
+    <name>virtdata-annotations</name>
+    <url>http://nosqlbench.io/</url>
     <description>
-        The docs API that is used by NoSQLBench.
-        Include this into other modules via the nb-api dependency.
+      Annotations for VirtData
     </description>
 
     <dependencies>
-
         <dependency>
             <groupId>io.nosqlbench</groupId>
-            <artifactId>nb-annotations</artifactId>
             <version>4.17.12-SNAPSHOT</version>
+            <artifactId>nb-api</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>net.sf.jopt-simple</groupId>
-            <artifactId>jopt-simple</artifactId>
-            <version>5.0.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vladsch.flexmark</groupId>
-            <artifactId>flexmark-ext-yaml-front-matter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vladsch.flexmark</groupId>
-            <artifactId>flexmark-html2md-converter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.rvesse</groupId>
-            <artifactId>airline</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
+            <groupId>com.squareup</groupId>
+            <artifactId>javapoet</artifactId>
+            <version>1.13.0</version>
         </dependency>
 
     </dependencies>
@@ -98,17 +72,15 @@
             </plugin>
 
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>docs-for-testing-only/**</exclude>
-                </excludes>
-                <includes>
-                    <include>**</include>
-                </includes>
-            </resource>
-        </resources>
+            <resources>
+                <resource>
+                    <directory>src/main/resources</directory>
+                    <filtering>true</filtering>
+                    <includes>
+                        <include>META-INF/**</include>
+                    </includes>
+                </resource>
+            </resources>
     </build>
 
 </project>
