@@ -16,8 +16,8 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.from_long.to_collection;
 
-import io.nosqlbench.nb.api.errors.BasicError;
-import io.nosqlbench.virtdata.api.annotations.*;
+import io.nosqlbench.api.errors.BasicError;
+import io.nosqlbench.virtdata.annotations.types.*;
 
 import java.util.HashSet;
 import java.util.function.LongFunction;

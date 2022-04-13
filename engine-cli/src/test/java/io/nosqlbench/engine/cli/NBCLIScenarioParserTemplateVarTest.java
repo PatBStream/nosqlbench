@@ -17,7 +17,7 @@
 package io.nosqlbench.engine.cli;
 
 import io.nosqlbench.engine.api.activityconfig.StatementsLoader;
-import io.nosqlbench.engine.api.activityconfig.yaml.OpTemplate;
+import io.nosqlbench.adapters.api.activityconfig.yaml.OpTemplate;
 import io.nosqlbench.engine.api.activityconfig.yaml.StmtsDocList;
 import org.junit.jupiter.api.Test;
 

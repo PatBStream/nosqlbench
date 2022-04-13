@@ -18,13 +18,13 @@ package io.nosqlbench.engine.core.annotation;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.nosqlbench.nb.annotations.Service;
-import io.nosqlbench.nb.api.annotations.Annotation;
-import io.nosqlbench.nb.api.annotations.Annotator;
-import io.nosqlbench.nb.api.config.standard.ConfigLoader;
-import io.nosqlbench.nb.api.config.standard.NBConfigurable;
-import io.nosqlbench.nb.api.config.standard.NBConfiguration;
-import io.nosqlbench.nb.api.config.standard.NBMapConfigurable;
+import io.nosqlbench.api.annotations.Annotation;
+import io.nosqlbench.api.annotations.Annotator;
+import io.nosqlbench.api.config.standard.ConfigLoader;
+import io.nosqlbench.api.config.standard.NBConfigurable;
+import io.nosqlbench.api.config.standard.NBConfiguration;
+import io.nosqlbench.api.config.standard.NBMapConfigurable;
+import io.nosqlbench.nb.annotations.types.Selector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -107,14 +107,14 @@ public class Annotators {
 
         loader.stream().forEach(provider -> {
             Class<? extends Annotator> type = provider.type();
-            if (!type.isAnnotationPresent(Service.class)) {
+            if (!type.isAnnotationPresent(Selector.class)) {
                 throw new RuntimeException(
                         "Annotator services must be annotated with distinct selectors\n" +
                                 "such as @Service(Annotator.class,selector=\"myimpl42\")"
                 );
             }
-            Service service = type.getAnnotation(Service.class);
-            providers.put(service.selector(), provider);
+            Selector selector = type.getAnnotation(Selector.class);
+            providers.put(selector.value(), provider);
         });
 
         return providers;
@@ -123,7 +123,7 @@ public class Annotators {
     public static synchronized void recordAnnotation(Annotation annotation) {
         for (Annotator annotator : getAnnotators()) {
             try {
-                logger.trace("calling annotator " + annotator.getClass().getAnnotation(Service.class).selector());
+                logger.trace("calling annotator " + annotator.getClass().getAnnotation(Selector.class).value());
                 annotator.recordAnnotation(annotation);
             } catch (Exception e) {
                 logger.error(e);

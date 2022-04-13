@@ -16,10 +16,10 @@
 
 package io.nosqlbench.adapters.stdout;
 
-import io.nosqlbench.engine.api.activityimpl.OpDispenser;
-import io.nosqlbench.engine.api.activityimpl.OpMapper;
-import io.nosqlbench.engine.api.activityimpl.uniform.DriverSpaceCache;
-import io.nosqlbench.engine.api.templating.ParsedOp;
+import io.nosqlbench.adapters.api.opmapping.OpDispenser;
+import io.nosqlbench.adapters.api.opmapping.OpMapper;
+import io.nosqlbench.adapters.api.opmapping.uniform.DriverSpaceCache;
+import io.nosqlbench.adapters.api.templating.ParsedOp;
 
 import java.util.function.LongFunction;
 

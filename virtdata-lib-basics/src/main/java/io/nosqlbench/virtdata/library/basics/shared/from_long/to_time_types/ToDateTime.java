@@ -16,10 +16,10 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.from_long.to_time_types;
 
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.DeprecatedFunction;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.DeprecatedFunction;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 

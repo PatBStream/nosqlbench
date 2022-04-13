@@ -16,8 +16,8 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.from_long.to_long;
 
-import io.nosqlbench.virtdata.api.annotations.Example;
-import io.nosqlbench.virtdata.murmur.Murmur3F;
+import io.nosqlbench.virtdata.annotations.types.Example;
+import io.nosqlbench.virtdata.library.basics.murmur.Murmur3F;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

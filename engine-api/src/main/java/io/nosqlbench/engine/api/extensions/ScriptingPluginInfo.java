@@ -17,7 +17,7 @@
 package io.nosqlbench.engine.api.extensions;
 
 import com.codahale.metrics.MetricRegistry;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 import org.apache.logging.log4j.Logger;
 
 import javax.script.ScriptContext;
@@ -50,7 +50,7 @@ public interface ScriptingPluginInfo<T> {
      * @return a simple name at the root of the variable namespace to anchor this extension.
      */
     default String getBaseVariableName() {
-        return getClass().getAnnotation(Service.class).selector();
+        return getClass().getAnnotation(Selector.class).value();
     }
 
     /**

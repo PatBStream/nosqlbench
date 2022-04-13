@@ -16,7 +16,7 @@
 
 package io.nosqlbench.virtdata.library.random;
 
-import io.nosqlbench.virtdata.api.annotations.DeprecatedFunction;
+import io.nosqlbench.virtdata.annotations.types.DeprecatedFunction;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;

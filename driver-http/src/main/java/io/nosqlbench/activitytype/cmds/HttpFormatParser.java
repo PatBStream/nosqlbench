@@ -16,7 +16,7 @@
 
 package io.nosqlbench.activitytype.cmds;
 
-import io.nosqlbench.nb.api.errors.BasicError;
+import io.nosqlbench.api.errors.BasicError;
 import io.nosqlbench.virtdata.core.templates.BindPointParser;
 
 import java.net.URLEncoder;

@@ -21,7 +21,7 @@ import io.nosqlbench.driver.jms.ops.JmsMsgSendMapper;
 import io.nosqlbench.driver.jms.ops.JmsOp;
 import io.nosqlbench.driver.jms.util.JmsHeaderLongFunc;
 import io.nosqlbench.driver.jms.util.JmsUtil;
-import io.nosqlbench.engine.api.activityconfig.yaml.OpTemplate;
+import io.nosqlbench.adapters.api.activityconfig.yaml.OpTemplate;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;

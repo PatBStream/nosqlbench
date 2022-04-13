@@ -18,10 +18,10 @@ package io.nosqlbench.datamappers.functions.to_daterange;
 
 import com.datastax.dse.driver.api.core.data.time.DateRange;
 import com.datastax.dse.driver.api.core.data.time.DateRangePrecision;
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.Example;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.Example;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 
 import java.text.ParseException;
 import java.util.function.Function;

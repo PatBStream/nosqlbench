@@ -16,7 +16,7 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.from_long.to_long;
 
-import io.nosqlbench.virtdata.library.basics.shared.stateful.Clear;
+import io.nosqlbench.virtdata.library.basics.shared.stateful.loaders.from_object.Clear;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

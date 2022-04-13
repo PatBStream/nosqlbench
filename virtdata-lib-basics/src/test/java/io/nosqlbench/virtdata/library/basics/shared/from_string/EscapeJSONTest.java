@@ -17,6 +17,7 @@
 package io.nosqlbench.virtdata.library.basics.shared.from_string;
 
 
+import io.nosqlbench.virtdata.library.basics.shared.unary_string.EscapeJSON;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -16,9 +16,9 @@
 
 package io.nosqlbench.engine.clients.grafana;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
@@ -34,10 +34,10 @@ public class GrafanaClientConfig {
 
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    @JsonProperty("baseuri")
+    @SerializedName("baseuri")
     private URI baseUrl;
 
-    @JsonProperty("timeoutms" )
+    @SerializedName("timeoutms" )
     private int timeoutms;
 
     private final List<Authenticator> authenticators = new ArrayList<>();

@@ -26,12 +26,12 @@ import com.datastax.oss.driver.internal.core.config.composite.CompositeDriverCon
 import com.datastax.oss.driver.internal.core.loadbalancing.helper.NodeFilterToDistanceEvaluatorAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.nosqlbench.adapter.cqld4.optionhelpers.OptionHelpers;
-import io.nosqlbench.engine.api.util.SSLKsFactory;
-import io.nosqlbench.nb.api.config.standard.*;
-import io.nosqlbench.nb.api.content.Content;
-import io.nosqlbench.nb.api.content.NBIO;
-import io.nosqlbench.nb.api.errors.BasicError;
+import io.nosqlbench.adapter.cqld4.optionhelpers.Cqld4OptionHelpers;
+import io.nosqlbench.api.config.standard.*;
+import io.nosqlbench.api.content.Content;
+import io.nosqlbench.api.content.NBIO;
+import io.nosqlbench.api.errors.BasicError;
+import io.nosqlbench.api.ssl.SSLKsFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -75,7 +75,7 @@ public class Cqld4Space {
         DriverConfigLoader dcl = DriverConfigLoader.fromMap(defaults);
 
         // add streamlined cql parameters
-        OptionHelpers helpers = new OptionHelpers(defaults);
+        Cqld4OptionHelpers helpers = new Cqld4OptionHelpers(defaults);
         NBConfiguration cqlHelperCfg = helpers.getConfigModel().extractConfig(cfg);
         helpers.applyConfig(cqlHelperCfg);
 
@@ -267,7 +267,7 @@ public class Cqld4Space {
             .add(Param.optional("cloud_proxy_address",String.class,"Cloud Proxy Address"))
             .add(SSLKsFactory.get().getConfigModel())
             .add(getDriverOptionsModel())
-            .add(new OptionHelpers(new OptionsMap()).getConfigModel())
+            .add(new Cqld4OptionHelpers(new OptionsMap()).getConfigModel())
             .asReadOnly();
 
     }

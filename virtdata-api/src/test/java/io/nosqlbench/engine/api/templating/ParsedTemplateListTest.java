@@ -16,6 +16,7 @@
 
 package io.nosqlbench.engine.api.templating;
 
+import io.nosqlbench.virtdata.api.templating.ParsedTemplateList;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -25,7 +25,7 @@ import java.util.Set;
 public class PartitionLongsTest {
 
     @Test
-    void testInvalidInitializerValues() {
+    public void testInvalidInitializerValues() {
         Assertions.assertThrows(RuntimeException.class, () -> new PartitionLongs(-3));
         Assertions.assertThrows(RuntimeException.class, () -> new PartitionLongs(0));
     }
@@ -33,7 +33,7 @@ public class PartitionLongsTest {
     @Test
     public void testValueCardinality() {
         PartitionLongs f = new PartitionLongs(15);
-        Set<Long> values = new HashSet<Long>();
+        Set<Long> values = new HashSet<>();
         for (int i = 0; i < 100; i++) {
             values.add(f.applyAsLong(i));
         }

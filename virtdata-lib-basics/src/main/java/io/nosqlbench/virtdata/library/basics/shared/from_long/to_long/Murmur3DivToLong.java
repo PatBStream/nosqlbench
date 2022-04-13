@@ -16,11 +16,11 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.from_long.to_long;
 
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.DeprecatedFunction;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
-import io.nosqlbench.virtdata.murmur.Murmur3F;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.DeprecatedFunction;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
+import io.nosqlbench.virtdata.library.basics.murmur.Murmur3F;
 
 import java.util.function.LongUnaryOperator;
 

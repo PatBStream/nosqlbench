@@ -16,7 +16,10 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.from_long.to_collection;
 
-import io.nosqlbench.virtdata.api.annotations.*;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.Example;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 
 import java.util.HashMap;
 import java.util.function.LongFunction;

@@ -16,6 +16,7 @@
 
 package io.nosqlbench.engine.api.activityimpl;
 
+import io.nosqlbench.api.spi.SelectorFilter;
 import io.nosqlbench.engine.api.activityapi.core.Activity;
 import io.nosqlbench.engine.api.activityapi.cyclelog.buffers.results.ResultReadable;
 import io.nosqlbench.engine.api.activityapi.cyclelog.filters.ResultFilterDispenser;
@@ -25,16 +26,21 @@ import io.nosqlbench.engine.api.activityapi.input.InputType;
 import io.nosqlbench.engine.api.activityapi.output.OutputDispenser;
 import io.nosqlbench.engine.api.activityapi.output.OutputType;
 import io.nosqlbench.engine.api.util.SimpleConfig;
+import io.nosqlbench.nb.annotations.types.Selector;
 
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.function.Predicate;
 
 public class CoreServices {
 
     public static <A extends Activity> Optional<OutputDispenser> getOutputDispenser(A activity) {
-        OutputDispenser outputDispenser = new SimpleConfig(activity, "output").getString("type")
-                .flatMap(OutputType.FINDER::get)
-                .map(mt -> mt.getOutputDispenser(activity)).orElse(null);
+        Optional<String> string = new SimpleConfig(activity, "output").getString("type");
+        OutputType outputType = string
+            .map(s -> SelectorFilter.of(s, ServiceLoader.load(OutputType.class)))
+            .get().getOne();
+        OutputDispenser outputDispenser = outputType.getOutputDispenser(activity);
+
         if (outputDispenser==null) {
             return Optional.empty();
         }
@@ -66,7 +72,8 @@ public class CoreServices {
 //
     public static <A extends Activity> InputDispenser getInputDispenser(A activity) {
         String inputTypeName = new SimpleConfig(activity, "input").getString("type").orElse("atomicseq");
-        InputType inputType = InputType.FINDER.getOrThrow(inputTypeName);
+
+        InputType inputType = SelectorFilter.of(inputTypeName,ServiceLoader.load(InputType.class)).getOne();
         InputDispenser dispenser = inputType.getInputDispenser(activity);
         Optional<Predicate<ResultReadable>> inputFilterDispenser = getInputFilter(activity);
         if (inputFilterDispenser.isPresent()) {
@@ -86,7 +93,13 @@ public class CoreServices {
 
     private static Optional<Predicate<ResultReadable>> getFilterPredicate(String paramdata) {
         String type = new SimpleConfig(paramdata).getString("type").orElse("core");
-        Optional<ResultValueFilterType> cycleResultFilterType = ResultValueFilterType.FINDER.get(type);
+
+        Optional<ResultValueFilterType> cycleResultFilterType = ServiceLoader.load(ResultValueFilterType.class)
+            .stream()
+            .filter(p -> p.type().getAnnotation(Selector.class).value().equals(type))
+            .findFirst()
+            .map(ServiceLoader.Provider::get);
+
         Optional<ResultFilterDispenser> crfd = cycleResultFilterType.map(crft -> crft.getDispenser(paramdata));
         Optional<Predicate<ResultReadable>> predicate = crfd.map(ResultFilterDispenser::getResultFilter);
         return predicate;

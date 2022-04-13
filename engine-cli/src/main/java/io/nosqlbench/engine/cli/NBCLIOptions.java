@@ -16,13 +16,12 @@
 
 package io.nosqlbench.engine.cli;
 
+import io.nosqlbench.api.config.standard.NBEnvironment;
+import io.nosqlbench.api.content.Unit;
+import io.nosqlbench.api.errors.BasicError;
+import io.nosqlbench.api.logging.NBLogLevel;
 import io.nosqlbench.engine.api.metrics.IndicatorMode;
-import io.nosqlbench.engine.api.util.Unit;
 import io.nosqlbench.engine.core.script.Scenario;
-import io.nosqlbench.nb.annotations.Maturity;
-import io.nosqlbench.nb.api.NBEnvironment;
-import io.nosqlbench.nb.api.errors.BasicError;
-import io.nosqlbench.nb.api.logging.NBLogLevel;
 
 import java.io.File;
 import java.io.IOException;
@@ -182,7 +181,6 @@ public class NBCLIOptions {
     private String dockerPromRetentionDays = "183d";
     private String reportSummaryTo = REPORT_SUMMARY_TO_DEFAULT;
     private boolean enableAnsi = System.getenv("TERM")!=null && !System.getenv("TERM").isEmpty();
-    private Maturity minMaturity = Maturity.Unspecified;
 
     public String getAnnotatorsConfig() {
         return annotatorsConfig;
@@ -420,10 +418,6 @@ public class NBCLIOptions {
                     arglist.addFirst("experimental");
                     arglist.addFirst("--maturity");
                     break;
-                case MATURITY:
-                    arglist.removeFirst();
-                    String maturity = readWordOrThrow(arglist,"maturity of components to allow");
-                    this.minMaturity = Maturity.valueOf(maturity.toLowerCase(Locale.ROOT));
                 default:
                     nonincludes.addLast(arglist.removeFirst());
             }
@@ -656,10 +650,6 @@ public class NBCLIOptions {
                 classicHistoConfigs.stream().map(LoggerConfigData::new).collect(Collectors.toList());
         checkLoggerConfigs(configs, CLASSIC_HISTOGRAMS);
         return configs;
-    }
-
-    public Maturity allowMinMaturity() {
-        return minMaturity;
     }
 
     public List<Cmd> getCommands() {

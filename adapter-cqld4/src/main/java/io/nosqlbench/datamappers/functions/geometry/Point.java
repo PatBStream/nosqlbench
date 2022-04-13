@@ -17,9 +17,9 @@
 package io.nosqlbench.datamappers.functions.geometry;
 
 import com.datastax.dse.driver.internal.core.data.geometry.DefaultPoint;
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 
 import java.util.function.LongFunction;
 import java.util.function.LongToDoubleFunction;

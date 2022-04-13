@@ -17,9 +17,9 @@
 package io.nosqlbench.activitytype.tcpserver;
 
 import io.nosqlbench.activitytype.stdout.StdoutActivity;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.engine.api.util.SSLKsFactory;
-import io.nosqlbench.nb.api.config.standard.NBConfiguration;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.ssl.SSLKsFactory;
+import io.nosqlbench.api.config.standard.NBConfiguration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

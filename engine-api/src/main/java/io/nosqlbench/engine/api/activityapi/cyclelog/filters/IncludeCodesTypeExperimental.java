@@ -17,7 +17,7 @@
 package io.nosqlbench.engine.api.activityapi.cyclelog.filters;
 
 import io.nosqlbench.engine.api.util.SimpleConfig;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 
 import java.util.Arrays;
 import java.util.function.IntPredicate;
@@ -28,7 +28,7 @@ import java.util.function.IntPredicate;
  * array is used. When the type widens, this will need to use a native
  * int trie or something else that is time and space efficient.
  */
-@Service(value = ExperimentalResultFilterType.class, selector = "include")
+@Selector("include")
 public class IncludeCodesTypeExperimental implements ExperimentalResultFilterType {
 
     @Override

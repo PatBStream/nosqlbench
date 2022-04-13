@@ -19,8 +19,8 @@ package io.nosqlbench.adapter.dynamodb.opdispensers;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import io.nosqlbench.adapter.dynamodb.optypes.DynamoDBOp;
 import io.nosqlbench.adapter.dynamodb.optypes.RawDynamodOp;
-import io.nosqlbench.engine.api.activityimpl.BaseOpDispenser;
-import io.nosqlbench.engine.api.templating.ParsedOp;
+import io.nosqlbench.adapters.api.opmapping.BaseOpDispenser;
+import io.nosqlbench.adapters.api.templating.ParsedOp;
 
 import java.util.function.LongFunction;
 

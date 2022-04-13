@@ -16,18 +16,16 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.from_double.to_bigdecimal;
 
-import io.nosqlbench.nb.api.errors.BasicError;
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.Example;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.Example;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 import io.nosqlbench.virtdata.library.basics.shared.util.MathContextReader;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.function.DoubleFunction;
-import java.util.function.LongFunction;
 
 @ThreadSafeMapper
 @Categories(Category.conversion)

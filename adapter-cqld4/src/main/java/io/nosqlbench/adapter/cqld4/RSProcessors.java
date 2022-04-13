@@ -18,7 +18,7 @@ package io.nosqlbench.adapter.cqld4;
 
 import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.datastax.oss.driver.api.core.cql.Row;
-import io.nosqlbench.engine.api.activityimpl.uniform.ResultProcessor;
+import io.nosqlbench.adapters.api.opmapping.uniform.ResultProcessor;
 
 import java.util.ArrayList;
 import java.util.List;

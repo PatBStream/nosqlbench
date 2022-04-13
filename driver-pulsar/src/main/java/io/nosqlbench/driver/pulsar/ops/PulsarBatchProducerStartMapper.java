@@ -18,7 +18,7 @@ package io.nosqlbench.driver.pulsar.ops;
 
 import io.nosqlbench.driver.pulsar.PulsarActivity;
 import io.nosqlbench.driver.pulsar.PulsarSpace;
-import io.nosqlbench.engine.api.templating.CommandTemplate;
+import io.nosqlbench.adapters.api.templating.CommandTemplate;
 import org.apache.pulsar.client.api.Producer;
 
 import java.util.function.LongFunction;

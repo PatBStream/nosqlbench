@@ -17,6 +17,7 @@
 package io.nosqlbench.virtdata.library.basics.shared.stateful;
 
 import io.nosqlbench.virtdata.library.basics.core.threadstate.SharedState;
+import io.nosqlbench.virtdata.library.basics.shared.stateful.loaders.from_object.NullOrPass;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

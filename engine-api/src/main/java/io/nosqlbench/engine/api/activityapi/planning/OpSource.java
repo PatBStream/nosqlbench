@@ -16,8 +16,8 @@
 
 package io.nosqlbench.engine.api.activityapi.planning;
 
-import io.nosqlbench.engine.api.activityimpl.OpDispenser;
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.Op;
+import io.nosqlbench.adapters.api.opmapping.OpDispenser;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.Op;
 
 import java.util.function.LongFunction;
 

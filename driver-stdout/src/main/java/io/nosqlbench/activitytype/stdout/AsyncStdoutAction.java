@@ -21,7 +21,7 @@ import io.nosqlbench.engine.api.activityapi.core.BaseAsyncAction;
 import io.nosqlbench.engine.api.activityapi.core.ops.fluent.opfacets.StartedOp;
 import io.nosqlbench.engine.api.activityapi.core.ops.fluent.opfacets.TrackedOp;
 import io.nosqlbench.engine.api.activityapi.planning.OpSequence;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.activityimpl.ActivityDef;
 import io.nosqlbench.virtdata.core.templates.StringBindings;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;

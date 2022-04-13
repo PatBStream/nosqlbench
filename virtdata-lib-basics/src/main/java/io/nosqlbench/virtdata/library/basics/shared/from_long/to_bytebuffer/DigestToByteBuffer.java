@@ -16,9 +16,9 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.from_long.to_bytebuffer;
 
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 import org.apache.commons.codec.digest.MessageDigestAlgorithms;
 
 import java.nio.ByteBuffer;

@@ -16,7 +16,7 @@
 
 package io.nosqlbench.virtdata.library.curves4.discrete.long_long;
 
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 import org.apache.commons.statistics.distribution.UniformDiscreteDistribution;
 
 @ThreadSafeMapper

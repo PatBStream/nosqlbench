@@ -16,15 +16,15 @@
 
 package io.nosqlbench.engine.api.activityapi.errorhandling.modular;
 
-import io.nosqlbench.nb.annotations.Service;
-import io.nosqlbench.nb.api.config.standard.ConfigModel;
-import io.nosqlbench.nb.api.config.standard.NBConfigModel;
-import io.nosqlbench.nb.api.config.standard.NBMapConfigurable;
-import io.nosqlbench.nb.api.config.standard.Param;
+import io.nosqlbench.api.config.standard.ConfigModel;
+import io.nosqlbench.api.config.standard.NBConfigModel;
+import io.nosqlbench.api.config.standard.NBMapConfigurable;
+import io.nosqlbench.api.config.standard.Param;
+import io.nosqlbench.nb.annotations.types.Selector;
 
 import java.util.Map;
 
-@Service(value = ErrorHandler.class, selector = "code")
+@Selector("code")
 public class ResultCode implements ErrorHandler, NBMapConfigurable {
 
     private byte code;

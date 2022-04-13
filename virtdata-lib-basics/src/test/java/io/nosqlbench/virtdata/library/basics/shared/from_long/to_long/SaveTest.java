@@ -17,7 +17,7 @@
 package io.nosqlbench.virtdata.library.basics.shared.from_long.to_long;
 
 import io.nosqlbench.virtdata.library.basics.shared.from_long.to_string.NumberNameToString;
-import io.nosqlbench.virtdata.library.basics.shared.stateful.Clear;
+import io.nosqlbench.virtdata.library.basics.shared.stateful.loaders.from_object.Clear;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 

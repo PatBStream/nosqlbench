@@ -18,9 +18,9 @@ package io.nosqlbench.driver.jms;
 
 import io.nosqlbench.driver.jms.ops.JmsOp;
 import io.nosqlbench.driver.jms.util.JmsUtil;
-import io.nosqlbench.engine.api.activityconfig.yaml.OpTemplate;
-import io.nosqlbench.engine.api.activityimpl.BaseOpDispenser;
-import io.nosqlbench.engine.api.templating.CommandTemplate;
+import io.nosqlbench.adapters.api.activityconfig.yaml.OpTemplate;
+import io.nosqlbench.adapters.api.opmapping.BaseOpDispenser;
+import io.nosqlbench.adapters.api.templating.CommandTemplate;
 import org.apache.commons.lang3.BooleanUtils;
 
 import java.util.function.LongFunction;

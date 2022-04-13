@@ -18,7 +18,7 @@ package io.nosqlbench.activitytype.stdout;
 
 import io.nosqlbench.engine.api.activityapi.core.Action;
 import io.nosqlbench.engine.api.activityapi.core.ActionDispenser;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.activityimpl.ActivityDef;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,7 +29,7 @@ public class StdoutActivityTypeTest {
     @Test
     public void testDiagActivity() {
         StdoutActivityType stdoutAt = new StdoutActivityType();
-        ActivityDef ad = ActivityDef.parseActivityDef("driver=stdout; yaml=stdout-test;");
+        ActivityDef ad = ActivityDef.parseActivityDef("driver=stdout; yaml=activities/stdout-test;");
         StdoutActivity stdoutActivity = stdoutAt.getActivity(ad);
         ActionDispenser actionDispenser = stdoutAt.getActionDispenser(stdoutActivity);
         Action action = actionDispenser.getAction(1);

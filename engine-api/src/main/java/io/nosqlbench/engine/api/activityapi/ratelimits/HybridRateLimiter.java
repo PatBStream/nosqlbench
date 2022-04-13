@@ -18,9 +18,9 @@ package io.nosqlbench.engine.api.activityapi.ratelimits;
 
 import com.codahale.metrics.Gauge;
 import io.nosqlbench.engine.api.activityapi.core.Startable;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.engine.api.metrics.ActivityMetrics;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.metrics.ActivityMetrics;
+import io.nosqlbench.nb.annotations.types.Selector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -76,7 +76,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * overall workload is not saturating resources.
  * </p>
  */
-@Service(value = RateLimiter.class, selector = "hybrid")
+@Selector("hybrid")
 public class HybridRateLimiter implements Startable, RateLimiter {
 
     private final static Logger logger = LogManager.getLogger(HybridRateLimiter.class);
@@ -101,7 +101,7 @@ public class HybridRateLimiter implements Startable, RateLimiter {
     // TODO Doc rate limiter scenarios, including when you want to reset the waittime, and when you don't
     private final AtomicLong cumulativeWaitTimeNanos = new AtomicLong(0L);
 
-    protected HybridRateLimiter() {
+    public HybridRateLimiter() {
     }
 
     public HybridRateLimiter(ActivityDef def, String label, RateSpec rateSpec) {

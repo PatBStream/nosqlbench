@@ -17,15 +17,14 @@
 package io.nosqlbench.adapter.cqld4;
 
 import io.nosqlbench.adapter.cqld4.opmappers.Cqld4CoreOpMapper;
+import io.nosqlbench.adapters.api.opmapping.OpMapper;
+import io.nosqlbench.adapters.api.opmapping.uniform.BaseDriverAdapter;
+import io.nosqlbench.adapters.api.opmapping.uniform.DriverSpaceCache;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.Op;
+import io.nosqlbench.api.config.standard.NBConfigModel;
+import io.nosqlbench.api.config.standard.NBConfiguration;
 import io.nosqlbench.docsapi.PackageDocs;
-import io.nosqlbench.engine.api.activityimpl.OpMapper;
-import io.nosqlbench.engine.api.activityimpl.uniform.BaseDriverAdapter;
-import io.nosqlbench.engine.api.activityimpl.uniform.DriverAdapter;
-import io.nosqlbench.engine.api.activityimpl.uniform.DriverSpaceCache;
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.Op;
-import io.nosqlbench.nb.annotations.Service;
-import io.nosqlbench.nb.api.config.standard.NBConfigModel;
-import io.nosqlbench.nb.api.config.standard.NBConfiguration;
+import io.nosqlbench.nb.annotations.types.Selector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,7 +35,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @PackageDocs
-@Service(value = DriverAdapter.class, selector = "cqld4")
+@Selector("cqldr")
 public class Cqld4DriverAdapter extends BaseDriverAdapter<Op, Cqld4Space> {
     private final static Logger logger = LogManager.getLogger(Cqld4DriverAdapter.class);
 

@@ -16,7 +16,7 @@
 
 package io.nosqlbench.adapters.stdout;
 
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.RunnableOp;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.RunnableOp;
 
 public class StdoutOp implements RunnableOp {
 

@@ -17,7 +17,7 @@
 package io.nosqlbench.activitytype.cockroachdb;
 
 import io.nosqlbench.activitytype.jdbc.api.JDBCActivity;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.activityimpl.ActivityDef;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.postgresql.ds.PGSimpleDataSource;

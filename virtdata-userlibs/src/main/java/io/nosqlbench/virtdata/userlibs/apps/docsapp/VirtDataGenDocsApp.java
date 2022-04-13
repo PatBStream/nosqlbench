@@ -18,9 +18,9 @@ package io.nosqlbench.virtdata.userlibs.apps.docsapp;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.nosqlbench.nb.api.content.NBIO;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.processors.DocFuncData;
+import io.nosqlbench.api.content.NBIO;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.gen.DocFuncData;
 import io.nosqlbench.virtdata.core.bindings.VirtDataDocs;
 import io.nosqlbench.virtdata.userlibs.apps.docsapp.fdocs.FDoc;
 import io.nosqlbench.virtdata.userlibs.apps.docsapp.fdocs.FDocCat;

@@ -23,6 +23,7 @@ import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterBlock;
 import com.vladsch.flexmark.util.ast.BlankLine;
 import com.vladsch.flexmark.util.ast.Document;
 import com.vladsch.flexmark.util.ast.Node;
+import com.vladsch.flexmark.util.sequence.BasedSequence;
 import io.nosqlbench.nb.api.markdown.FlexParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -62,8 +63,9 @@ public class MutableMarkdown  {
         if (frontMatter.getTitle()==null || frontMatter.getTitle().isEmpty()) {
             Node node = parsed.getFirstChild();
             while (node!=null) {
-                if (node instanceof Heading) {
-                    this.frontMatter.setTitle(((Heading) node).getText().toString());
+                if (node instanceof Heading node1) {
+                    BasedSequence text = node1.getText();
+                    this.frontMatter.setTitle(text.toString());
                     break;
                 } else if (node instanceof BlankLine) {
                 } else if (node instanceof WhiteSpace) {

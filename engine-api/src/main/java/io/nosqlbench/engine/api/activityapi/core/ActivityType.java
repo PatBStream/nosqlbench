@@ -18,7 +18,7 @@ package io.nosqlbench.engine.api.activityapi.core;
 
 import io.nosqlbench.engine.api.activityapi.input.InputDispenser;
 import io.nosqlbench.engine.api.activityapi.output.OutputDispenser;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.activityimpl.ActivityDef;
 import io.nosqlbench.engine.api.activityimpl.CoreServices;
 import io.nosqlbench.engine.api.activityimpl.SimpleActivity;
 import io.nosqlbench.engine.api.activityimpl.action.CoreActionDispenser;
@@ -37,7 +37,6 @@ import java.util.Optional;
  */
 @Deprecated(forRemoval = true,since = "5.0")
 public interface ActivityType<A extends Activity> {
-
 
     /**
      * Create an instance of an activity from the activity type.

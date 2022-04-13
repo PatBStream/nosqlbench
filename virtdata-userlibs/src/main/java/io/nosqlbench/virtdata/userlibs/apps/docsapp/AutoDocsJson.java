@@ -18,7 +18,7 @@ package io.nosqlbench.virtdata.userlibs.apps.docsapp;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.nosqlbench.virtdata.api.processors.DocFuncData;
+import io.nosqlbench.virtdata.annotations.gen.DocFuncData;
 
 import java.util.List;
 

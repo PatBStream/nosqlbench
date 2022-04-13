@@ -45,6 +45,8 @@ public class GraalJsEvaluator<T> implements ExprEvaluator<T> {
                     .option("js.nashorn-compat", "true");
             context = contextSettings.build();
         }
+
+
         return context;
     }
 

@@ -15,7 +15,7 @@
  */
 package io.nosqlbench.virtdata.library.basics.shared.from_long.to_long;
 
-import io.nosqlbench.virtdata.api.annotations.*;
+import io.nosqlbench.virtdata.annotations.types.*;
 import io.nosqlbench.virtdata.library.basics.core.lfsrs.MetaShift;
 
 /**

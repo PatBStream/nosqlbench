@@ -16,8 +16,9 @@
 
 package io.nosqlbench.engine.api.activityimpl;
 
-import io.nosqlbench.engine.api.activityconfig.yaml.OpTemplate;
-import io.nosqlbench.engine.api.templating.CommandTemplate;
+import io.nosqlbench.adapters.api.activityconfig.yaml.OpTemplate;
+import io.nosqlbench.adapters.api.opmapping.OpDispenser;
+import io.nosqlbench.adapters.api.templating.CommandTemplate;
 
 import java.util.function.Function;
 

@@ -18,7 +18,7 @@ package io.nosqlbench.engine.core.script;
 import com.codahale.metrics.MetricRegistry;
 import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
 import io.nosqlbench.engine.api.extensions.ScriptingPluginInfo;
-import io.nosqlbench.engine.api.metrics.ActivityMetrics;
+import io.nosqlbench.api.metrics.ActivityMetrics;
 import io.nosqlbench.engine.api.scripting.ScriptEnvBuffer;
 import io.nosqlbench.engine.core.annotation.Annotators;
 import io.nosqlbench.engine.core.lifecycle.ActivityProgressIndicator;
@@ -26,12 +26,11 @@ import io.nosqlbench.engine.core.lifecycle.PolyglotScenarioController;
 import io.nosqlbench.engine.core.lifecycle.ScenarioController;
 import io.nosqlbench.engine.core.lifecycle.ScenarioResult;
 import io.nosqlbench.engine.core.metrics.PolyglotMetricRegistryBindings;
-import io.nosqlbench.nb.annotations.Maturity;
-import io.nosqlbench.nb.api.annotations.Annotation;
-import io.nosqlbench.nb.api.annotations.Layer;
-import io.nosqlbench.nb.api.metadata.ScenarioMetadata;
-import io.nosqlbench.nb.api.metadata.ScenarioMetadataAware;
-import io.nosqlbench.nb.api.metadata.SystemId;
+import io.nosqlbench.api.annotations.Annotation;
+import io.nosqlbench.api.annotations.Layer;
+import io.nosqlbench.api.metadata.ScenarioMetadata;
+import io.nosqlbench.api.metadata.ScenarioMetadataAware;
+import io.nosqlbench.api.metadata.SystemId;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.graalvm.polyglot.Context;
@@ -63,7 +62,6 @@ public class Scenario implements Callable<ScenarioResult> {
     private final String commandLine;
     private final String reportSummaryTo;
     private final Path logsPath;
-    private final Maturity minMaturity;
     private Logger logger = LogManager.getLogger("SCENARIO");
 
     private State state = State.Scheduled;
@@ -112,8 +110,7 @@ public class Scenario implements Callable<ScenarioResult> {
         boolean wantsCompiledScript,
         String reportSummaryTo,
         String commandLine,
-        Path logsPath,
-        Maturity minMaturity) {
+        Path logsPath) {
 
         this.scenarioName = scenarioName;
         this.scriptfile = scriptfile;
@@ -125,15 +122,13 @@ public class Scenario implements Callable<ScenarioResult> {
         this.reportSummaryTo = reportSummaryTo;
         this.commandLine = commandLine;
         this.logsPath = logsPath;
-        this.minMaturity = minMaturity;
     }
 
-    public Scenario(String name, Engine engine, String reportSummaryTo, Maturity minMaturity) {
+    public Scenario(String name, Engine engine, String reportSummaryTo) {
         this.scenarioName = name;
         this.reportSummaryTo = reportSummaryTo;
         this.engine = engine;
         this.commandLine = "";
-        this.minMaturity = minMaturity;
         this.logsPath = Path.of("logs");
     }
 
@@ -206,7 +201,7 @@ public class Scenario implements Callable<ScenarioResult> {
                 break;
         }
 
-        scenarioController = new ScenarioController(this.scenarioName, minMaturity);
+        scenarioController = new ScenarioController(this.scenarioName);
         if (!progressInterval.equals("disabled")) {
             activityProgressIndicator = new ActivityProgressIndicator(scenarioController, progressInterval);
         }

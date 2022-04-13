@@ -22,7 +22,7 @@ import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ToDateTest {
+public class ToDateTest {
 
     @Test
     public void testToDateSimple() {

@@ -16,9 +16,8 @@
 
 package io.nosqlbench.virtdata.userlibs.apps.docsapp.fdocs;
 
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.processors.DocCtorData;
-import io.nosqlbench.virtdata.api.processors.DocFuncData;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.gen.DocFuncData;
 
 import java.util.*;
 import java.util.stream.Collectors;

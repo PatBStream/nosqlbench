@@ -16,6 +16,7 @@
 
 package io.nosqlbench.engine.api.scripting;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -25,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GraalJsEvaluatorTest {
 
     @Test
+    @Disabled
     public void testBasicOperations() {
         GraalJsEvaluator<Long> ne = new GraalJsEvaluator<>(Long.class);
         ne.put("one", 1L).put("two", 2L);
@@ -33,6 +35,7 @@ public class GraalJsEvaluatorTest {
     }
 
     @Test
+    @Disabled
     public void testJavaReturnType() {
         GraalJsEvaluator<Date> dateEval = new GraalJsEvaluator<>(Date.class);
         dateEval.script("var d = new java.util.Date(234); d;");
@@ -41,6 +44,7 @@ public class GraalJsEvaluatorTest {
     }
 
     @Test
+    @Disabled
     public void testOneLiner() {
         String result = new GraalJsEvaluator<String>(String.class)
                 .put("fname", "afirstname", "lname", "alastname")

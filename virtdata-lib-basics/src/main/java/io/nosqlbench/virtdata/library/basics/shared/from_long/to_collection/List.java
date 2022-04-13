@@ -16,7 +16,7 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.from_long.to_collection;
 
-import io.nosqlbench.virtdata.api.annotations.*;
+import io.nosqlbench.virtdata.annotations.types.*;
 import io.nosqlbench.virtdata.api.bindings.VirtDataConversions;
 
 import java.util.ArrayList;

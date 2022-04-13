@@ -16,22 +16,21 @@
 
 package io.nosqlbench.adapters.stdout;
 
-import io.nosqlbench.engine.api.activityconfig.yaml.OpTemplate;
-import io.nosqlbench.engine.api.activityimpl.OpMapper;
-import io.nosqlbench.engine.api.activityimpl.uniform.BaseDriverAdapter;
-import io.nosqlbench.engine.api.activityimpl.uniform.DriverAdapter;
-import io.nosqlbench.engine.api.activityimpl.uniform.DriverSpaceCache;
-import io.nosqlbench.engine.api.templating.OpTemplateSupplier;
-import io.nosqlbench.nb.annotations.Service;
-import io.nosqlbench.nb.api.config.standard.ConfigModel;
-import io.nosqlbench.nb.api.config.standard.NBConfigModel;
-import io.nosqlbench.nb.api.config.standard.NBConfiguration;
+import io.nosqlbench.adapters.api.activityconfig.yaml.OpTemplate;
+import io.nosqlbench.adapters.api.opmapping.OpMapper;
+import io.nosqlbench.adapters.api.opmapping.uniform.BaseDriverAdapter;
+import io.nosqlbench.adapters.api.opmapping.uniform.DriverSpaceCache;
+import io.nosqlbench.adapters.api.templating.OpTemplateSupplier;
+import io.nosqlbench.api.config.standard.ConfigModel;
+import io.nosqlbench.api.config.standard.NBConfigModel;
+import io.nosqlbench.api.config.standard.NBConfiguration;
+import io.nosqlbench.nb.annotations.types.Selector;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-@Service(value = DriverAdapter.class, selector = "stdoutadapter")
+@Selector("stdoutadapter")
 public class StdoutDriverAdapter extends BaseDriverAdapter<StdoutOp, StdoutSpace> implements OpTemplateSupplier {
 
     @Override

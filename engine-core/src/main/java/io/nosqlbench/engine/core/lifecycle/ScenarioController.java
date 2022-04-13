@@ -15,18 +15,18 @@
  */
 package io.nosqlbench.engine.core.lifecycle;
 
+import io.nosqlbench.adapters.api.opmapping.uniform.DriverAdapter;
 import io.nosqlbench.engine.api.activityapi.core.Activity;
 import io.nosqlbench.engine.api.activityapi.core.ActivityType;
 import io.nosqlbench.engine.api.activityapi.core.RunState;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.engine.api.activityimpl.ParameterMap;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.activityimpl.ParameterMap;
 import io.nosqlbench.engine.api.activityimpl.ProgressAndStateMeter;
-import io.nosqlbench.engine.api.metrics.ActivityMetrics;
+import io.nosqlbench.api.metrics.ActivityMetrics;
 import io.nosqlbench.engine.core.annotation.Annotators;
-import io.nosqlbench.nb.annotations.Maturity;
-import io.nosqlbench.nb.api.annotations.Annotation;
-import io.nosqlbench.nb.api.annotations.Layer;
-import io.nosqlbench.nb.api.errors.BasicError;
+import io.nosqlbench.api.annotations.Annotation;
+import io.nosqlbench.api.annotations.Layer;
+import io.nosqlbench.api.errors.BasicError;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,11 +46,9 @@ public class ScenarioController {
 
     private final Map<String, ActivityExecutor> activityExecutors = new ConcurrentHashMap<>();
     private final String sessionId;
-    private final Maturity minMaturity;
 
-    public ScenarioController(String sessionId, Maturity minMaturity) {
+    public ScenarioController(String sessionId) {
         this.sessionId = sessionId;
-        this.minMaturity = minMaturity;
     }
 
     /**
@@ -320,8 +318,11 @@ public class ScenarioController {
             if (executor == null && createIfMissing) {
 
                 ActivityType<?> activityType = new ActivityTypeLoader()
-                    .setMaturity(this.minMaturity)
-                    .load(activityDef)
+                    .load(
+                        activityDef,
+                        ServiceLoader.load(ActivityType.class),
+                        ServiceLoader.load(DriverAdapter.class)
+                    )
                     .orElseThrow(
                         () -> new RuntimeException("Could not load Driver for " + activityDef + "'")
                     );

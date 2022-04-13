@@ -18,12 +18,12 @@ package io.nosqlbench.engine.extensions.optimizers;
 
 import com.codahale.metrics.MetricRegistry;
 import io.nosqlbench.engine.api.extensions.ScriptingPluginInfo;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 import org.apache.logging.log4j.Logger;
 
 import javax.script.ScriptContext;
 
-@Service(value = ScriptingPluginInfo.class, selector = "optimos")
+@Selector("optimos")
 public class BobyqaOptimizerPluginData implements ScriptingPluginInfo<BobyqaOptimizerPlugin> {
 
     @Override

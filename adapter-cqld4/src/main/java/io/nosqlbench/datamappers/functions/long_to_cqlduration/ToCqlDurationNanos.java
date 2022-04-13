@@ -17,9 +17,9 @@
 package io.nosqlbench.datamappers.functions.long_to_cqlduration;
 
 import com.datastax.oss.driver.api.core.data.CqlDuration;
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 
 import java.util.function.LongFunction;
 

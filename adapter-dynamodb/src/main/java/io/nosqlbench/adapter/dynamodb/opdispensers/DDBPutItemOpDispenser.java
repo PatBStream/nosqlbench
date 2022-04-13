@@ -20,9 +20,9 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import io.nosqlbench.adapter.dynamodb.optypes.DDBPutItemOp;
 import io.nosqlbench.adapter.dynamodb.optypes.DynamoDBOp;
-import io.nosqlbench.engine.api.activityimpl.BaseOpDispenser;
-import io.nosqlbench.engine.api.templating.ParsedOp;
-import io.nosqlbench.nb.api.errors.OpConfigError;
+import io.nosqlbench.adapters.api.opmapping.BaseOpDispenser;
+import io.nosqlbench.adapters.api.templating.ParsedOp;
+import io.nosqlbench.api.errors.OpConfigError;
 
 import java.util.Map;
 import java.util.function.LongFunction;

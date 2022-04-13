@@ -16,7 +16,7 @@
 
 package io.nosqlbench.virtdata.core.templates;
 
-import io.nosqlbench.engine.api.templating.BindType;
+import io.nosqlbench.virtdata.api.templating.BindType;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;

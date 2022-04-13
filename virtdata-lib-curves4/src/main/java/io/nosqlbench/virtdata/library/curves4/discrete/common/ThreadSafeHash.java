@@ -16,7 +16,7 @@
 
 package io.nosqlbench.virtdata.library.curves4.discrete.common;
 
-import io.nosqlbench.virtdata.murmur.Murmur3F;
+import io.nosqlbench.virtdata.library.basics.murmur.Murmur3F;
 
 import java.nio.ByteBuffer;
 import java.util.function.LongUnaryOperator;

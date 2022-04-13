@@ -18,13 +18,13 @@ package io.nosqlbench.adapter.cqld4.opmappers;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import io.nosqlbench.adapter.cqld4.Cqld4Space;
-import io.nosqlbench.engine.api.activityimpl.OpDispenser;
-import io.nosqlbench.engine.api.activityimpl.OpMapper;
-import io.nosqlbench.engine.api.activityimpl.uniform.DriverSpaceCache;
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.Op;
-import io.nosqlbench.engine.api.templating.ParsedOp;
-import io.nosqlbench.engine.api.templating.TypeAndTarget;
-import io.nosqlbench.nb.api.config.standard.NBConfiguration;
+import io.nosqlbench.adapters.api.opmapping.OpDispenser;
+import io.nosqlbench.adapters.api.opmapping.OpMapper;
+import io.nosqlbench.adapters.api.opmapping.uniform.DriverSpaceCache;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.Op;
+import io.nosqlbench.adapters.api.templating.ParsedOp;
+import io.nosqlbench.virtdata.api.templating.TypeAndTarget;
+import io.nosqlbench.api.config.standard.NBConfiguration;
 
 import java.util.function.LongFunction;
 

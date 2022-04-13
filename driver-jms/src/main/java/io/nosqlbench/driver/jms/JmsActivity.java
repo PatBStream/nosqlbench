@@ -20,6 +20,9 @@ import com.codahale.metrics.Counter;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Timer;
 import com.datastax.oss.pulsar.jms.PulsarConnectionFactory;
+import io.nosqlbench.adapters.api.opmapping.OpDispenser;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.metrics.ActivityMetrics;
 import io.nosqlbench.driver.jms.conn.JmsConnInfo;
 import io.nosqlbench.driver.jms.conn.JmsPulsarConnInfo;
 import io.nosqlbench.driver.jms.ops.JmsOp;
@@ -27,15 +30,11 @@ import io.nosqlbench.driver.jms.util.JmsUtil;
 import io.nosqlbench.driver.jms.util.PulsarConfig;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.NBErrorHandler;
 import io.nosqlbench.engine.api.activityapi.planning.OpSequence;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.engine.api.activityimpl.OpDispenser;
 import io.nosqlbench.engine.api.activityimpl.SimpleActivity;
-import io.nosqlbench.engine.api.metrics.ActivityMetrics;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.jms.Destination;
 import javax.jms.JMSContext;
-import javax.jms.JMSException;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -109,7 +108,7 @@ public class JmsActivity extends SimpleActivity {
         try {
             factory = new PulsarConnectionFactory(jmsConnInfo.getJmsConnConfig());
             this.jmsContext = factory.createContext();
-        } catch (JMSException e) {
+        } catch (Exception e) {
             throw new RuntimeException(
                 "Unable to initialize JMS connection factory (driver type: " + jmsProviderType + ")!");
         }
