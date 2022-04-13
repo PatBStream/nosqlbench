@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package io.nosqlbench.nb.addins.s3.s3urlhandler;
+package io.nosqlbench.addins.s3.s3urlhandler;
 
-import java.io.IOException;
-import java.net.URL;
+import io.nosqlbench.nb.annotations.types.Selector;
+
 import java.net.URLStreamHandler;
+import java.net.spi.URLStreamHandlerProvider;
 
-public class S3UrlStreamHandler extends URLStreamHandler {
+@Selector("s3")
+public class S3UrlStreamHandlerProvider extends URLStreamHandlerProvider {
 
-    private final S3ClientCache clientCache;
-    private final String protocol;
-
-    public S3UrlStreamHandler(S3ClientCache clientCache, String protocol) {
-        this.clientCache = clientCache;
-        this.protocol = protocol;
-    }
+    private final S3ClientCache clientCache = new S3ClientCache();
 
     @Override
-    protected S3UrlConnection openConnection(URL url) throws IOException {
-        return new S3UrlConnection(clientCache, url);
+    public URLStreamHandler createURLStreamHandler(String protocol) {
+        if ("s3".equals(protocol)) {
+            return new S3UrlStreamHandler(clientCache, protocol);
+        }
+        return null;
     }
+
 }

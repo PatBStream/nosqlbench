@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package io.nosqlbench.nb.addins.s3.s3urlhandler;
+package io.nosqlbench.addins.s3.s3urlhandler;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.S3Object;
+import software.amazon.awssdk.core.ResponseInputStream;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,9 +38,10 @@ public class S3UrlConnection extends URLConnection {
     @Override
     public InputStream getInputStream() throws IOException {
         S3UrlFields fields = new S3UrlFields(url);
-        AmazonS3 s3 = clientCache.get(fields);
-        S3Object object = s3.getObject(fields.bucket, fields.key);
-        return object.getObjectContent();
+        S3Client s3 = clientCache.get(fields);
+        GetObjectRequest request = GetObjectRequest.builder().bucket(fields.bucket).key(fields.key).build();
+        ResponseInputStream<GetObjectResponse> objectStream = s3.getObject(request);
+        return objectStream;
     }
 
     @Override

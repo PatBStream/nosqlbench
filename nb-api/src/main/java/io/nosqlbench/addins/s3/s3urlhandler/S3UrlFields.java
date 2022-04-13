@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.nosqlbench.nb.addins.s3.s3urlhandler;
+package io.nosqlbench.addins.s3.s3urlhandler;
 
 import java.net.MalformedURLException;
 import java.net.URL;
