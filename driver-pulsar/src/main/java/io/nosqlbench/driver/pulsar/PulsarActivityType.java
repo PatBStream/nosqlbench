@@ -16,13 +16,13 @@
 
 package io.nosqlbench.driver.pulsar;
 
+import io.nosqlbench.api.activityimpl.ActivityDef;
 import io.nosqlbench.engine.api.activityapi.core.Action;
 import io.nosqlbench.engine.api.activityapi.core.ActionDispenser;
 import io.nosqlbench.engine.api.activityapi.core.ActivityType;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 
-@Service(value= ActivityType.class, selector="pulsar")
+@Selector("pulsar")
 public class PulsarActivityType implements ActivityType<PulsarActivity> {
 
     @Override

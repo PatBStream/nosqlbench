@@ -15,10 +15,10 @@
  */
 package io.nosqlbench.activitytype.diag;
 
+import io.nosqlbench.api.activityimpl.ActivityDef;
 import io.nosqlbench.engine.api.activityapi.core.ActionDispenser;
 import io.nosqlbench.engine.api.activityapi.core.ActivityType;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +30,7 @@ import org.apache.logging.log4j.Logger;
  *
  * Diag serves as a basic template for implementing your own activity type.
  */
-@Service(value = ActivityType.class, selector = "diag")
+@Selector("diag")
 public class DiagActivityType implements ActivityType<DiagActivity> {
 
     private static final Logger logger = LogManager.getLogger(DiagActivityType.class);

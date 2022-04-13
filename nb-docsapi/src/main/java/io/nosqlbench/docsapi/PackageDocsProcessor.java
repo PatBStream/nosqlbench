@@ -17,6 +17,7 @@
 package io.nosqlbench.docsapi;
 
 import io.nosqlbench.nb.annotations.*;
+import io.nosqlbench.nb.annotations.types.Selector;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
@@ -41,12 +42,14 @@ import java.util.regex.Pattern;
  * <pre>classes/META-INF/services/servicename</pre> file for each
  * implemented and annotated service name.
  */
-@SupportedSourceVersion(SourceVersion.RELEASE_17)
-@Service(value=javax.annotation.processing.Processor.class,selector = "PackageDocsProcessor")
+@Selector("PackageDocsProcessor")
 public class PackageDocsProcessor extends AbstractProcessor {
-    public final static String SERVICE_NAME = Service.class.getCanonicalName();
-
     private int rounds=0;
+
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+        return SourceVersion.latest();
+    }
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {

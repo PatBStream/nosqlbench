@@ -16,8 +16,8 @@
 
 package io.nosqlbench.engine.api.activityapi.ratelimits;
 
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.nb.annotations.types.Selector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,7 +43,7 @@ import static io.nosqlbench.engine.api.util.Colors.*;
  * retrofitted for J11.
  * </p>
  */
-@Service(value= TokenPool.class, selector="threaded")
+@Selector("threaded")
 public class ThreadDrivenTokenPool implements TokenPool {
 
     private final static Logger logger = LogManager.getLogger(ThreadDrivenTokenPool.class);
@@ -64,7 +64,9 @@ public class ThreadDrivenTokenPool implements TokenPool {
     private long blocks = 0L;
 
     private TokenFiller filler;
-    private final ActivityDef activityDef;
+    private ActivityDef activityDef;
+
+    public ThreadDrivenTokenPool(){}
 
     /**
      * This constructor tries to pick reasonable defaults for the token pool for

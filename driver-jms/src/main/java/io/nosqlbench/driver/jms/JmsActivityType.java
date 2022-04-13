@@ -16,13 +16,13 @@
 
 package io.nosqlbench.driver.jms;
 
+import io.nosqlbench.api.activityimpl.ActivityDef;
 import io.nosqlbench.engine.api.activityapi.core.Action;
 import io.nosqlbench.engine.api.activityapi.core.ActionDispenser;
 import io.nosqlbench.engine.api.activityapi.core.ActivityType;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 
-@Service(value = ActivityType.class, selector = "jms")
+@Selector("jms")
 public class JmsActivityType implements ActivityType<JmsActivity> {
     @Override
     public ActionDispenser getActionDispenser(JmsActivity activity) {

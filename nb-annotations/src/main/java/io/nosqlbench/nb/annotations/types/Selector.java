@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
-package io.nosqlbench.engine.api.activityapi.output;
+package io.nosqlbench.nb.annotations.types;
 
-import io.nosqlbench.engine.api.activityapi.core.Activity;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public interface OutputType {
-
-    OutputDispenser getOutputDispenser(Activity activity);
-
+/**
+ * A component name, used in runtime component selection, metrics, logging, and scripting.
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Selector {
+    String value();
 }
