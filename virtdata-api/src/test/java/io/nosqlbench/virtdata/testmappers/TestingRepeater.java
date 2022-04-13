@@ -16,7 +16,7 @@
 
 package io.nosqlbench.virtdata.testmappers;
 
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 
 import java.util.function.LongUnaryOperator;
 
