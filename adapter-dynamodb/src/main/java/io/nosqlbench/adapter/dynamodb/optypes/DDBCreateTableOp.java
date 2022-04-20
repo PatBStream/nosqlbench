@@ -16,21 +16,21 @@
 
 package io.nosqlbench.adapter.dynamodb.optypes;
 
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.Table;
-import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.CreateTableRequest;
+import software.amazon.awssdk.services.dynamodb.model.CreateTableResponse;
 
 public class DDBCreateTableOp extends DynamoDBOp {
 
     private final CreateTableRequest rq;
 
-    public DDBCreateTableOp(DynamoDB ddb, CreateTableRequest rq) {
-        super(ddb);
+    public DDBCreateTableOp(DynamoDbClient client, CreateTableRequest rq) {
+        super(client);
         this.rq = rq;
     }
 
     @Override
-    public Table apply(long value) {
-        return ddb.createTable(rq);
+    public CreateTableResponse apply(long value) {
+        return client.createTable(rq);
     }
 }

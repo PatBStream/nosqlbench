@@ -22,9 +22,15 @@ module adapter.dynamodb {
     requires nb.annotations;
     requires nb.api;
     requires adapters.api;
-    requires aws.java.sdk.dynamodb;
-    requires aws.java.sdk.core;
     requires virtdata.api;
     requires nb.docsapi;
+    requires software.amazon.awssdk.services.dynamodb;
+    requires software.amazon.awssdk.regions;
+    requires software.amazon.awssdk.awscore;
+    requires software.amazon.awssdk.services.s3;
+    requires software.amazon.awssdk.http.apache;
+    requires org.apache.logging.log4j;
+    requires software.amazon.awssdk.http;
+    requires software.amazon.awssdk.core;
     provides DriverAdapter with DynamoDBDriverAdapter;
 }

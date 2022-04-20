@@ -16,23 +16,21 @@
 
 package io.nosqlbench.adapter.dynamodb.optypes;
 
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.Item;
-import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.PutItemResponse;
 
 public class DDBPutItemOp extends DynamoDBOp {
-    private final String tablename;
-    private final Item item;
 
-    public DDBPutItemOp(DynamoDB ddb, String tablename, Item item) {
-        super(ddb);
-        this.tablename = tablename;
-        this.item = item;
+    private final PutItemRequest rq;
+
+    public DDBPutItemOp(DynamoDbClient client, PutItemRequest rq) {
+        super(client);
+        this.rq = rq;
     }
 
     @Override
-    public PutItemOutcome apply(long value) {
-        PutItemOutcome outcome = ddb.getTable(tablename).putItem(item);
-        return outcome;
+    public PutItemResponse apply(long value) {
+        return client.putItem(rq);
     }
 }

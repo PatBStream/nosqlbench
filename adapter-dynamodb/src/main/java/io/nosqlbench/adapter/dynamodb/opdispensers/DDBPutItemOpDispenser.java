@@ -16,33 +16,34 @@
 
 package io.nosqlbench.adapter.dynamodb.opdispensers;
 
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.Item;
+import io.nosqlbench.adapter.dynamodb.converters.ItemValue;
 import io.nosqlbench.adapter.dynamodb.optypes.DDBPutItemOp;
 import io.nosqlbench.adapter.dynamodb.optypes.DynamoDBOp;
 import io.nosqlbench.adapters.api.opmapping.BaseOpDispenser;
 import io.nosqlbench.adapters.api.templating.ParsedOp;
 import io.nosqlbench.api.errors.OpConfigError;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 
 import java.util.Map;
 import java.util.function.LongFunction;
 
 public class DDBPutItemOpDispenser extends BaseOpDispenser<DynamoDBOp> {
 
-    private final DynamoDB ddb;
+    private final DynamoDbClient client;
     private final LongFunction<String> tableNameFunc;
-    private final LongFunction<? extends Item> itemfunc;
+    private final LongFunction<? extends ItemValue> itemfunc;
 
-    public DDBPutItemOpDispenser(DynamoDB ddb, ParsedOp cmd, LongFunction<?> targetFunc) {
+    public DDBPutItemOpDispenser(DynamoDbClient client, ParsedOp cmd, LongFunction<?> targetFunc) {
         super(cmd);
-        this.ddb = ddb;
+        this.client = client;
         this.tableNameFunc = l -> targetFunc.apply(l).toString();
         if (cmd.isDefined("item")) {
             LongFunction<? extends Map> f1 = cmd.getAsRequiredFunction("item", Map.class);
-            this.itemfunc = l -> Item.fromMap(f1.apply(l));
+            this.itemfunc = l -> ItemValue.fromMap(f1.apply(l));
         } else if (cmd.isDefined("json")) {
             LongFunction<? extends String> f1 = cmd.getAsRequiredFunction("json", String.class);
-            this.itemfunc = l -> Item.fromJSON(f1.apply(l));
+            this.itemfunc = l -> ItemValue.fromJSON(f1.apply(l));
         } else {
             throw new OpConfigError("PutItem op templates require either an 'item' map field or a 'json' text field");
         }
@@ -51,7 +52,11 @@ public class DDBPutItemOpDispenser extends BaseOpDispenser<DynamoDBOp> {
     @Override
     public DynamoDBOp apply(long value) {
         String tablename = tableNameFunc.apply(value);
-        Item item = itemfunc.apply(value);
-        return new DDBPutItemOp(ddb,tablename,item);
+        ItemValue itemval = itemfunc.apply(value);
+        PutItemRequest rq = PutItemRequest.builder()
+            .item(itemval)
+            .tableName(tablename)
+            .build();
+        return new DDBPutItemOp(client,rq);
     }
 }

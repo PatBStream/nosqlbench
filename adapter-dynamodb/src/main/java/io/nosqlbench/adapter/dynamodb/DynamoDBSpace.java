@@ -16,75 +16,111 @@
 
 package io.nosqlbench.adapter.dynamodb;
 
-import com.amazonaws.ClientConfiguration;
-import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import io.nosqlbench.api.config.standard.ConfigModel;
 import io.nosqlbench.api.config.standard.NBConfigModel;
 import io.nosqlbench.api.config.standard.NBConfiguration;
 import io.nosqlbench.api.config.standard.Param;
 import io.nosqlbench.api.errors.OpConfigError;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import software.amazon.awssdk.awscore.defaultsmode.DefaultsMode;
+import software.amazon.awssdk.http.SdkHttpClient;
+import software.amazon.awssdk.http.apache.ApacheHttpClient;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClientBuilder;
 
+import java.net.URI;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 public class DynamoDBSpace {
+    private final static Logger logger = LogManager.getLogger(DynamoDBSpace.class);
+
     private final String name;
-    DynamoDB dynamoDB;
+    DynamoDbClient dynamoDbClient;
 
     public DynamoDBSpace(String name, NBConfiguration cfg) {
         this.name = name;
-        AmazonDynamoDB client = createClient(cfg);
-        dynamoDB= new DynamoDB(client);
+        this.dynamoDbClient = createClient(cfg);
     }
 
-    public DynamoDB getDynamoDB() {
-        return dynamoDB;
+    public DynamoDbClient getDynamoDbClient() {
+        return dynamoDbClient;
     }
 
-    private AmazonDynamoDB createClient(NBConfiguration cfg) {
-        AmazonDynamoDBClientBuilder builder = AmazonDynamoDBClientBuilder.standard();
+    private DynamoDbClient createClient(NBConfiguration cfg) {
+
+        DynamoDbClientBuilder builder = DynamoDbClient.builder();
+        builder = builder.defaultsMode(DefaultsMode.STANDARD);
+
         Optional<String> region = cfg.getOptional("region");
         Optional<String> endpoint = cfg.getOptional("endpoint");
         Optional<String> signing_region = cfg.getOptional("signing_region");
-
         if (region.isPresent() && (endpoint.isPresent() || signing_region.isPresent())) {
             throw new OpConfigError("If you specify region, endpoint and signing_region options are not allowed");
         }
-
         if (region.isPresent()) {
-            builder.withRegion(region.get());
-        } else if (endpoint.isPresent() && signing_region.isPresent()){
-            AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder.EndpointConfiguration(endpoint.get(), signing_region.get());
-            builder = builder.withEndpointConfiguration(endpointConfiguration);
+            builder = builder.region(Region.of(region.get()));
+        } else if (endpoint.isPresent() && signing_region.isPresent()) {
+            builder = builder.endpointOverride(URI.create(endpoint.get()));
         } else {
             throw new OpConfigError("Either region or endpoint and signing_region options are required.");
         }
 
+        ApacheHttpClient.Builder cb = ApacheHttpClient.builder();
 
-        ClientConfiguration ccfg = new ClientConfiguration();
-        cfg.getOptional("client_socket_timeout").map(Integer::parseInt).ifPresent(ccfg::withSocketTimeout);
-        cfg.getOptional("client_execution_timeout").map(Integer::parseInt).ifPresent(ccfg::withClientExecutionTimeout);
-        cfg.getOptional("client_max_connections").map(Integer::parseInt).ifPresent(ccfg::withMaxConnections);
-        cfg.getOptional("client_max_error_retry").map(Integer::parseInt).ifPresent(ccfg::withMaxErrorRetry);
-        cfg.getOptional("client_user_agent_prefix").ifPresent(ccfg::withUserAgentPrefix);
-        cfg.getOptional("client_consecutive_retries_before_throttling").map(Integer::parseInt)
-            .ifPresent(ccfg::withMaxConsecutiveRetriesBeforeThrottling);
-        cfg.getOptional("client_gzip").map(Boolean::parseBoolean).ifPresent(ccfg::withGzip);
-        cfg.getOptional("client_tcp_keepalive").map(Boolean::parseBoolean).ifPresent(ccfg::withTcpKeepAlive);
-        cfg.getOptional("client_disable_socket_proxy").map(Boolean::parseBoolean).ifPresent(ccfg::withDisableSocketProxy);
-// ccfg.withHeader();
-// ccfg.withProtocol()
-// ccfg.withRetryMode();
-// ccfg.withRetryPolicy();
+        cfg.getOptional("http_socket_timeout").or(() -> cfg.getOptional("timeout"))
+            .map(Integer::parseInt).map(i -> Duration.of(i, ChronoUnit.SECONDS))
+            .ifPresent(v -> {
+                logger.info("http_socket_timeout=>" + v);
+                cb.socketTimeout(v);
+            });
 
-        ccfg.withSocketBufferSizeHints(
-            cfg.getOptional("client_so_send_size_hint").map(Integer::parseInt).orElse(0),
-            cfg.getOptional("client_so_recv_size_hint").map(Integer::parseInt).orElse(0)
-        );
+        cfg.getOptional("http_connection_timeout").or(() -> cfg.getOptional("timeout"))
+            .map(Integer::parseInt).map(i -> Duration.of(i, ChronoUnit.SECONDS))
+            .ifPresent(v -> {
+                logger.info("http_connection_timeout=>" + v);
+                cb.connectionTimeout(v);
+            });
 
-        builder.setClientConfiguration(ccfg);
+        cfg.getOptional("http_connection_max_idle_time")
+            .map(Integer::parseInt).map(i -> Duration.of(i, ChronoUnit.SECONDS))
+            .ifPresent(v -> {
+                logger.info("http_connection_max_idle_time=>" + v);
+                cb.connectionMaxIdleTime(v);
+            });
+
+        cfg.getOptional("http_connection_acquisition_timeout").or(() -> cfg.getOptional("timeout"))
+            .map(Integer::parseInt).map(i -> Duration.of(i, ChronoUnit.SECONDS))
+            .ifPresent(v -> {
+                logger.info("http_connection_acquisition_timeout=>" + v);
+                cb.connectionAcquisitionTimeout(v);
+            });
+
+        cfg.getOptional("http_connection_time_to_live")
+            .map(Integer::parseInt).map(i -> Duration.of(i, ChronoUnit.SECONDS))
+            .ifPresent(v -> {
+                logger.info("http_connection_time_to_live=>" + v);
+                cb.connectionTimeToLive(v);
+            });
+
+        cfg.getOptional("http_max_connections").map(Integer::parseInt)
+            .ifPresent(v -> {
+                logger.info("http_max_connections=>" + v);
+                cb.maxConnections(v);
+            });
+
+        cfg.getOptional("http_connection_timeout").or(() -> cfg.getOptional("timeout"))
+            .map(Integer::parseInt).map(i -> Duration.of(i, ChronoUnit.SECONDS))
+            .ifPresent(v -> {
+                logger.info("http_connection_timeout=>" + v);
+                cb.connectionTimeout(v);
+            });
+
+        SdkHttpClient sdkclient = cb.build();
+        builder=builder.httpClient(sdkclient);
 
         return builder.build();
     }
@@ -95,17 +131,13 @@ public class DynamoDBSpace {
             .add(Param.optional("signing_region"))
             .add(Param.optional("region"))
 
-            .add(Param.optional("client_socket_timeout"))
-            .add(Param.optional("client_execution_timeout"))
-            .add(Param.optional("client_max_connections"))
-            .add(Param.optional("client_max_error_retry"))
-            .add(Param.optional("client_user_agent_prefix"))
-            .add(Param.optional("client_consecutive_retries_before_throttling"))
-            .add(Param.optional("client_gzip"))
-            .add(Param.optional("client_tcp_keepalive"))
-            .add(Param.optional("client_disable_socket_proxy"))
-            .add(Param.optional("client_so_send_size_hint"))
-            .add(Param.optional("client_so_recv_size_hint"))
+            .add(Param.optional("http_socket_timeout"))
+            .add(Param.optional("http_connection_timeout"))
+            .add(Param.optional("http_connection_max_idle_time"))
+            .add(Param.optional("http_connection_acquisition_timeout"))
+            .add(Param.optional("http_connection_time_to_live"))
+            .add(Param.optional("http_max_connections"))
+            .add(Param.optional("http_connection_timeout"))
             .asReadOnly();
     }
 
