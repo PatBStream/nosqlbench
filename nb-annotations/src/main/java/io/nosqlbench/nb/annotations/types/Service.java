@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 
 /**
  * A Service annotation will cause a class to be added to META-INF/services/
- * under the specified class name.
+ * under the name of the first interface specified
  *
  * At least, this simple thing won't require the use of g u a v a. Yay!
  * @deprecated Use proper Java modules and {@link Selector} instead.
@@ -32,6 +32,4 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Service {
-    Class<?> value();
-    String selector();
 }
