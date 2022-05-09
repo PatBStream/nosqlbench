@@ -374,7 +374,7 @@ public class ParsedTemplateMap implements LongFunction<Map<String, ?>>, StaticFi
      * @return a set of names which are defined, whether in static fields or dynamic fields
      */
     public Set<String> getDefinedNames() {
-        HashSet<String> nameSet = new HashSet<>(statics.keySet());
+        LinkedHashSet<String> nameSet = new LinkedHashSet<>(statics.keySet());
         nameSet.addAll(dynamics.keySet());
         return nameSet;
     }

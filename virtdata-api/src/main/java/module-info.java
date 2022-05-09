@@ -17,6 +17,12 @@ import io.nosqlbench.virtdata.annotations.gen.DocFuncData;
  */
 
 module virtdata.api {
+    exports io.nosqlbench.virtdata.core.templates;
+    exports io.nosqlbench.virtdata.core.bindings;
+    exports io.nosqlbench.virtdata.api.bindings;
+    exports io.nosqlbench.virtdata.core.composers;
+    exports io.nosqlbench.virtdata.api.templating;
+    exports io.nosqlbench.virtdata.api.templating.binders;
     requires org.apache.logging.log4j;
     requires java.compiler;
     requires nb.api;
@@ -24,12 +30,6 @@ module virtdata.api {
     requires com.squareup.javapoet;
     requires virtdata.lang;
     requires virtdata.annotations;
-    exports io.nosqlbench.virtdata.core.templates;
-    exports io.nosqlbench.virtdata.core.bindings;
-    exports io.nosqlbench.virtdata.api.bindings;
-    exports io.nosqlbench.virtdata.core.composers;
-    exports io.nosqlbench.virtdata.api.templating;
-    exports io.nosqlbench.virtdata.api.templating.binders;
     uses DocFuncData ;
     opens io.nosqlbench.virtdata.core.templates;
     opens io.nosqlbench.virtdata.core.bindings;

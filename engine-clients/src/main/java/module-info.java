@@ -19,6 +19,7 @@ import io.nosqlbench.api.annotations.Annotator;
 import io.nosqlbench.engine.clients.grafana.annotator.GrafanaMetricsAnnotator;
 
 module engine.clients {
+    exports io.nosqlbench.engine.clients.grafana.annotator;
     requires nb.api;
     requires com.google.gson;
     requires java.net.http;

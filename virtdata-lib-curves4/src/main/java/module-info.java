@@ -18,6 +18,7 @@ open module virtdata.lib.curves4 {
     requires virtdata.api;
     requires virtdata.lib.basics;
     requires virtdata.annotations;
+    requires nb.annotations;
     exports io.nosqlbench.virtdata.library.curves4.continuous.common;
     exports io.nosqlbench.virtdata.library.curves4.continuous.int_double;
     exports io.nosqlbench.virtdata.library.curves4.continuous.long_double;

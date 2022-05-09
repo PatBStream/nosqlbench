@@ -34,10 +34,17 @@
     </description>
 
     <dependencies>
+
         <dependency>
             <groupId>io.nosqlbench</groupId>
+            <artifactId>nb-annotations</artifactId>
             <version>4.17.12-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.nosqlbench</groupId>
             <artifactId>nb-api</artifactId>
+            <version>4.17.12-SNAPSHOT</version>
         </dependency>
 
         <dependency>

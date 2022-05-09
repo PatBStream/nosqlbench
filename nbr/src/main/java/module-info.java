@@ -16,9 +16,9 @@
 
 module nbr {
     requires engine.core;
-    requires org.junit.jupiter.api;
     requires org.apache.logging.log4j;
-    requires org.assertj.core;
+    requires static org.junit.jupiter.api;
+    requires static org.assertj.core;
     requires org.apache.commons.compress;
     requires nb.api;
     requires com.codahale.metrics;

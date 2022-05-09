@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-@Selector("stdoutadapter")
+@Selector("stdout")
 public class StdoutDriverAdapter extends BaseDriverAdapter<StdoutOp, StdoutSpace> implements OpTemplateSupplier {
 
     @Override

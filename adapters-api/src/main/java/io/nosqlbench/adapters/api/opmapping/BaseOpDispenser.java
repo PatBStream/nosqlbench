@@ -41,15 +41,24 @@ public abstract class BaseOpDispenser<T> implements OpDispenser<T> {
     private Timer successTimer;
     private Timer errorTimer;
 
-    public BaseOpDispenser(OpTemplate optpl) {
-        this.name = optpl.getName();
-    }
-
     public BaseOpDispenser(ParsedOp op) {
         this.name = op.getName();
         configureInstrumentation(op);
     }
 
+    /**
+     * @deprecated use {@link #BaseOpDispenser(ParsedOp)} instead
+     * @param optpl The op template
+     */
+    @Deprecated(since = "4.17.0")
+    public BaseOpDispenser(OpTemplate optpl) {
+        this.name = optpl.getName();
+    }
+
+    /**
+     * @deprecated use {@link #BaseOpDispenser(ParsedOp)} instead
+     * @param cmdtpl The command template
+     */
     public BaseOpDispenser(CommandTemplate cmdtpl) {
         this.name = cmdtpl.getName();
     }

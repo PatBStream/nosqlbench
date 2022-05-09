@@ -23,7 +23,7 @@ import io.nosqlbench.engine.api.activityapi.cyclelog.inputs.cyclelog.CycleLogInp
 import io.nosqlbench.engine.api.activityapi.cyclelog.outputs.cyclelog.CycleLogOutputType;
 import io.nosqlbench.engine.api.activityapi.cyclelog.outputs.logger.LoggingMarkerDispenser;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorHandler;
-import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ResultCode;
+import io.nosqlbench.engine.api.activityapi.errorhandling.modular.handlers.CodeErrorHandler;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.handlers.*;
 import io.nosqlbench.engine.api.activityapi.input.InputType;
 import io.nosqlbench.engine.api.activityapi.output.OutputDispenser;
@@ -75,6 +75,7 @@ module engine.api {
     exports io.nosqlbench.engine.api.activityapi.errorhandling;
     exports io.nosqlbench.engine.api.activityimpl.motor;
     exports io.nosqlbench.engine.api.activityimpl.action;
+    exports io.nosqlbench.engine.api.activityapi.errorhandling.modular.handlers;
     provides ErrorHandler with
         WarnErrorHandler,
         CounterErrorHandler,
@@ -85,7 +86,7 @@ module engine.api {
         StopErrorHandler,
         RetryErrorHandler,
         MeterErrorHandler,
-        ResultCode;
+        CodeErrorHandler;
     provides OutputType with CycleLogOutputType;
     provides OutputDispenser with LoggingMarkerDispenser ;
     provides InputType with TargetRateInputType, CycleLogInputType;

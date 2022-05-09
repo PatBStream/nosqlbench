@@ -25,7 +25,7 @@
         <relativePath>../mvn-defaults</relativePath>
     </parent>
 
-    <artifactId>driver-diag</artifactId>
+    <artifactId>adapter-diag</artifactId>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
     <description>A nosqlbench ActivityType (AT) driver module;
@@ -33,6 +33,12 @@
     </description>
 
     <dependencies>
+
+        <dependency>
+            <groupId>io.nosqlbench</groupId>
+            <artifactId>nb-annotations</artifactId>
+            <version>4.17.12-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>io.nosqlbench</groupId>
@@ -50,5 +56,23 @@
 
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>io.nosqlbench</groupId>
+                            <artifactId>nb-annotations</artifactId>
+                            <version>${version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
 
 </project>

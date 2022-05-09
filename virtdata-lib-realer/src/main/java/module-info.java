@@ -18,5 +18,6 @@ open module virtdata.lib.realer {
     requires virtdata.api;
     requires virtdata.lib.basics;
     requires virtdata.annotations;
+    requires nb.annotations;
     exports io.nosqlbench.virtdata.library.realer;
 }

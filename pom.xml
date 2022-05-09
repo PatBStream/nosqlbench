@@ -55,8 +55,8 @@
         <module>adapters-api</module>
 
         <!-- driver modules -->
-        <module>driver-diag</module>
-        <module>driver-stdout</module>
+        <module>adapter-diag</module>
+        <module>adapter-stdout</module>
         <module>adapter-cqld4</module>
         <module>adapter-dynamodb</module>
         <module>driver-tcp</module>
@@ -65,9 +65,9 @@
         <module>driver-jmx</module>
         <module>driver-jdbc</module>
         <module>driver-cockroachdb</module>
-        <module>driver-pulsar</module>
-        <module>driver-kafka</module>
-        <module>driver-jms</module>
+<!--        <module>driver-pulsar</module>-->
+<!--        <module>driver-kafka</module>-->
+<!--        <module>driver-jms</module>-->
 
 
         <!-- VIRTDATA MODULES -->

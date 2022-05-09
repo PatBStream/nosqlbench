@@ -14,5 +14,45 @@
  * limitations under the License.
  */
 
-package io.nosqlbench.adapter.diag;public class DiagSpace {
+package io.nosqlbench.adapter.diag;
+
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.config.standard.ConfigModel;
+import io.nosqlbench.api.config.standard.NBConfigModel;
+import io.nosqlbench.api.config.standard.NBConfiguration;
+import io.nosqlbench.engine.api.activityapi.core.ActivityDefObserver;
+import io.nosqlbench.engine.api.activityapi.ratelimits.RateLimiter;
+
+public class DiagSpace implements ActivityDefObserver {
+    private final NBConfiguration cfg;
+    private RateLimiter diagRateLimiter;
+
+    public DiagSpace(NBConfiguration cfg) {
+        this.cfg = cfg;
+    }
+
+    public void applyConfig(NBConfiguration cfg) {
+
+    }
+
+    public static NBConfigModel getConfigModel() {
+        return ConfigModel.of(DiagSpace.class)
+            .asReadOnly();
+    }
+
+    public boolean isLogCycle() {
+        return cfg.getOrDefault("logcycle",false);
+    }
+
+    public void maybeWaitForOp() {
+        if (diagRateLimiter != null) {
+            long waittime = diagRateLimiter.maybeWaitForOp();
+        }
+    }
+
+    @Override
+    public void onActivityDefUpdate(ActivityDef activityDef) {
+        NBConfiguration cfg = getConfigModel().apply(activityDef.getParams().getStringStringMap());
+        this.applyConfig(cfg);
+    }
 }

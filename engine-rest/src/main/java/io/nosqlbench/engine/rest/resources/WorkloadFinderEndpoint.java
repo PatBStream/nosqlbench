@@ -20,6 +20,7 @@ import io.nosqlbench.docsys.api.WebServiceObject;
 import io.nosqlbench.engine.api.scenarios.NBCLIScenarioParser;
 import io.nosqlbench.engine.api.scenarios.WorkloadDesc;
 import io.nosqlbench.engine.rest.services.WorkspaceFinder;
+import io.nosqlbench.nb.annotations.types.Selector;
 import io.nosqlbench.nb.annotations.types.Service;
 import io.nosqlbench.virtdata.userlibs.apps.docsapp.AutoDocsWebService;
 import jakarta.inject.Singleton;
@@ -40,7 +41,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service(value= WebServiceObject.class, selector="workload-finder")
+@Selector("workload-finder")
 @Singleton
 @Path("/services/workloads")
 public class WorkloadFinderEndpoint implements WebServiceObject {

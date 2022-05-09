@@ -65,7 +65,7 @@ public class SelectorFilter<T> implements Predicate<ServiceLoader.Provider<? ext
         List<? extends T> services = getAll();
         if (services.size() == 0) {
             throw new RuntimeException("You requested exactly one instance of a service by name '" + name + "', but got " +
-                (services.stream().map(s -> s.getClass().getSimpleName())).collect(Collectors.joining(",")));
+                (services.stream().map(s -> s.getClass().getSimpleName())).collect(Collectors.joining(",")) + " (" + services.stream().count() + ")");
         }
         return services.get(0);
     }
@@ -98,7 +98,7 @@ public class SelectorFilter<T> implements Predicate<ServiceLoader.Provider<? ext
             throw new RuntimeException("No services were found for '" + name + "'.");
         }
         throw new RuntimeException("You requested exactly one instance of a service by name '" + name + "', but got " +
-            (services.stream().map(s -> s.getClass().getSimpleName())).collect(Collectors.joining(",")));
+            (services.stream().map(s -> s.getClass().getSimpleName())).collect(Collectors.joining(",")) + " (" + services.stream().count() + ")");
 
 
     }

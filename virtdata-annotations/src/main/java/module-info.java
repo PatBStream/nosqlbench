@@ -17,6 +17,7 @@
 module virtdata.annotations {
     requires static java.compiler;
     requires static com.squareup.javapoet;
+    requires nb.annotations;
     exports io.nosqlbench.virtdata.annotations.processors;
     exports io.nosqlbench.virtdata.annotations.types;
     exports io.nosqlbench.virtdata.annotations.gen;

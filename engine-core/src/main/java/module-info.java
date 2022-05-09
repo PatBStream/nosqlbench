@@ -23,6 +23,7 @@ module engine.core {
     uses io.nosqlbench.adapters.api.opmapping.uniform.DriverAdapter;
     uses io.nosqlbench.engine.api.activityapi.core.ActivityType;
     uses io.nosqlbench.engine.api.extensions.ScriptingPluginInfo;
+    uses Annotator;
     requires driver.diag;
     exports io.nosqlbench.engine.core.annotation;
     exports io.nosqlbench.engine.core.lifecycle;
@@ -43,6 +44,7 @@ module engine.core {
     requires com.google.gson;
     requires hdrhistogram.metrics.reservoir;
     requires org.apache.logging.log4j.core;
+    requires engine.clients;
     provides MetricRegistryService with MetricsContext;
     provides Annotator with LoggingAnnotator;
 }

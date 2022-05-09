@@ -15,14 +15,21 @@
  */
 
 import io.nosqlbench.activitytype.diag.DiagActivityType;
+import io.nosqlbench.adapter.diag.DiagDriverAdapter;
+import io.nosqlbench.adapter.diag.optasks.DiagOpTask;
+import io.nosqlbench.adapters.api.opmapping.uniform.DriverAdapter;
 import io.nosqlbench.engine.api.activityapi.core.ActivityType;
 
 module driver.diag {
+    uses io.nosqlbench.adapter.diag.optasks.DiagOpTask;
     requires engine.api;
     requires nb.api;
     requires org.apache.logging.log4j;
     requires nb.annotations;
     requires com.codahale.metrics;
     requires virtdata.api;
+    requires adapters.api;
     provides ActivityType with DiagActivityType;
+    provides DiagOpTask with io.nosqlbench.adapter.diag.optasks.DiagTask_Log;
+    provides DriverAdapter with DiagDriverAdapter;
 }

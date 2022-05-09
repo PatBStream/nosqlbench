@@ -16,8 +16,10 @@
 
 package io.nosqlbench.adapter.diag.optasks;
 
+import io.nosqlbench.api.config.standard.NBConfigurable;
+
 import java.util.Map;
 import java.util.function.BiFunction;
 
-public interface OpTask extends BiFunction<Long,Map<String,Object>, Map<String,Object>> {
+public interface DiagOpTask extends BiFunction<Long,Map<String,Object>, Map<String,Object>>, NBConfigurable {
 }

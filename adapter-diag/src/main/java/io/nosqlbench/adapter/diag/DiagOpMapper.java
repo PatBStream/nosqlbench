@@ -16,7 +16,13 @@
 
 package io.nosqlbench.adapter.diag;
 
+import io.nosqlbench.adapters.api.opmapping.OpDispenser;
 import io.nosqlbench.adapters.api.opmapping.OpMapper;
+import io.nosqlbench.adapters.api.templating.ParsedOp;
 
 public class DiagOpMapper implements OpMapper<DiagOp> {
+    @Override
+    public OpDispenser<? extends DiagOp> apply(ParsedOp cmd) {
+        return new DiagOpDispenser(cmd);
+    }
 }

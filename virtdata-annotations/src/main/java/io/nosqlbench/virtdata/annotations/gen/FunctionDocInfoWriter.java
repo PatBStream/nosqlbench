@@ -17,6 +17,7 @@
 package io.nosqlbench.virtdata.annotations.gen;
 
 import com.squareup.javapoet.*;
+import io.nosqlbench.nb.annotations.types.Service;
 import io.nosqlbench.virtdata.annotations.types.Category;
 
 import javax.annotation.processing.Filer;
@@ -141,13 +142,15 @@ public class FunctionDocInfoWriter implements FuncEnumerator.Listener {
         methods.add(getCtorsMethod);
 
 
+        AnnotationSpec serviceAnnotation = AnnotationSpec.builder(Service.class)
+            .build();
 //        AnnotationSpec serviceAnnotation = AnnotationSpec.builder(Service.class)
 //            .addMember("value", "$T.class", DocFuncData.class)
 //            .addMember("selector", "$S", doc.getPackageName() + "." + doc.getClassName())
 //                .build();
 
         TypeSpec manifestType = TypeSpec.classBuilder(newClassName)
-//                .addAnnotation(serviceAnnotation)
+                .addAnnotation(serviceAnnotation)
                 .addModifiers(Modifier.PUBLIC)
                 .addMethods(methods)
                 .addSuperinterface(DocFuncData.class)

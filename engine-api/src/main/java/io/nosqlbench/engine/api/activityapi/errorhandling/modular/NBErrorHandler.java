@@ -117,7 +117,7 @@ public class NBErrorHandler {
             if (!type.isAnnotationPresent(Selector.class)) {
                 throw new RuntimeException(
                     "Annotator services must be annotated with distinct selectors\n" +
-                        "such as @Service(Annotator.class,selector=\"myimpl42\")"
+                        "such as @Selector(\"myimpl42\")"
                 );
             }
             Selector selector = type.getAnnotation(Selector.class);

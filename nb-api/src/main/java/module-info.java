@@ -21,7 +21,9 @@ import java.net.spi.URLStreamHandlerProvider;
 module nb.api {
     provides URLStreamHandlerProvider with io.nosqlbench.addins.s3.s3urlhandler.S3UrlStreamHandlerProvider;
     uses MetricRegistryService;
-    requires nb.annotations;
+    requires transitive nb.annotations;
+    requires transitive com.google.gson;
+
     exports io.nosqlbench.api.activityimpl;
     exports io.nosqlbench.api.content;
     exports io.nosqlbench.api.errors;
@@ -36,6 +38,7 @@ module nb.api {
     exports io.nosqlbench.api.activityapi.core;
     exports io.nosqlbench.api.logging;
     exports io.nosqlbench.api.testutils;
+    exports io.nosqlbench.api.ssl;
     requires org.graalvm.sdk;
     requires java.scripting;
     requires com.codahale.metrics;
@@ -45,13 +48,11 @@ module nb.api {
     requires org.apache.logging.log4j;
     requires commons.csv;
     requires ascii.data;
-    requires com.google.gson;
     requires com.github.oshi;
     requires software.amazon.awssdk.services.s3;
     requires software.amazon.awssdk.auth;
     requires software.amazon.awssdk.awscore;
     requires software.amazon.awssdk.core;
-    exports io.nosqlbench.api.ssl;
 //    exports io.nosqlbench.api.servicetypes;
 //    uses ResultValueFilterType;
 }

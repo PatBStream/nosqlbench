@@ -497,6 +497,8 @@ public class SimpleActivity implements Activity, ProgressCapable {
         } else if (op_yaml_loc.isPresent()) {
             stmtsDocList = StatementsLoader.loadPath(logger, op_yaml_loc.get(), activityDef.getParams(), "activities");
             workloadSource = "yaml:" + op_yaml_loc.get();
+        } else {
+            throw new BasicError("No workload YAML or stmt provided.");
         }
 
         List<OpTemplate> stmts = stmtsDocList.getStmts(tagfilter);

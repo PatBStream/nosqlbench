@@ -37,11 +37,55 @@
 
     <dependencies>
 
-<!--        <dependency>-->
+<!--        Engine Modules-->
+        <dependency>
+            <groupId>io.nosqlbench</groupId>
+            <artifactId>engine-cli</artifactId>
+            <version>4.17.12-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.nosqlbench</groupId>
+            <artifactId>engine-core</artifactId>
+            <version>4.17.12-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.nosqlbench</groupId>
+            <artifactId>engine-extensions</artifactId>
+            <version>4.17.12-SNAPSHOT</version>
+        </dependency>
+
+        <!--        <dependency>-->
 <!--            <groupId>io.nosqlbench</groupId>-->
 <!--            <artifactId>engine-rest</artifactId>-->
 <!--            <version>4.17.12-SNAPSHOT</version>-->
 <!--        </dependency>-->
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.17.2</version>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.apache.logging.log4j</groupId>-->
+<!--            <artifactId>slf4j-impl</artifactId>-->
+<!--            <version>2.0-alpha2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-ext</artifactId>-->
+<!--            <version>1.7.36</version>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.0-alpha7</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.assertj</groupId>
@@ -62,27 +106,10 @@
             <scope>compile</scope>
         </dependency>
 
-        <dependency>
-            <groupId>io.nosqlbench</groupId>
-            <artifactId>engine-cli</artifactId>
-            <version>4.17.12-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
             <groupId>io.nosqlbench</groupId>
-            <artifactId>engine-core</artifactId>
-            <version>4.17.12-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.nosqlbench</groupId>
-            <artifactId>engine-extensions</artifactId>
-            <version>4.17.12-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.nosqlbench</groupId>
-            <artifactId>driver-diag</artifactId>
+            <artifactId>adapter-diag</artifactId>
             <version>4.17.12-SNAPSHOT</version>
         </dependency>
     </dependencies>
@@ -94,92 +121,41 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.3.0</version>
-                <configuration>
-                    <descriptors>
-                        <descriptor>assembly.xml</descriptor>
-                    </descriptors>
-                    <archive>
-                        <manifest>
-                            <mainClass>io.nosqlbench.engine.cli.NBCLI</mainClass>
-                        </manifest>
-                        <manifestEntries>
-                            <Multi-Release>true</Multi-Release>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>assemble-nb</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>link-nb-jar-name</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <NBJAR_VERSION>${project.version}</NBJAR_VERSION>
-                            </environmentVariables>
-                            <basedir>${project.basedir}</basedir>
-                            <executable>${project.basedir}/nbr-scripts/link-jar-name.sh</executable>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-        </plugins>
     </build>
 
     <profiles>
-        <profile>
-            <id>build-nb-appimage</id>
-            <activation>
-                <os>
-                    <family>unix</family>
-                    <name>linux</name>
-                    <arch>amd64</arch>
-                </os>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>build-nbr-appimage</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <basedir>${project.basedir}</basedir>
-                                    <executable>${project.basedir}/build-bin-nbr.sh</executable>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+<!--        <profile>-->
+<!--            <id>build-nb-appimage</id>-->
+<!--            <activation>-->
+<!--                <activeByDefault>false</activeByDefault>-->
+<!--                <os>-->
+<!--                    <family>unix</family>-->
+<!--                    <name>linux</name>-->
+<!--                    <arch>amd64</arch>-->
+<!--                </os>-->
+<!--            </activation>-->
+<!--            <build>-->
+<!--                <plugins>-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.codehaus.mojo</groupId>-->
+<!--                        <artifactId>exec-maven-plugin</artifactId>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <id>build-nbr-appimage</id>-->
+<!--                                <phase>package</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>exec</goal>-->
+<!--                                </goals>-->
+<!--                                <configuration>-->
+<!--                                    <basedir>${project.basedir}</basedir>-->
+<!--                                    <executable>${project.basedir}/build-bin-nbr.sh</executable>-->
+<!--                                </configuration>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
+<!--                </plugins>-->
+<!--            </build>-->
+<!--        </profile>-->
         <profile>
             <id>enforce</id>
             <activation>

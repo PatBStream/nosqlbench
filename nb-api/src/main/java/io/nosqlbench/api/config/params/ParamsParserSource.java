@@ -25,12 +25,19 @@ public class ParamsParserSource implements ConfigSource {
 
     @Override
     public boolean canRead(Object source) {
-        return (source instanceof CharSequence && ParamsParser.hasValues(source.toString()));
+        if (source instanceof CharSequence seq) {
+            String val = seq.toString();
+            return (ParamsParser.hasValues(val));
+        }
+        return false;
     }
 
     @Override
-    public List<ElementData> getAll(String name,Object source) {
+    public List<ElementData> getAll(String name, Object source) {
         this.name = name;
+        if (source.toString().equals("")) {
+            return List.of();
+        }
         Map<String, String> paramsMap = ParamsParser.parse(source.toString(), false);
         return List.of(new MapBackedElement(name, paramsMap));
     }

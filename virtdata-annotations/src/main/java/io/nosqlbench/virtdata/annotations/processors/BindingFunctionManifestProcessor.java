@@ -40,7 +40,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This documentation processor is responsible for finding all the enumerated that feed documentation
+ * This documentation processor is responsible for finding all the enumerated
+ * binding functions that feed documentation
  * manifests. It simply calls listener interfaces to do the rest of the work.
  */
 public class BindingFunctionManifestProcessor extends AbstractProcessor {

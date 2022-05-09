@@ -16,10 +16,66 @@
 
 package io.nosqlbench.adapter.diag;
 
-import io.nosqlbench.adapters.api.opmapping.OpDispenser;
+import io.nosqlbench.adapter.diag.optasks.DiagOpTask;
+import io.nosqlbench.adapters.api.opmapping.BaseOpDispenser;
 import io.nosqlbench.adapters.api.templating.ParsedOp;
+import io.nosqlbench.api.config.params.NBParams;
+import io.nosqlbench.api.config.standard.NBConfigModel;
+import io.nosqlbench.api.config.standard.NBConfiguration;
+import io.nosqlbench.api.spi.SelectorFilter;
+import io.nosqlbench.engine.api.activityapi.ratelimits.RateLimiter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class DiagOpDispenser implements OpDispenser<? extends DiagOp> {
-    public DiagOpDispenser(ParsedOp cmd) {
+import java.util.*;
+import java.util.function.LongFunction;
+
+public class DiagOpDispenser extends BaseOpDispenser<DiagOp>  {
+    private final static Logger logger = LogManager.getLogger(DiagOpDispenser.class);
+    private final LongFunction<DiagOp> opFunc;
+
+    private RateLimiter diagRateLimiter;
+
+    public DiagOpDispenser(ParsedOp op) {
+        super(op);
+        this.opFunc = resolveOpFunc(op);
     }
+
+    private LongFunction<DiagOp> resolveOpFunc(ParsedOp op) {
+        List<DiagOpTask> tasks = new ArrayList<>();
+        Set<String> tasknames = op.getDefinedNames();
+        /**
+         * Dynamically load diag tasks and add them to the in-memory template used by the op dispenser
+         */
+        for (String taskname : tasknames) {
+            // Get the value of the keyed task name, but throw an error if it is not static or not a map
+            Object taskcfg = op.getStaticValue(taskname, Object.class);
+            // Load this value into a map using the adaptive loading logic of NBParams
+            // This can be a map or a string or a list.
+            // Exactly one instance is required, and we take the field values from it as a map
+            Map<String, Object> cfgmap = NBParams.one(taskcfg).getMap();
+            // Dynamically load the named task instance, based on the op field key AKA the taskname
+            // and ensure that exactly one is found or throw an error
+            DiagOpTask task = SelectorFilter.of(taskname, ServiceLoader.load(DiagOpTask.class)).getOne();
+            // Load the configuration model of the dynamically loaded task for type-safe configuration
+            NBConfigModel cfgmodel = task.getConfigModel();
+            // Apply the raw configuration data to the configuration model, which
+            // both validates the provided configuration fields and
+            // yields a usable configuration that should apply to the loaded task without error or ambiguity
+            NBConfiguration taskconfig = cfgmodel.apply(cfgmap);
+            // Apply the validated configuration to the loaded task
+            task.applyConfig(taskconfig);
+            // Store the task into the diag op's list of things to do when it runs
+            tasks.add(task);
+        }
+        return l -> new DiagOp(tasks);
+    }
+
+
+    @Override
+    public DiagOp apply(long value) {
+        return opFunc.apply(value);
+    }
+
+
 }

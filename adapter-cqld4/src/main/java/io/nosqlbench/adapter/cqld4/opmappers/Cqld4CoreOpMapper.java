@@ -56,8 +56,6 @@ public class Cqld4CoreOpMapper implements OpMapper<Op> {
         // to it here instead of stepping down from the cycle to the space to the session
         LongFunction<CqlSession> sessionFunc = l -> cache.get(spaceName.apply(l)).getSession();
 
-        CqlD4OpType opType = CqlD4OpType.prepared;
-
         TypeAndTarget<CqlD4OpType, String> target = cmd.getTargetEnum(CqlD4OpType.class, String.class, "type", "stmt");
 
         return switch (target.enumId) {

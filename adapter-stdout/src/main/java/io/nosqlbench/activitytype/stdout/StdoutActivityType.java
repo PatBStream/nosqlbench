@@ -24,7 +24,7 @@ import io.nosqlbench.nb.annotations.types.Selector;
 
 import java.util.Optional;
 
-@Selector("stdout")
+@Selector("stdout_at")
 public class StdoutActivityType implements ActivityType<StdoutActivity> {
 
     @Override

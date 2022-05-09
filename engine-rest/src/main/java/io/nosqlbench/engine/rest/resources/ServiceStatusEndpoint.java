@@ -34,7 +34,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
-@Service(value = WebServiceObject.class, selector = "service-status")
 @Singleton
 @Path("/services/status")
 public class ServiceStatusEndpoint implements WebServiceObject {

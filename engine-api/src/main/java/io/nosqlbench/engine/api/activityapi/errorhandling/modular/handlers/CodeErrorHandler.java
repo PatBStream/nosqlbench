@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-package io.nosqlbench.engine.api.activityapi.errorhandling.modular;
+package io.nosqlbench.engine.api.activityapi.errorhandling.modular.handlers;
 
 import io.nosqlbench.api.config.standard.ConfigModel;
 import io.nosqlbench.api.config.standard.NBConfigModel;
 import io.nosqlbench.api.config.standard.NBMapConfigurable;
 import io.nosqlbench.api.config.standard.Param;
+import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorDetail;
+import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorHandler;
 import io.nosqlbench.nb.annotations.types.Selector;
 
 import java.util.Map;
 
 @Selector("code")
-public class ResultCode implements ErrorHandler, NBMapConfigurable {
+public class CodeErrorHandler implements ErrorHandler, NBMapConfigurable {
 
     private byte code;
 
@@ -36,7 +38,7 @@ public class ResultCode implements ErrorHandler, NBMapConfigurable {
 
     @Override
     public void applyConfig(Map<String, ?> providedConfig) {
-        this.code = Byte.valueOf(providedConfig.get("code").toString());
+        this.code = Byte.parseByte(providedConfig.get("code").toString());
     }
 
     @Override
