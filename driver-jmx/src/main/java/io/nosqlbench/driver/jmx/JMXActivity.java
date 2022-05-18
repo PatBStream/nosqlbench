@@ -19,11 +19,11 @@ package io.nosqlbench.driver.jmx;
 import io.nosqlbench.driver.jmx.ops.JmxOp;
 import io.nosqlbench.engine.api.activityapi.core.Activity;
 import io.nosqlbench.engine.api.activityapi.planning.OpSequence;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.engine.api.activityimpl.OpDispenser;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.adapters.api.opmapping.OpDispenser;
 import io.nosqlbench.engine.api.activityimpl.SimpleActivity;
-import io.nosqlbench.engine.api.util.SSLKsFactory;
-import io.nosqlbench.nb.api.config.standard.NBConfiguration;
+import io.nosqlbench.api.ssl.SSLKsFactory;
+import io.nosqlbench.api.config.standard.NBConfiguration;
 
 import javax.net.ssl.SSLContext;
 

@@ -17,18 +17,16 @@
 package io.nosqlbench.adapter.dynamodb;
 
 import io.nosqlbench.adapter.dynamodb.optypes.DynamoDBOp;
-import io.nosqlbench.engine.api.activityimpl.OpMapper;
-import io.nosqlbench.engine.api.activityimpl.uniform.BaseDriverAdapter;
-import io.nosqlbench.engine.api.activityimpl.uniform.DriverAdapter;
-import io.nosqlbench.engine.api.activityimpl.uniform.DriverSpaceCache;
-import io.nosqlbench.nb.annotations.Maturity;
-import io.nosqlbench.nb.annotations.Service;
-import io.nosqlbench.nb.api.config.standard.NBConfigModel;
-import io.nosqlbench.nb.api.config.standard.NBConfiguration;
+import io.nosqlbench.adapters.api.opmapping.OpMapper;
+import io.nosqlbench.adapters.api.opmapping.uniform.BaseDriverAdapter;
+import io.nosqlbench.adapters.api.opmapping.uniform.DriverSpaceCache;
+import io.nosqlbench.api.config.standard.NBConfigModel;
+import io.nosqlbench.api.config.standard.NBConfiguration;
+import io.nosqlbench.nb.annotations.types.Selector;
 
 import java.util.function.Function;
 
-@Service(value = DriverAdapter.class, selector = "dynamodb", maturity = Maturity.Experimental)
+@Selector("dynamodb")
 public class DynamoDBDriverAdapter extends BaseDriverAdapter<DynamoDBOp, DynamoDBSpace> {
 
     @Override

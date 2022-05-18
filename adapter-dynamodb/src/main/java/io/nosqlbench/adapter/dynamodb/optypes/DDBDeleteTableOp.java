@@ -16,21 +16,21 @@
 
 package io.nosqlbench.adapter.dynamodb.optypes;
 
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.model.DeleteTableRequest;
-import com.amazonaws.services.dynamodbv2.model.DeleteTableResult;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.DeleteTableRequest;
+import software.amazon.awssdk.services.dynamodb.model.DeleteTableResponse;
 
 public class DDBDeleteTableOp extends DynamoDBOp {
 
     private final DeleteTableRequest rq;
 
-    public DDBDeleteTableOp(DynamoDB ddb, DeleteTableRequest rq) {
+    public DDBDeleteTableOp(DynamoDbClient ddb, DeleteTableRequest rq) {
         super(ddb);
         this.rq = rq;
     }
 
     @Override
-    public DeleteTableResult apply(long value) {
-        return ddb.getTable(rq.getTableName()).delete();
+    public DeleteTableResponse apply(long value) {
+        return client.deleteTable(rq);
     }
 }

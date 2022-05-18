@@ -21,7 +21,7 @@ import io.nosqlbench.activitytype.jdbc.api.JDBCActivity;
 import io.nosqlbench.engine.api.activityapi.core.SyncAction;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorDetail;
 import io.nosqlbench.engine.api.activityapi.planning.OpSequence;
-import io.nosqlbench.engine.api.activityimpl.OpDispenser;
+import io.nosqlbench.adapters.api.opmapping.OpDispenser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

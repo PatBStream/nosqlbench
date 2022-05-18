@@ -21,8 +21,8 @@ import com.datastax.oss.driver.api.core.DefaultConsistencyLevel;
 import com.datastax.oss.driver.api.core.cql.Statement;
 import io.nosqlbench.adapter.cqld4.Cqld4OpMetrics;
 import io.nosqlbench.adapter.cqld4.optypes.Cqld4CqlOp;
-import io.nosqlbench.engine.api.activityimpl.BaseOpDispenser;
-import io.nosqlbench.engine.api.templating.ParsedOp;
+import io.nosqlbench.adapters.api.opmapping.BaseOpDispenser;
+import io.nosqlbench.adapters.api.templating.ParsedOp;
 
 import java.util.function.LongFunction;
 

@@ -16,12 +16,12 @@
 
 package io.nosqlbench.adapter.dynamodb.opdispensers;
 
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.model.*;
 import io.nosqlbench.adapter.dynamodb.optypes.DDBCreateTableOp;
 import io.nosqlbench.adapter.dynamodb.optypes.DynamoDBOp;
-import io.nosqlbench.engine.api.activityimpl.BaseOpDispenser;
-import io.nosqlbench.engine.api.templating.ParsedOp;
+import io.nosqlbench.adapters.api.opmapping.BaseOpDispenser;
+import io.nosqlbench.adapters.api.templating.ParsedOp;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -106,17 +106,17 @@ import java.util.function.LongFunction;
  */
 public class DDBCreateTableOpDispenser extends BaseOpDispenser<DynamoDBOp> {
 
-    private final DynamoDB ddb;
     private final LongFunction<String> tableNameFunc;
     private final LongFunction<Collection<KeySchemaElement>> keySchemaFunc;
     private final LongFunction<Collection<AttributeDefinition>> attributeDefsFunc;
     private final LongFunction<String> readCapacityFunc;
     private final LongFunction<String> writeCapacityFunc;
     private final LongFunction<String> billingModeFunc;
+    private final DynamoDbClient client;
 
-    public DDBCreateTableOpDispenser(DynamoDB ddb, ParsedOp cmd, LongFunction<?> targetFunc) {
+    public DDBCreateTableOpDispenser(DynamoDbClient client, ParsedOp cmd, LongFunction<?> targetFunc) {
         super(cmd);
-        this.ddb = ddb;
+        this.client = client;
         this.tableNameFunc = l -> targetFunc.apply(l).toString();
         this.keySchemaFunc = resolveKeySchemaFunction(cmd);
         this.attributeDefsFunc = resolveAttributeDefinitionFunction(cmd);
@@ -127,19 +127,22 @@ public class DDBCreateTableOpDispenser extends BaseOpDispenser<DynamoDBOp> {
 
     @Override
     public DDBCreateTableOp apply(long cycle) {
-        CreateTableRequest rq = new CreateTableRequest();
-        rq.setTableName(tableNameFunc.apply(cycle));
-        rq.setKeySchema(keySchemaFunc.apply(cycle));
-        rq.setAttributeDefinitions(attributeDefsFunc.apply(cycle));
-        rq.setBillingMode(BillingMode.valueOf(billingModeFunc.apply(cycle)).name());
-        if (rq.getBillingMode().equals(BillingMode.PROVISIONED.name())) {
-            rq.setProvisionedThroughput(
-                new ProvisionedThroughput(
-                    Long.parseLong(readCapacityFunc.apply(cycle)),
-                    Long.parseLong(writeCapacityFunc.apply(cycle)))
+
+        CreateTableRequest.Builder rq = CreateTableRequest.builder();
+        rq.tableName(tableNameFunc.apply(cycle));
+        rq.keySchema(keySchemaFunc.apply(cycle));
+        rq.attributeDefinitions(attributeDefsFunc.apply(cycle));
+        BillingMode billingMode = BillingMode.valueOf(billingModeFunc.apply(cycle));
+        rq.billingMode(billingMode);
+        if (billingMode.equals(BillingMode.PROVISIONED)) {
+            rq.provisionedThroughput(
+                ProvisionedThroughput.builder()
+                    .readCapacityUnits(Long.parseLong(readCapacityFunc.apply(cycle)))
+                    .writeCapacityUnits(Long.parseLong(writeCapacityFunc.apply(cycle)))
+                    .build()
             );
         }
-        return new DDBCreateTableOp(ddb, rq);
+        return new DDBCreateTableOp(client, rq.build());
     }
 
     private LongFunction<Collection<AttributeDefinition>> resolveAttributeDefinitionFunction(ParsedOp cmd) {
@@ -147,7 +150,12 @@ public class DDBCreateTableOpDispenser extends BaseOpDispenser<DynamoDBOp> {
         return (long l) -> {
             List<AttributeDefinition> defs = new ArrayList<>();
             attrsmap.apply(l).forEach((k, v) -> {
-                defs.add(new AttributeDefinition(k.toString(), ScalarAttributeType.valueOf(v.toString())));
+
+                AttributeDefinition ad = AttributeDefinition.builder()
+                    .attributeName(k.toString())
+                    .attributeType(ScalarAttributeType.valueOf(v.toString()))
+                    .build();
+                defs.add(ad);
             });
             return defs;
         };
@@ -159,7 +167,11 @@ public class DDBCreateTableOpDispenser extends BaseOpDispenser<DynamoDBOp> {
         return (long l) -> {
             List<KeySchemaElement> elems = new ArrayList<>();
             keysmap.apply(l).forEach((k, v) -> {
-                elems.add(new KeySchemaElement(k.toString(), KeyType.valueOf(v.toString())));
+                KeySchemaElement ks = KeySchemaElement.builder()
+                    .attributeName(k.toString())
+                    .keyType(KeyType.valueOf(v.toString()))
+                    .build();
+                elems.add(ks);
             });
             return elems;
         };

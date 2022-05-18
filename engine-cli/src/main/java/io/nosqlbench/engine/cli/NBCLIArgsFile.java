@@ -16,8 +16,8 @@
 
 package io.nosqlbench.engine.cli;
 
-import io.nosqlbench.nb.api.NBEnvironment;
-import io.nosqlbench.nb.api.errors.BasicError;
+import io.nosqlbench.api.config.standard.NBEnvironment;
+import io.nosqlbench.api.errors.BasicError;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;

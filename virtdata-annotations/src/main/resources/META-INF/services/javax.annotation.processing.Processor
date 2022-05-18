@@ -1,0 +1,3 @@
+io.nosqlbench.virtdata.annotations.processors.FunctionDocInfoProcessor
+io.nosqlbench.virtdata.annotations.processors.FunctionManifestProcessor
+io.nosqlbench.virtdata.annotations.processors.BindingFunctionManifestProcessor

@@ -17,7 +17,7 @@
 package io.nosqlbench.virtdata.core.templates;
 
 
-import io.nosqlbench.engine.api.templating.BindType;
+import io.nosqlbench.virtdata.api.templating.BindType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -16,17 +16,19 @@
 
 package io.nosqlbench.nb.addins.s3.s3utils;
 
-import com.amazonaws.services.s3.transfer.MultipleFileUpload;
-import com.amazonaws.services.s3.transfer.TransferManager;
-import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
-import io.nosqlbench.nb.addins.s3.s3urlhandler.S3ClientCache;
+import io.nosqlbench.addins.s3.s3urlhandler.S3ClientCache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import software.amazon.awssdk.transfer.s3.CompletedDirectoryUpload;
+import software.amazon.awssdk.transfer.s3.DirectoryUpload;
+import software.amazon.awssdk.transfer.s3.S3TransferManager;
+import software.amazon.awssdk.transfer.s3.UploadDirectoryRequest;
 
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
+import java.util.concurrent.ExecutionException;
 
 /**
  * This is a generic s3 directory uploader which is neither a scripting plugin nor a standard URL handler.
@@ -37,7 +39,7 @@ public class S3UploaderDemo {
 
     private static final Logger logger = LogManager.getLogger(S3UploaderDemo.class);
 
-    public MultipleFileUpload syncup(Path sourcePath, String bucket, String prefix) {
+    public CompletedDirectoryUpload syncup(Path sourcePath, String bucket, String prefix) {
 
         if (!FileSystems.getDefault().equals(sourcePath.getFileSystem())) {
             throw new RuntimeException("The file must reside on the default filesystem to be uploaded by S3.");
@@ -47,15 +49,25 @@ public class S3UploaderDemo {
             throw new RuntimeException("path '" + sourcePath + "' is not a directory.");
         }
 
-        TransferManager tm = TransferManagerBuilder.defaultTransferManager();
-        MultipleFileUpload mfu = tm.uploadDirectory(bucket, prefix, sourcePath.toFile(), true);
+        S3TransferManager txManager= S3TransferManager.builder().build();
+        DirectoryUpload directoryUpload = txManager.uploadDirectory(
+            UploadDirectoryRequest
+                .builder()
+                .bucket(bucket)
+                .prefix(prefix)
+                .sourceDirectory(sourcePath)
+                .build()
+        );
+
         try {
-            mfu.waitForCompletion();
+            directoryUpload.wait();
+            return directoryUpload.completionFuture().get();
         } catch (InterruptedException e) {
-            throw new RuntimeException("Multi-file upload was interrupted!");
+            throw new RuntimeException("Directory upload was interrupted!");
+        } catch (ExecutionException e) {
+            throw new RuntimeException("Directory upload failed: " + e, e);
         }
-        tm.shutdownNow();
-        return mfu;
+
     }
 
 }

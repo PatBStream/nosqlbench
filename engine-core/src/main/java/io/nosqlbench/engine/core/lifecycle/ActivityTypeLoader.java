@@ -16,21 +16,21 @@
 
 package io.nosqlbench.engine.core.lifecycle;
 
+import io.nosqlbench.adapters.api.opmapping.uniform.DriverAdapter;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.config.standard.NBConfigModel;
+import io.nosqlbench.api.config.standard.NBConfigurable;
+import io.nosqlbench.api.config.standard.NBConfiguration;
+import io.nosqlbench.api.config.standard.NBEnvironment;
+import io.nosqlbench.api.content.Content;
+import io.nosqlbench.api.content.NBIO;
+import io.nosqlbench.api.errors.BasicError;
+import io.nosqlbench.api.spi.SelectorFilter;
 import io.nosqlbench.engine.api.activityapi.core.ActivityType;
 import io.nosqlbench.engine.api.activityconfig.StatementsLoader;
 import io.nosqlbench.engine.api.activityconfig.yaml.StmtsDocList;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.engine.api.activityimpl.uniform.DriverAdapter;
 import io.nosqlbench.engine.api.activityimpl.uniform.StandardActivityType;
-import io.nosqlbench.nb.annotations.Maturity;
-import io.nosqlbench.nb.api.NBEnvironment;
-import io.nosqlbench.nb.api.config.standard.NBConfigModel;
-import io.nosqlbench.nb.api.config.standard.NBConfigurable;
-import io.nosqlbench.nb.api.config.standard.NBConfiguration;
-import io.nosqlbench.nb.api.content.Content;
-import io.nosqlbench.nb.api.content.NBIO;
-import io.nosqlbench.nb.api.errors.BasicError;
-import io.nosqlbench.nb.api.spi.SimpleServiceLoader;
+import io.nosqlbench.nb.annotations.types.Selector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,14 +45,7 @@ import java.util.stream.Collectors;
 public class ActivityTypeLoader {
 
     private static final Logger logger = LogManager.getLogger(ActivityTypeLoader.class);
-    private final SimpleServiceLoader<ActivityType> ACTIVITYTYPE_SPI_FINDER = new SimpleServiceLoader<ActivityType>(ActivityType.class, Maturity.Any);
-    private final SimpleServiceLoader<DriverAdapter> DRIVERADAPTER_SPI_FINDER = new SimpleServiceLoader<>(DriverAdapter.class, Maturity.Any);
     private final Set<URL> jarUrls = new HashSet<>();
-
-    public ActivityTypeLoader setMaturity(Maturity maturity) {
-        ACTIVITYTYPE_SPI_FINDER.setMaturity(maturity);
-        return this;
-    }
 
     public ActivityTypeLoader() {
 
@@ -127,7 +120,9 @@ public class ActivityTypeLoader {
         return urlsToAdd;
     }
 
-    public Optional<ActivityType> load(ActivityDef activityDef) {
+    public Optional<ActivityType> load(ActivityDef activityDef,
+                                       ServiceLoader<ActivityType> atLoader,
+                                       ServiceLoader<DriverAdapter> daLoader) {
 
         final String driverName = activityDef.getParams()
             .getOptionalString("driver", "type")
@@ -144,13 +139,20 @@ public class ActivityTypeLoader {
             })
             .ifPresent(this::extendClassLoader);
 
-        return this.getDriverAdapter(driverName,activityDef)
-            .or(() -> ACTIVITYTYPE_SPI_FINDER.getOptionally(driverName));
+        Optional<ActivityType> driverAdapter = this.getDriverAdapter(driverName, activityDef, daLoader);
+
+        if (driverAdapter.isPresent()) {
+            return driverAdapter;
+        }
+
+        ActivityType oneActivityType = SelectorFilter.of(driverName, atLoader).getOne();
+        return Optional.of(oneActivityType);
 
     }
 
-    private Optional<ActivityType> getDriverAdapter(String activityTypeName, ActivityDef activityDef) {
-        Optional<DriverAdapter> oda = DRIVERADAPTER_SPI_FINDER.getOptionally(activityTypeName);
+    private Optional<ActivityType> getDriverAdapter(String activityTypeName, ActivityDef activityDef, ServiceLoader<DriverAdapter> adapterLoader) {
+
+        Optional<? extends DriverAdapter> oda = SelectorFilter.of(activityTypeName, adapterLoader).get();
 
         if (oda.isPresent()) {
             DriverAdapter<?, ?> driverAdapter = oda.get();
@@ -175,11 +177,17 @@ public class ActivityTypeLoader {
     }
 
     public Set<String> getAllSelectors() {
-        Map<String, Maturity> allSelectors = ACTIVITYTYPE_SPI_FINDER.getAllSelectors();
-        Map<String, Maturity> addAdapters = DRIVERADAPTER_SPI_FINDER.getAllSelectors();
         Set<String> all = new LinkedHashSet<>();
-        all.addAll(allSelectors.keySet());
-        all.addAll(addAdapters.keySet());
+        ServiceLoader.load(ActivityType.class)
+            .stream()
+            .filter(p -> p.type().getAnnotation(Selector.class)!=null)
+            .map(p -> p.type().getAnnotation(Selector.class).value())
+            .forEach(all::add);
+        ServiceLoader.load(DriverAdapter.class)
+            .stream()
+            .filter(p -> p.type().getAnnotation(Selector.class)!=null)
+            .map(p -> p.type().getAnnotation(Selector.class).value())
+            .forEach(all::add);
         return all;
     }
 }

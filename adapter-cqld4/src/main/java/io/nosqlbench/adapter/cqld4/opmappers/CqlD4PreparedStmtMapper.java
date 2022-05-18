@@ -23,12 +23,12 @@ import io.nosqlbench.adapter.cqld4.ResultSetProcessor;
 import io.nosqlbench.adapter.cqld4.opdispensers.Cqld4PreparedStmtDispenser;
 import io.nosqlbench.adapter.cqld4.optypes.Cqld4CqlOp;
 import io.nosqlbench.adapter.cqld4.processors.CqlFieldCaptureProcessor;
-import io.nosqlbench.engine.api.activityimpl.OpDispenser;
-import io.nosqlbench.engine.api.activityimpl.OpMapper;
-import io.nosqlbench.engine.api.templating.TypeAndTarget;
-import io.nosqlbench.engine.api.templating.ParsedOp;
-import io.nosqlbench.nb.api.config.params.ParamsParser;
-import io.nosqlbench.nb.api.errors.BasicError;
+import io.nosqlbench.adapters.api.opmapping.OpDispenser;
+import io.nosqlbench.adapters.api.opmapping.OpMapper;
+import io.nosqlbench.virtdata.api.templating.TypeAndTarget;
+import io.nosqlbench.adapters.api.templating.ParsedOp;
+import io.nosqlbench.api.config.params.ParamsParser;
+import io.nosqlbench.api.errors.BasicError;
 import io.nosqlbench.virtdata.core.templates.ParsedTemplate;
 
 import java.util.List;

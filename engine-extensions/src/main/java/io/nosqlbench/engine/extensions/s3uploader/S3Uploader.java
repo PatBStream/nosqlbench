@@ -16,26 +16,26 @@
 
 package io.nosqlbench.engine.extensions.s3uploader;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.transfer.MultipleFileUpload;
-import com.amazonaws.services.s3.transfer.TransferManager;
-import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.codahale.metrics.MetricRegistry;
-import io.nosqlbench.nb.addins.s3.s3urlhandler.S3ClientCache;
-import io.nosqlbench.nb.addins.s3.s3urlhandler.S3UrlFields;
-import io.nosqlbench.nb.api.NBEnvironment;
-import io.nosqlbench.nb.api.metadata.ScenarioMetadata;
-import io.nosqlbench.nb.api.metadata.ScenarioMetadataAware;
+import io.nosqlbench.addins.s3.s3urlhandler.S3ClientCache;
+import io.nosqlbench.addins.s3.s3urlhandler.S3UrlFields;
+import io.nosqlbench.api.config.standard.NBEnvironment;
+import io.nosqlbench.api.metadata.ScenarioMetadata;
+import io.nosqlbench.api.metadata.ScenarioMetadataAware;
 import org.apache.logging.log4j.Logger;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.transfer.s3.*;
 
 import javax.script.ScriptContext;
-import java.io.File;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class S3Uploader implements ScenarioMetadataAware {
     private final Logger logger;
@@ -79,7 +79,6 @@ public class S3Uploader implements ScenarioMetadataAware {
         if (!Files.isDirectory(sourcePath, LinkOption.NOFOLLOW_LINKS)) {
             throw new RuntimeException("path '" + sourcePath + "' is not a directory.");
         }
-        File sourceDir = sourcePath.toFile();
 
         Map<String,String> combined = new LinkedHashMap<>(params);
         combined.putAll(scenarioMetadata.asMap());
@@ -93,14 +92,37 @@ public class S3Uploader implements ScenarioMetadataAware {
 
         S3UrlFields fields = S3UrlFields.fromURLString(url);
         S3ClientCache s3ClientCache = new S3ClientCache();
-        AmazonS3 s3 = s3ClientCache.get(fields);
-        TransferManager xfers = TransferManagerBuilder.standard().withS3Client(s3).build();
+        S3Client s3 = s3ClientCache.get(fields);
+
+        S3TransferManager.builder().s3ClientConfiguration(S3ClientConfiguration.builder().build());
+        S3ClientConfiguration.Builder builder = S3ClientConfiguration.builder();
+
+        if (fields.accessKey!=null&&fields.secretKey!=null){
+            AwsBasicCredentials credentials = AwsBasicCredentials.create(fields.accessKey, fields.secretKey);
+            StaticCredentialsProvider staticCredentialsProvider = StaticCredentialsProvider.create(credentials);
+            builder = builder.credentialsProvider(staticCredentialsProvider);
+        }
+        S3ClientConfiguration s3cc = builder.build();
+        S3TransferManager txManager= S3TransferManager.builder().s3ClientConfiguration(s3cc).build();
+
         String prefix = fields.key;
-        MultipleFileUpload mfu = xfers.uploadDirectory(fields.bucket, prefix, sourceDir, true);
+
+        DirectoryUpload directoryUpload = txManager.uploadDirectory(
+            UploadDirectoryRequest
+                .builder()
+                .bucket(fields.bucket)
+                .prefix(prefix)
+                .sourceDirectory(sourcePath)
+                .build()
+        );
+
         try {
-            mfu.waitForCompletion();
+            directoryUpload.wait();
+            CompletedDirectoryUpload result = directoryUpload.completionFuture().get();
         } catch (InterruptedException e) {
-            throw new RuntimeException("Multi-file upload was interrupted.");
+            throw new RuntimeException("Directory upload was interrupted:" + e,e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException("Directory upload failed: " + e,e);
         }
         return url;
     }

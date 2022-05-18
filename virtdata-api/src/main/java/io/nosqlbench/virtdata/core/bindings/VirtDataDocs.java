@@ -16,8 +16,10 @@
 
 package io.nosqlbench.virtdata.core.bindings;
 
-import io.nosqlbench.virtdata.api.processors.DocFuncData;
-import io.nosqlbench.virtdata.api.processors.FunctionDocInfoProcessor;
+import io.nosqlbench.virtdata.annotations.types.PerThreadMapper;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.gen.DocFuncData;
+import io.nosqlbench.virtdata.annotations.processors.FunctionDocInfoProcessor;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -27,8 +29,8 @@ import java.util.List;
 
 /**
  * This is the top-level API supporting access to the documentation models
- * for all known {@link io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper} and
- * {@link io.nosqlbench.virtdata.api.annotations.PerThreadMapper} instances in the runtime.
+ * for all known {@link ThreadSafeMapper} and
+ * {@link PerThreadMapper} instances in the runtime.
  */
 public class VirtDataDocs {
 

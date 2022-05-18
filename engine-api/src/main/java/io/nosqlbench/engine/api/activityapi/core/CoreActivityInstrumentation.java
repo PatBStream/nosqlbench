@@ -19,9 +19,9 @@ package io.nosqlbench.engine.api.activityapi.core;
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Timer;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.engine.api.activityimpl.ParameterMap;
-import io.nosqlbench.engine.api.metrics.ActivityMetrics;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.activityimpl.ParameterMap;
+import io.nosqlbench.api.metrics.ActivityMetrics;
 
 public class CoreActivityInstrumentation implements ActivityInstrumentation {
 

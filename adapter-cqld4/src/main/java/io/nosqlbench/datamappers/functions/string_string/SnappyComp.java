@@ -16,9 +16,9 @@
 
 package io.nosqlbench.datamappers.functions.string_string;
 
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 import org.xerial.snappy.Snappy;
 
 import java.io.IOException;

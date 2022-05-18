@@ -17,10 +17,10 @@
 package io.nosqlbench.engine.core.metrics;
 
 import com.codahale.metrics.MetricRegistry;
-import io.nosqlbench.engine.api.activityapi.core.MetricRegistryService;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.api.activityapi.core.MetricRegistryService;
+import io.nosqlbench.nb.annotations.types.Selector;
 
-@Service(value = MetricRegistryService.class, selector = "metrics-context")
+@Selector("metrics-context")
 public class MetricsContext implements MetricRegistryService {
 
     private static MetricsContext instance;

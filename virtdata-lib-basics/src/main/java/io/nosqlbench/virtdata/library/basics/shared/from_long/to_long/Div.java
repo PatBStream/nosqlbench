@@ -15,8 +15,8 @@
  */
 package io.nosqlbench.virtdata.library.basics.shared.from_long.to_long;
 
-import io.nosqlbench.virtdata.api.annotations.Example;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.Example;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 
 import java.util.function.LongUnaryOperator;
 

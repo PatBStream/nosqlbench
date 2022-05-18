@@ -23,15 +23,14 @@ package io.nosqlbench.engine.docker;
  */
 
 
+import com.github.dockerjava.api.async.ResultCallbackTemplate;
 import com.github.dockerjava.api.model.ContainerNetwork;
 import com.github.dockerjava.api.model.ContainerNetworkSettings;
 import com.github.dockerjava.api.model.Frame;
-import com.github.dockerjava.core.async.ResultCallbackTemplate;
-import com.github.dockerjava.core.command.LogContainerResultCallback;
-import io.nosqlbench.nb.api.content.Content;
-import io.nosqlbench.nb.api.content.NBIO;
-import org.apache.logging.log4j.Logger;
+import io.nosqlbench.api.content.Content;
+import io.nosqlbench.api.content.NBIO;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -102,7 +101,21 @@ public class DockerMetricsManager {
             return;
         }
 
-        dh.pollLog(containerId, new LogCallback());
+        dh.pollLog(containerId, new ResultCallbackTemplate() {
+            @Override
+            public void onNext(Object object) {
+                if (object instanceof Frame item) {
+                    if (item.toString().contains("HTTP Server Listen")) {
+                        try {
+                            close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            }
+        });
 
         logger.info("grafana container started, http listening");
 
@@ -356,17 +369,5 @@ public class DockerMetricsManager {
         //TODO: maybe implement
     }
 
-    private class LogCallback extends ResultCallbackTemplate<LogContainerResultCallback, Frame> {
-        @Override
-        public void onNext(Frame item) {
-            if (item.toString().contains("HTTP Server Listen")) {
-                try {
-                    close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-    }
+
 }

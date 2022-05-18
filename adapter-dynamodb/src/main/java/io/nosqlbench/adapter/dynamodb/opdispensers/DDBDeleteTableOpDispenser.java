@@ -16,12 +16,12 @@
 
 package io.nosqlbench.adapter.dynamodb.opdispensers;
 
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.model.DeleteTableRequest;
 import io.nosqlbench.adapter.dynamodb.optypes.DDBDeleteTableOp;
 import io.nosqlbench.adapter.dynamodb.optypes.DynamoDBOp;
-import io.nosqlbench.engine.api.activityimpl.BaseOpDispenser;
-import io.nosqlbench.engine.api.templating.ParsedOp;
+import io.nosqlbench.adapters.api.opmapping.BaseOpDispenser;
+import io.nosqlbench.adapters.api.templating.ParsedOp;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.DeleteTableRequest;
 
 import java.util.function.LongFunction;
 
@@ -35,20 +35,21 @@ import java.util.function.LongFunction;
  */
 public class DDBDeleteTableOpDispenser extends BaseOpDispenser<DynamoDBOp> {
 
-    private final DynamoDB ddb;
+    private final DynamoDbClient client;
     private final LongFunction<String> tableNameFunc;
 
-    public DDBDeleteTableOpDispenser(DynamoDB ddb, ParsedOp cmd, LongFunction<?> targetFunc) {
+    public DDBDeleteTableOpDispenser(DynamoDbClient client, ParsedOp cmd, LongFunction<?> targetFunc) {
         super(cmd);
-        this.ddb = ddb;
+        this.client = client;
         this.tableNameFunc = l -> targetFunc.apply(l).toString();
     }
 
     @Override
     public DDBDeleteTableOp apply(long cycle) {
-        DeleteTableRequest rq = new DeleteTableRequest();
-        rq.setTableName(tableNameFunc.apply(cycle));
-        return new DDBDeleteTableOp(ddb, rq);
+        DeleteTableRequest rq = DeleteTableRequest.builder()
+            .tableName(tableNameFunc.apply(cycle))
+            .build();
+        return new DDBDeleteTableOp(client, rq);
     }
 
 }

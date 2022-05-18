@@ -20,11 +20,11 @@ import io.nosqlbench.engine.api.activityapi.errorhandling.ErrorMetrics;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorDetail;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorHandler;
 import io.nosqlbench.engine.api.metrics.ExceptionMeterMetrics;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 
 import java.util.function.Supplier;
 
-@Service(value = ErrorHandler.class, selector = "meter")
+@Selector("meter")
 public class MeterErrorHandler implements ErrorHandler, ErrorMetrics.Aware {
     private ExceptionMeterMetrics exceptionMeterMetrics;
 

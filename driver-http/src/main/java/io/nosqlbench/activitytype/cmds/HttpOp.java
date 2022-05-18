@@ -16,7 +16,7 @@
 
 package io.nosqlbench.activitytype.cmds;
 
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.Op;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.Op;
 
 import java.net.http.HttpRequest;
 import java.util.regex.Pattern;

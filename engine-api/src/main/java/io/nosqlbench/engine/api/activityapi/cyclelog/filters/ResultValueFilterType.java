@@ -16,12 +16,7 @@
 
 package io.nosqlbench.engine.api.activityapi.cyclelog.filters;
 
-import io.nosqlbench.nb.annotations.Maturity;
-import io.nosqlbench.nb.api.spi.SimpleServiceLoader;
-
 public interface ResultValueFilterType {
-
-    SimpleServiceLoader<ResultValueFilterType> FINDER = new SimpleServiceLoader<>(ResultValueFilterType.class, Maturity.Any);
 
     ResultFilterDispenser getDispenser(String config);
 }

@@ -20,7 +20,7 @@ import io.nosqlbench.engine.api.activityapi.errorhandling.ErrorMetrics;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorDetail;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorHandler;
 import io.nosqlbench.engine.api.metrics.ExceptionHistoMetrics;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 
 import java.util.function.Supplier;
 
@@ -29,7 +29,7 @@ import java.util.function.Supplier;
  * object for the named {@code "errorhistos.simplename" + e.getClass().getSimpleName()},
  * and then add the current session time to it.
  */
-@Service(value = ErrorHandler.class, selector = "histogram")
+@Selector("histogram")
 public class HistogramErrorHandler implements ErrorHandler, ErrorMetrics.Aware {
     private ExceptionHistoMetrics exceptionHistoMetrics;
 

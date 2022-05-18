@@ -16,14 +16,13 @@
 
 package io.nosqlbench.adapter.cqld4;
 
-import io.nosqlbench.engine.api.activityimpl.OpMapper;
-import io.nosqlbench.engine.api.activityimpl.uniform.DriverAdapter;
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.Op;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.adapters.api.opmapping.OpMapper;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.Op;
+import io.nosqlbench.nb.annotations.types.Selector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Service(value = DriverAdapter.class, selector = "cql")
+@Selector("cql")
 public class CqlDriverAdapterStub extends Cqld4DriverAdapter {
     private final static Logger logger = LogManager.getLogger(CqlDriverAdapterStub.class);
 

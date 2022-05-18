@@ -16,12 +16,11 @@
 
 package io.nosqlbench.nb.addins.s3.s3urlhandler;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.PutObjectResult;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import software.amazon.awssdk.awscore.defaultsmode.DefaultsMode;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -44,16 +43,13 @@ public class S3UrlStreamHandlerTest {
     @Disabled
     @Test
     public void sanityCheckS3UrlHandler() {
-        AmazonS3 client = AmazonS3ClientBuilder.defaultClient();
+        S3Client client = S3Client.builder().defaultsMode(DefaultsMode.STANDARD).build();
+        GetBucketLocationResponse bucketLocation = client.getBucketLocation(GetBucketLocationRequest.builder().build());
 
-
-        Bucket bucket = null;
-
-        if (!client.doesBucketExistV2(bucketName)) {
-            bucket = client.createBucket(bucketName);
+        if (bucketLocation.locationConstraint().equals(BucketLocationConstraint.UNKNOWN_TO_SDK_VERSION)) {
+            CreateBucketResponse result = client.createBucket(CreateBucketRequest.builder().bucket(bucketName).build());
+            assertThat(result).isNotNull();
         }
-        PutObjectResult putObjectResult = client.putObject(bucketName, keyName, testValue);
-        assertThat(putObjectResult).isNotNull();
 
         try {
             URL url = new URL("s3://"+bucketName+"/"+keyName);

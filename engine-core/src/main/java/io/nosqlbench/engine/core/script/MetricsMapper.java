@@ -16,10 +16,11 @@
 package io.nosqlbench.engine.core.script;
 
 import com.codahale.metrics.*;
+import io.nosqlbench.adapters.api.opmapping.uniform.DriverAdapter;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.metrics.ActivityMetrics;
 import io.nosqlbench.engine.api.activityapi.core.Activity;
 import io.nosqlbench.engine.api.activityapi.core.ActivityType;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.engine.api.metrics.ActivityMetrics;
 import io.nosqlbench.engine.core.lifecycle.ActivityTypeLoader;
 import io.nosqlbench.engine.core.metrics.PolyglotMetricRegistryBindings;
 import org.apache.logging.log4j.LogManager;
@@ -64,7 +65,11 @@ public class MetricsMapper {
         ActivityDef activityDef = ActivityDef.parseActivityDef(activitySpec);
         logger.info("introspecting metric names for " + activitySpec);
 
-        Optional<ActivityType> activityType = new ActivityTypeLoader().load(activityDef);
+        Optional<ActivityType> activityType = new ActivityTypeLoader().load(
+            activityDef,
+            ServiceLoader.load(ActivityType.class),
+            ServiceLoader.load(DriverAdapter.class)
+        );
 
         if (!activityType.isPresent()) {
             throw new RuntimeException("Activity type '" + activityDef.getActivityType() + "' does not exist in this runtime.");

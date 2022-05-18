@@ -16,14 +16,14 @@
 
 package io.nosqlbench.activitytype.http;
 
+import io.nosqlbench.api.activityimpl.ActivityDef;
 import io.nosqlbench.engine.api.activityapi.core.ActionDispenser;
 import io.nosqlbench.engine.api.activityapi.core.ActivityType;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Service(value = ActivityType.class, selector = "http")
+@Selector("http")
 public class HttpActivityType implements ActivityType<HttpActivity> {
 
     private static final Logger logger = LogManager.getLogger(HttpActivityType.class);

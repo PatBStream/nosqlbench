@@ -19,8 +19,8 @@ package io.nosqlbench.engine.core.lifecycle;
 import io.nosqlbench.engine.api.activityapi.core.RunState;
 import io.nosqlbench.engine.api.activityimpl.ProgressAndStateMeter;
 import io.nosqlbench.engine.api.metrics.IndicatorMode;
-import io.nosqlbench.engine.api.metrics.PeriodicRunnable;
-import io.nosqlbench.engine.api.util.Unit;
+import io.nosqlbench.api.metrics.PeriodicRunnable;
+import io.nosqlbench.api.content.Unit;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 

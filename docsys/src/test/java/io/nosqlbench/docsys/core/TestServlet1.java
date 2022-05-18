@@ -17,6 +17,7 @@
 package io.nosqlbench.docsys.core;
 
 import io.nosqlbench.docsys.api.WebServiceObject;
+import io.nosqlbench.nb.annotations.types.Selector;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -29,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-//@Service(value=WebServiceObject.class, selector="test", maturity=Stability.Stable)
+@Selector("test")
 @Singleton
 @Path("test1")
 public class TestServlet1 implements WebServiceObject {

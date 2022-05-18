@@ -16,7 +16,7 @@
 
 package io.nosqlbench.virtdata.core.composers;
 
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 import io.nosqlbench.virtdata.core.bindings.DataMapper;
 import io.nosqlbench.virtdata.core.bindings.DataMapperFunctionMapper;
 import io.nosqlbench.virtdata.core.bindings.ResolvedFunction;

@@ -16,10 +16,10 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.from_long.to_long;
 
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
-import io.nosqlbench.virtdata.library.basics.core.MVELExpr;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
+import io.nosqlbench.virtdata.library.basics.core.expr.MVELExpr;
 import io.nosqlbench.virtdata.library.basics.core.threadstate.SharedState;
 import org.mvel2.MVEL;
 

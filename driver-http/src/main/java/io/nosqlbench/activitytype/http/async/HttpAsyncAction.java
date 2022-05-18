@@ -22,7 +22,7 @@ import io.nosqlbench.activitytype.http.HttpActivity;
 import io.nosqlbench.engine.api.activityapi.core.BaseAsyncAction;
 import io.nosqlbench.engine.api.activityapi.core.ops.fluent.opfacets.TrackedOp;
 import io.nosqlbench.engine.api.activityapi.planning.OpSequence;
-import io.nosqlbench.engine.api.activityimpl.OpDispenser;
+import io.nosqlbench.adapters.api.opmapping.OpDispenser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

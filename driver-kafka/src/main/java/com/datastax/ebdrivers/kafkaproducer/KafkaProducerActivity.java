@@ -21,11 +21,11 @@ import io.nosqlbench.engine.api.activityapi.planning.OpSequence;
 import io.nosqlbench.engine.api.activityapi.planning.SequencePlanner;
 import io.nosqlbench.engine.api.activityapi.planning.SequencerType;
 import io.nosqlbench.engine.api.activityconfig.StatementsLoader;
-import io.nosqlbench.engine.api.activityconfig.yaml.OpTemplate;
+import io.nosqlbench.adapters.api.activityconfig.yaml.OpTemplate;
 import io.nosqlbench.engine.api.activityconfig.yaml.StmtsDocList;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.activityimpl.ActivityDef;
 import io.nosqlbench.engine.api.activityimpl.SimpleActivity;
-import io.nosqlbench.engine.api.metrics.ActivityMetrics;
+import io.nosqlbench.api.metrics.ActivityMetrics;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

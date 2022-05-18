@@ -29,7 +29,6 @@
 
         <!-- properties for package versions -->
         <ascii.data.version>1.2.0</ascii.data.version>
-        <antlr4.version>4.9.3</antlr4.version>
         <commons.compress.version>1.21</commons.compress.version>
         <commons.codec.version>1.15</commons.codec.version>
         <commons.csv.version>1.9.0</commons.csv.version>
@@ -44,7 +43,7 @@
         <jaxb.impl.version>2.4.0-b180830.0438</jaxb.impl.version>
         <joda.time.version>2.10.13</joda.time.version>
         <jmh.version>1.34</jmh.version>
-        <junit.jupiter.version>5.7.2</junit.jupiter.version>
+        <junit.jupiter.version>5.8.2</junit.jupiter.version>
 
         <lz4.version>1.4.1</lz4.version>
         <!--    <metrics.version>4.0.7</metrics.version>-->
@@ -54,22 +53,6 @@
         <snakeyaml.version>1.30</snakeyaml.version>
         <snappy.version>1.1.2.6</snappy.version>
 
-        <!-- plugin versions -->
-        <clean.plugin.version>3.1.0</clean.plugin.version>
-        <compiler.plugin.version>3.8.1</compiler.plugin.version>
-        <deploy.plugin.version>3.0.0-M1</deploy.plugin.version>
-        <enforcer.plugin.version>3.0.0-M3</enforcer.plugin.version>
-        <exec.plugin.version>1.6.0</exec.plugin.version>
-        <failsafe.plugin.version>3.0.0-M4</failsafe.plugin.version>
-        <gpg.plugin.version>1.6</gpg.plugin.version>
-        <install.plugin.version>3.0.0-M1</install.plugin.version>
-        <jar.plugin.version>3.1.1</jar.plugin.version>
-        <javadoc.plugin.version>3.1.1</javadoc.plugin.version>
-        <nexus.staging.plugin.version>1.6.8</nexus.staging.plugin.version>
-        <release.plugin.version>2.5.3</release.plugin.version>
-        <resources.plugin.version>3.1.0</resources.plugin.version>
-        <source.plugin.version>3.0.1</source.plugin.version>
-        <surefire.plugin.version>3.0.0-M4</surefire.plugin.version>
     </properties>
 
     <name>${project.artifactId}</name>
@@ -101,6 +84,23 @@
         <dependencies>
 
             <dependency>
+                <groupId>com.github.rvesse</groupId>
+                <artifactId>airline</artifactId>
+                <version>2.8.5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.vladsch.flexmark</groupId>
+                <artifactId>flexmark-ext-yaml-front-matter</artifactId>
+                <version>0.64.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.vladsch.flexmark</groupId>
+                <artifactId>flexmark-html2md-converter</artifactId>
+                <version>0.64.0</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <version>${junit.jupiter.version}</version>
                 <artifactId>junit-jupiter</artifactId>
@@ -116,7 +116,7 @@
             <dependency>
                 <groupId>org.hdrhistogram</groupId>
                 <artifactId>HdrHistogram</artifactId>
-                <version>2.1.11</version>
+                <version>2.1.12</version>
             </dependency>
 
             <dependency>
@@ -128,8 +128,14 @@
             <dependency>
                 <groupId>io.dropwizard.metrics</groupId>
                 <artifactId>metrics-core</artifactId>
-                <version>4.2.8</version>
+                <version>4.2.9</version>
             </dependency>
+            <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-healthchecks</artifactId>
+                <version>4.2.9</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -140,6 +146,7 @@
             <dependency>
                 <groupId>org.openjdk.jmh</groupId>
                 <artifactId>jmh-core</artifactId>
+<!--                <version>1.34</version>-->
                 <version>${jmh.version}</version>
             </dependency>
             <dependency>
@@ -181,10 +188,16 @@
 
             <dependency>
                 <groupId>io.netty</groupId>
-                <artifactId>netty-transport-native-epoll</artifactId>
-                <version>4.1.51.Final</version>
+                <artifactId>netty-transport-classes-epoll</artifactId>
+                <version>4.1.72.Final</version>
                 <classifier>linux-x86_64</classifier>
             </dependency>
+<!--            <dependency>-->
+<!--                <groupId>io.netty</groupId>-->
+<!--                <artifactId>netty-transport-native-epoll</artifactId>-->
+<!--                <version>4.1.51.Final</version>-->
+<!--                <classifier>linux-x86_64</classifier>-->
+<!--            </dependency>-->
 
             <dependency>
                 <groupId>io.netty</groupId>
@@ -199,55 +212,6 @@
                 <version>4.1.54.Final</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.github.docker-java</groupId>
-                <artifactId>docker-java-api</artifactId>
-                <version>${docker.java.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>jcl-over-slf4j</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.docker-java</groupId>
-                <artifactId>docker-java-core</artifactId>
-                <version>${docker.java.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>jcl-over-slf4j</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.docker-java</groupId>
-                <artifactId>docker-java-transport-okhttp</artifactId>
-                <version>${docker.java.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>jcl-over-slf4j</artifactId>
-                    </exclusion>
-                </exclusions>
-
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.docker-java</groupId>
-                <artifactId>docker-java</artifactId>
-                <version>${docker.java.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>jcl-over-slf4j</artifactId>
-                    </exclusion>
-                </exclusions>
-
-            </dependency>
 
             <dependency>
                 <groupId>com.github.oshi</groupId>
@@ -316,7 +280,7 @@
             <dependency>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-runtime</artifactId>
-                <version>${antlr4.version}</version>
+                <version>4.10.1</version>
             </dependency>
 
             <dependency>
@@ -347,31 +311,37 @@
             <dependency>
                 <groupId>org.graalvm.sdk</groupId>
                 <artifactId>graal-sdk</artifactId>
-                <version>21.0.0</version>
+                <version>22.0.0.2</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.js</groupId>
                 <artifactId>js</artifactId>
-                <version>21.0.0</version>
+                <version>22.0.0.2</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.js</groupId>
                 <artifactId>js-scriptengine</artifactId>
-                <version>21.0.0</version>
+                <version>22.0.0.2</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.tools</groupId>
                 <artifactId>profiler</artifactId>
-                <version>20.3.5</version>
+                <version>22.0.0.2</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.tools</groupId>
                 <artifactId>chromeinspector</artifactId>
-                <version>20.3.0</version>
+                <version>22.0.0.2</version>
                 <scope>runtime</scope>
             </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>2.0.0-alpha7</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>
@@ -395,51 +365,27 @@
         <!-- binding for routing slf4j API calls to log4j -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.17.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-jcl</artifactId>
             <version>2.17.2</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>slf4j-impl</artifactId>
-            <version>2.0-alpha2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-ext</artifactId>
-            <version>1.7.36</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.36</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.36</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-log4j12</artifactId>-->
+<!--            <version>1.7.36</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.19.0</version>
+            <version>3.22.0</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
-            <version>1.7.2</version>
+            <version>1.8.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -463,8 +409,9 @@
                     <source>17</source>
                     <release>17</release>
                     <compilerArgs>
-                        --enable-preview
+                        <arg>--enable-preview</arg>
                     </compilerArgs>
+                    <verbose>true</verbose>
                     <!--<compilerArgument>-Xdoclint:all</compilerArgument>-->
                     <!--                    <compilerArgument>-Xlint:all</compilerArgument>-->
                 </configuration>
@@ -485,6 +432,7 @@
                     </includes>
                     <useSystemClassLoader>false
                     </useSystemClassLoader> <!-- fixes reflection tests -->
+                    <trimStackTrace>false</trimStackTrace>
                 </configuration>
             </plugin>
 
@@ -530,7 +478,7 @@
                     <detectLinks>false</detectLinks>
                     <detectOfflineLinks>false</detectOfflineLinks>
                     <!--                    <additionalparam>-Xdoclint:none</additionalparam>-->
-                    <additionalOptions>-Xdoclint:none</additionalOptions>
+                    <additionalOptions>--enable-preview --release 17</additionalOptions>
                     <additionalJOption>-Xdoclint:none</additionalJOption>
                     <doclint>none</doclint>
                 </configuration>
@@ -596,10 +544,9 @@
                     <excludes>
                         <exclude>**/generated/**</exclude>
                     </excludes>
-                    <addLicenseHeaders>true</addLicenseHeaders>
+<!--                    <addLicenseHeaders>true</addLicenseHeaders>-->
                 </configuration>
             </plugin>
-
         </plugins>
 
         <pluginManagement>
@@ -613,12 +560,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>${release.plugin.version}</version>
+                    <version>3.0.0-M5</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>${gpg.plugin.version}</version>
+                    <version>3.0.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -628,68 +575,68 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${surefire.plugin.version}</version>
+                    <version>3.0.0-M6</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>${failsafe.plugin.version}</version>
+                    <version>3.0.0-M6</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${javadoc.plugin.version}</version>
+                    <version>3.3.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>${source.plugin.version}</version>
+                    <version>3.2.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.sonatype.plugins</groupId>
                     <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>${nexus.staging.plugin.version}</version>
+                    <version>1.6.12</version>
                 </plugin>
                 <plugin>
                     <groupId>org.antlr</groupId>
                     <artifactId>antlr4-maven-plugin</artifactId>
-                    <version>${antlr4.version}</version>
+                    <version>4.10.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
-                    <version>${exec.plugin.version}</version>
+                    <version>3.0.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>${enforcer.plugin.version}</version>
+                    <version>3.0.0-M3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>${clean.plugin.version}</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>${resources.plugin.version}</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>${jar.plugin.version}</version>
+                    <version>3.2.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>
-                    <version>${install.plugin.version}</version>
+                    <version>3.0.0-M1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
-                    <version>${deploy.plugin.version}</version>
+                    <version>3.0.0-M2</version>
                 </plugin>
             </plugins>
         </pluginManagement>

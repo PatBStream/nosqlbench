@@ -16,15 +16,12 @@
 
 package io.nosqlbench.docsys.core;
 
-import io.nosqlbench.docsys.endpoints.DocsysMarkdownEndpoint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 
 public class NBWebServerApp {
@@ -36,9 +33,8 @@ public class NBWebServerApp {
         } else if (args.length > 0 && args[0].contains("generate")) {
             try {
                 String[] genargs = Arrays.copyOfRange(args, 1, args.length);
-                logger.info("Generating with args [" + String.join("][", args) + "]");
-                generate(genargs);
-            } catch (IOException e) {
+                throw new RuntimeException("generate app has been removed. Update your scripts.");
+            } catch (Exception e) {
                 logger.error("could not generate files with command " + String.join(" ", args));
                 e.printStackTrace();
             }
@@ -55,39 +51,6 @@ public class NBWebServerApp {
             }
         }
         return directoryToBeDeleted.delete();
-    }
-
-    private static void generate(String[] args) throws IOException {
-        Path dirpath = args.length == 0 ?
-                Path.of("docs") :
-                Path.of(args[0]);
-
-        StandardOpenOption[] OVERWRITE = {StandardOpenOption.TRUNCATE_EXISTING,StandardOpenOption.CREATE,StandardOpenOption.WRITE};
-
-        logger.info("generating to directory " + dirpath);
-
-
-        DocsysMarkdownEndpoint dds = new DocsysMarkdownEndpoint();
-        String markdownList = dds.getMarkdownList(true);
-
-        Path markdownCsvPath = dirpath.resolve(Path.of("services/docs/markdown.csv"));
-        logger.info("markdown.csv located at " + markdownCsvPath);
-
-        Files.createDirectories(markdownCsvPath.getParent());
-        Files.writeString(markdownCsvPath, markdownList, OVERWRITE);
-
-        String[] markdownFileArray = markdownList.split("\n");
-
-        for (String markdownFile : markdownFileArray) {
-            Path relativePath = dirpath.resolve(Path.of("services/docs", markdownFile));
-            logger.info("Creating " + relativePath);
-
-            Path path = dds.findPath(markdownFile);
-//            String markdown = dds.getFileByPath(markdownFile);
-//            Files.writeString(relativePath, markdown, OVERWRITE);
-            Files.createDirectories(relativePath.getParent());
-            Files.write(relativePath,Files.readAllBytes(path),OVERWRITE);
-        }
     }
 
     private static void runServer(String[] serverArgs) {

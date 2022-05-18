@@ -16,6 +16,7 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.from_string;
 
+import io.nosqlbench.virtdata.library.basics.shared.unary_string.MatchFunc;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Function;

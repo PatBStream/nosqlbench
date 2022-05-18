@@ -19,19 +19,22 @@ package io.nosqlbench.engine.api.activityapi.cyclelog.outputs.logger;
 import io.nosqlbench.engine.api.activityapi.core.Activity;
 import io.nosqlbench.engine.api.activityapi.output.Output;
 import io.nosqlbench.engine.api.activityapi.output.OutputDispenser;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
+import io.nosqlbench.nb.annotations.types.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Service(value = OutputDispenser.class, selector = "logging-marker")
+@Service
+@Selector("logging-marker")
 public class LoggingMarkerDispenser implements OutputDispenser {
 
     private final static Logger logger = LogManager.getLogger(LoggingMarkerDispenser.class);
-    private final Activity activity;
+    private Activity activity;
 
     public LoggingMarkerDispenser(Activity activity) {
         this.activity = activity;
     }
+    public LoggingMarkerDispenser() {}
 
     @Override
     public Output getOutput(long slot) {

@@ -17,9 +17,9 @@
 package io.nosqlbench.driver.mongodb;
 
 import io.nosqlbench.engine.api.activityconfig.StatementsLoader;
-import io.nosqlbench.engine.api.activityconfig.yaml.OpTemplate;
+import io.nosqlbench.adapters.api.activityconfig.yaml.OpTemplate;
 import io.nosqlbench.engine.api.activityconfig.yaml.StmtsDocList;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.activityimpl.ActivityDef;
 import io.nosqlbench.virtdata.core.templates.BindPoint;
 import io.nosqlbench.virtdata.core.templates.ParsedTemplate;
 import org.apache.logging.log4j.LogManager;

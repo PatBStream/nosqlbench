@@ -16,6 +16,7 @@
 
 package io.nosqlbench.engine.api.activityconfig.yaml;
 
+import io.nosqlbench.adapters.api.activityconfig.yaml.OpTemplate;
 import io.nosqlbench.engine.api.activityconfig.StatementsLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

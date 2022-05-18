@@ -4,19 +4,9 @@ The docs that are hosted at docs.nosqlbench.io are built from markdown
 files found in this project. To make changes or to author these docs, you
 need to know where to find them.
 
-## NoSQLBench docs
-
-The core docs are found under the [engine-docs](../../engine-docs)
-module
-under [/src/main/resources/docs-for-nb/](../../engine-docs/src/main/resources/docs-for-nb)
-.
-
-By browsing this directory structure and looking at the frontmatter on
-each markdown file, you'll get a sense for how they are orgainzed.
-
 ## Driver Docs
 
-Some of the other docs are found within each driver module. For example,
+Some other docs are found within each driver module. For example,
 the cql docs are found in the resources root directory of the cql driver
 module. This is the case for any basic docs provided for a driver. The
 docs are bundled with modules to allow for them to be maintained by the

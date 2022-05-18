@@ -16,8 +16,8 @@
 
 package io.nosqlbench.activitytype.cockroachdb;
 
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.engine.api.activityimpl.ParameterMap;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.activityimpl.ParameterMap;
 import org.junit.jupiter.api.Test;
 import org.postgresql.util.PSQLException;
 import org.postgresql.util.PSQLState;

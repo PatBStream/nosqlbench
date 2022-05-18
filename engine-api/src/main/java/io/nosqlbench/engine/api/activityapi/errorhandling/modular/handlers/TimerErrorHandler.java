@@ -20,11 +20,11 @@ import io.nosqlbench.engine.api.activityapi.errorhandling.ErrorMetrics;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorDetail;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorHandler;
 import io.nosqlbench.engine.api.metrics.ExceptionTimerMetrics;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 
 import java.util.function.Supplier;
 
-@Service(value= ErrorHandler.class, selector="timer")
+@Selector("timer")
 public class TimerErrorHandler implements ErrorHandler, ErrorMetrics.Aware {
 
 

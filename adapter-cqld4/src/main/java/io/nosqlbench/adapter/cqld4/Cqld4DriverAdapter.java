@@ -17,26 +17,27 @@
 package io.nosqlbench.adapter.cqld4;
 
 import io.nosqlbench.adapter.cqld4.opmappers.Cqld4CoreOpMapper;
-import io.nosqlbench.engine.api.activityimpl.OpMapper;
-import io.nosqlbench.engine.api.activityimpl.uniform.BaseDriverAdapter;
-import io.nosqlbench.engine.api.activityimpl.uniform.DriverAdapter;
-import io.nosqlbench.engine.api.activityimpl.uniform.DriverSpaceCache;
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.Op;
-import io.nosqlbench.nb.annotations.Service;
-import io.nosqlbench.nb.api.config.standard.NBConfigModel;
-import io.nosqlbench.nb.api.config.standard.NBConfiguration;
+import io.nosqlbench.adapters.api.opmapping.OpMapper;
+import io.nosqlbench.adapters.api.opmapping.uniform.BaseDriverAdapter;
+import io.nosqlbench.adapters.api.opmapping.uniform.DriverSpaceCache;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.Op;
+import io.nosqlbench.api.config.standard.NBConfigModel;
+import io.nosqlbench.api.config.standard.NBConfiguration;
+import io.nosqlbench.docsapi.PackageDocs;
+import io.nosqlbench.nb.annotations.types.Selector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
-@Service(value = DriverAdapter.class, selector = "cqld4")
+@PackageDocs
+@Selector("cqld4")
 public class Cqld4DriverAdapter extends BaseDriverAdapter<Op, Cqld4Space> {
     private final static Logger logger = LogManager.getLogger(Cqld4DriverAdapter.class);
+    private final Cqld4OpFieldRemapper cqld4OpFieldRemapper = new Cqld4OpFieldRemapper();
 
     @Override
     public OpMapper<Op> getOpMapper() {
@@ -57,48 +58,7 @@ public class Cqld4DriverAdapter extends BaseDriverAdapter<Op, Cqld4Space> {
 
 
     @Override
-    public List<Function<Map<String, Object>, Map<String, Object>>> getOpFieldRemappers() {
-        List<Function<Map<String, Object>, Map<String, Object>>> remappers = new ArrayList<>();
-        remappers.addAll(super.getOpFieldRemappers());
-
-        // Simplify to the modern form and provide a helpful warning to the user
-        // This auto updates to 'simple: <stmt>' or 'prepared: <stmt>' for cql types
-        remappers.add(m -> {
-            Map<String,Object> map = new LinkedHashMap<>(m);
-
-            if (map.containsKey("stmt")) {
-                String type = map.containsKey("type") ? map.get("type").toString() : "cql";
-                if (type.equals("cql")){
-                    boolean prepared = (!map.containsKey("prepared")) || map.get("prepared").equals(true);
-                    map.put(prepared?"prepared":"simple",map.get("stmt"));
-                    map.remove("stmt");
-                    map.remove("type");
-                }
-            }
-            if (map.containsKey("type")) {
-                String type = map.get("type").toString();
-                if (type.equals("gremlin")&&map.containsKey("script")) {
-                    map.put("gremlin",map.get("script").toString());
-                    map.remove("script");
-                    map.remove("type");
-                }
-                if (type.equals("gremlin")&&map.containsKey("stmt")) {
-                    map.put("gremlin",map.get("stmt"));
-                    map.remove("type");
-                    map.remove("stmt");
-                }
-                if (type.equals("fluent")&&map.containsKey("fluent")) {
-                    map.remove("type");
-                }
-                if (type.equals("fluent")&&map.containsKey("stmt")) {
-                    map.put("fluent",map.get("stmt"));
-                    map.remove("stmt");
-                }
-            }
-
-            return map;
-        });
-
-        return remappers;
+    public Supplier<List<Function<Map<String, Object>, Map<String, Object>>>> getOpFieldRemappers() {
+        return new Cqld4OpFieldRemapper();
     }
 }

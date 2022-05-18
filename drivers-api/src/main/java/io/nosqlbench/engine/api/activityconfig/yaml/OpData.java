@@ -16,6 +16,8 @@
 
 package io.nosqlbench.engine.api.activityconfig.yaml;
 
+import io.nosqlbench.adapters.api.activityconfig.yaml.OpTemplate;
+
 import java.security.InvalidParameterException;
 import java.util.LinkedHashMap;
 import java.util.Map;

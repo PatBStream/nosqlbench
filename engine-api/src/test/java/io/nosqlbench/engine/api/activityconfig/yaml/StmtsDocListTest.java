@@ -16,6 +16,7 @@
 
 package io.nosqlbench.engine.api.activityconfig.yaml;
 
+import io.nosqlbench.adapters.api.activityconfig.yaml.OpTemplate;
 import io.nosqlbench.engine.api.activityconfig.StatementsLoader;
 import org.assertj.core.data.MapEntry;
 import org.junit.jupiter.api.BeforeAll;

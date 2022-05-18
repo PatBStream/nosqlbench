@@ -18,7 +18,8 @@ package io.nosqlbench.engine.api.activityimpl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.nosqlbench.engine.api.templating.CommandTemplate;
+import io.nosqlbench.adapters.api.opmapping.BaseOpDispenser;
+import io.nosqlbench.adapters.api.templating.CommandTemplate;
 
 import java.util.Map;
 

@@ -22,11 +22,13 @@ import io.nosqlbench.engine.api.activityapi.input.Input;
 import io.nosqlbench.engine.api.activityapi.output.Output;
 import io.nosqlbench.engine.api.activityapi.output.OutputDispenser;
 import io.nosqlbench.engine.api.activityapi.output.OutputType;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
+import io.nosqlbench.nb.annotations.types.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Service(value = OutputType.class, selector = "cyclelog")
+@Service
+@Selector("cyclelog")
 public class CycleLogOutputType implements OutputType {
 
     @Override

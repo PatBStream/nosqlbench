@@ -18,19 +18,23 @@ package io.nosqlbench.engine.docker;
 
 
 import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.command.*;
+import com.github.dockerjava.api.async.ResultCallbackTemplate;
+import com.github.dockerjava.api.command.CreateContainerCmd;
+import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.command.ListContainersCmd;
+import com.github.dockerjava.api.command.LogContainerCmd;
 import com.github.dockerjava.api.model.*;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
-import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.DockerClientConfig;
-import com.github.dockerjava.core.async.ResultCallbackTemplate;
+import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.core.command.LogContainerResultCallback;
 import com.github.dockerjava.core.command.PullImageResultCallback;
-import com.github.dockerjava.okhttp.OkHttpDockerCmdExecFactory;
+import com.github.dockerjava.okhttp.OkDockerHttpClient;
 import com.sun.security.auth.module.UnixSystem;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,13 +55,13 @@ public class DockerHelper {
     public DockerHelper() {
         System.getProperties().setProperty(DOCKER_HOST, DOCKER_HOST_ADDR);
         this.config = DefaultDockerClientConfig.createDefaultConfigBuilder().withDockerHost(DOCKER_HOST_ADDR).build();
-        DockerCmdExecFactory dockerCmdExecFactory = new OkHttpDockerCmdExecFactory()
-                .withReadTimeout(60000)
-                .withConnectTimeout(60000);
+        OkDockerHttpClient client = new OkDockerHttpClient.Builder()
+            .dockerHost(URI.create(DOCKER_HOST_ADDR))
+            .readTimeout(60000)
+            .connectTimeout(60000)
+            .build();
 
-        this.dockerClient = DockerClientBuilder.getInstance(config)
-                .withDockerCmdExecFactory(dockerCmdExecFactory)
-                .build();
+        this.dockerClient = DockerClientImpl.getInstance(this.config,client);
     }
 
     public String startDocker(String IMG, String tag, String name, List<Integer> ports, List<String> volumeDescList, List<String> envList, List<String> cmdList, String reload, List<String> linkNames) {
@@ -214,7 +218,7 @@ public class DockerHelper {
         return null;
     }
 
-    public void pollLog(String containerId, ResultCallbackTemplate<LogContainerResultCallback, Frame> logCallback) {
+    public void pollLog(String containerId, ResultCallbackTemplate logCallback) {
 
         LogContainerResultCallback loggingCallback = new
                 LogContainerResultCallback();

@@ -16,11 +16,12 @@
 
 package io.nosqlbench.engine.api.activityconfig.yaml;
 
+import io.nosqlbench.adapters.api.activityconfig.yaml.OpTemplate;
 import io.nosqlbench.engine.api.activityconfig.rawyaml.RawStmtsDocList;
 import io.nosqlbench.engine.api.util.TagFilter;
-import io.nosqlbench.nb.api.config.standard.ConfigModel;
-import io.nosqlbench.nb.api.config.standard.NBConfigModel;
-import io.nosqlbench.nb.api.config.standard.Param;
+import io.nosqlbench.api.config.standard.ConfigModel;
+import io.nosqlbench.api.config.standard.NBConfigModel;
+import io.nosqlbench.api.config.standard.Param;
 
 import java.util.*;
 import java.util.stream.Collectors;

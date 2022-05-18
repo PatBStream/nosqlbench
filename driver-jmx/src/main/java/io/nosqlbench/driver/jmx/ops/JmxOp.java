@@ -16,7 +16,7 @@
 
 package io.nosqlbench.driver.jmx.ops;
 
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.Op;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.Op;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

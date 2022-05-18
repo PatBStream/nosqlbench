@@ -25,10 +25,10 @@ import io.nosqlbench.adapter.cqld4.*;
 import io.nosqlbench.adapter.cqld4.exceptions.ChangeUnappliedCycleException;
 import io.nosqlbench.adapter.cqld4.exceptions.UndefinedResultSetException;
 import io.nosqlbench.adapter.cqld4.exceptions.UnexpectedPagingException;
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.CycleOp;
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.Op;
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.OpGenerator;
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.VariableCapture;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.CycleOp;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.Op;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.OpGenerator;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.VariableCapture;
 
 import java.util.Iterator;
 import java.util.Map;

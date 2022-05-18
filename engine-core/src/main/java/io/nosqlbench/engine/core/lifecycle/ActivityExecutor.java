@@ -16,12 +16,12 @@
 package io.nosqlbench.engine.core.lifecycle;
 
 import io.nosqlbench.engine.api.activityapi.core.*;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.engine.api.activityimpl.ParameterMap;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.activityimpl.ParameterMap;
 import io.nosqlbench.engine.api.activityimpl.input.ProgressCapable;
 import io.nosqlbench.engine.core.annotation.Annotators;
-import io.nosqlbench.nb.api.annotations.Layer;
-import io.nosqlbench.nb.api.annotations.Annotation;
+import io.nosqlbench.api.annotations.Layer;
+import io.nosqlbench.api.annotations.Annotation;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 

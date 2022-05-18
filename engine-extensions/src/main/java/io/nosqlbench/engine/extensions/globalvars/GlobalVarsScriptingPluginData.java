@@ -18,14 +18,14 @@ package io.nosqlbench.engine.extensions.globalvars;
 
 import com.codahale.metrics.MetricRegistry;
 import io.nosqlbench.engine.api.extensions.ScriptingPluginInfo;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 import io.nosqlbench.virtdata.library.basics.core.threadstate.SharedState;
 import org.apache.logging.log4j.Logger;
 
 import javax.script.ScriptContext;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Service(value = ScriptingPluginInfo.class, selector = "globalvars")
+@Selector("globalvars")
 public class GlobalVarsScriptingPluginData implements ScriptingPluginInfo<ConcurrentHashMap<String, Object>> {
 
     @Override

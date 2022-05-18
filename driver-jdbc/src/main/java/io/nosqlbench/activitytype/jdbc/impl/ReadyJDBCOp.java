@@ -16,8 +16,8 @@
 
 package io.nosqlbench.activitytype.jdbc.impl;
 
-import io.nosqlbench.engine.api.activityconfig.yaml.OpTemplate;
-import io.nosqlbench.engine.api.activityimpl.BaseOpDispenser;
+import io.nosqlbench.adapters.api.activityconfig.yaml.OpTemplate;
+import io.nosqlbench.adapters.api.opmapping.BaseOpDispenser;
 import io.nosqlbench.virtdata.core.bindings.BindingsTemplate;
 import io.nosqlbench.virtdata.core.templates.ParsedTemplate;
 import io.nosqlbench.virtdata.core.templates.StringBindings;

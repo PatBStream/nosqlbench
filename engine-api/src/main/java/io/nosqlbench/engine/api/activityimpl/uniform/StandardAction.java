@@ -18,14 +18,14 @@ package io.nosqlbench.engine.api.activityimpl.uniform;
 
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Timer;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.*;
 import io.nosqlbench.engine.api.activityapi.core.ActivityDefObserver;
 import io.nosqlbench.engine.api.activityapi.core.SyncAction;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorDetail;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.NBErrorHandler;
 import io.nosqlbench.engine.api.activityapi.planning.OpSequence;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.engine.api.activityimpl.OpDispenser;
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.*;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.adapters.api.opmapping.OpDispenser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

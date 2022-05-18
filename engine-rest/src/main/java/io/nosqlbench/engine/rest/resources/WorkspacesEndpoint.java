@@ -21,11 +21,10 @@ import io.nosqlbench.engine.rest.services.WorkSpace;
 import io.nosqlbench.engine.rest.services.WorkspaceFinder;
 import io.nosqlbench.engine.rest.transfertypes.WorkspaceItemView;
 import io.nosqlbench.engine.rest.transfertypes.WorkspaceView;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
+import io.nosqlbench.nb.annotations.types.Service;
 import jakarta.inject.Singleton;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +33,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service(value= WebServiceObject.class, selector="workspaces")
+@Selector("workspaces")
 @Path("/services/workspaces")
 @Singleton
 public class WorkspacesEndpoint implements WebServiceObject {

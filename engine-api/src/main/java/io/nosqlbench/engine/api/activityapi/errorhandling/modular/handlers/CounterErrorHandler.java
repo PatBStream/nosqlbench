@@ -20,11 +20,11 @@ import io.nosqlbench.engine.api.activityapi.errorhandling.ErrorMetrics;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorDetail;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorHandler;
 import io.nosqlbench.engine.api.metrics.ExceptionCountMetrics;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 
 import java.util.function.Supplier;
 
-@Service(value = ErrorHandler.class, selector = "counter")
+@Selector("counter")
 public class CounterErrorHandler implements ErrorHandler, ErrorMetrics.Aware {
 
     private ExceptionCountMetrics exceptionCountMetrics;

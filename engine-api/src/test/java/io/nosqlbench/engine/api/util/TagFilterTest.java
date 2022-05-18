@@ -16,6 +16,7 @@
 
 package io.nosqlbench.engine.api.util;
 
+import io.nosqlbench.api.config.standard.Tagged;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

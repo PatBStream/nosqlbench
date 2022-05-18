@@ -1,3 +1,19 @@
+<!--
+  ~ Copyright (c) 2022 nosqlbench
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -31,11 +47,11 @@
             <version>${pulsar.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.pulsar</groupId>
-            <artifactId>pulsar-client-admin</artifactId>
-            <version>${pulsar.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.pulsar</groupId>-->
+<!--            <artifactId>pulsar-client-admin</artifactId>-->
+<!--            <version>${pulsar.version}</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>io.nosqlbench</groupId>
@@ -45,7 +61,7 @@
 
         <dependency>
             <groupId>io.nosqlbench</groupId>
-            <artifactId>driver-stdout</artifactId>
+            <artifactId>adapter-stdout</artifactId>
             <version>4.17.12-SNAPSHOT</version>
         </dependency>
 
@@ -79,5 +95,57 @@
 
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <debug>true</debug>
+                    <target>17</target>
+                    <source>17</source>
+                    <release>17</release>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                    </compilerArgs>
+                    <verbose>true</verbose>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>io.nosqlbench</groupId>
+                            <artifactId>nb-annotations</artifactId>
+                            <version>${version}</version>
+                        </path>
+                        <path>
+                            <groupId>io.nosqlbench</groupId>
+                            <artifactId>virtdata-annotations</artifactId>
+                            <version>${version}</version>
+                        </path>
+                        <path>
+                            <groupId>io.nosqlbench</groupId>
+                            <artifactId>nb-docsapi</artifactId>
+                            <version>${version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <!--<compilerArgument>-Xdoclint:all</compilerArgument>-->
+                    <!--                    <compilerArgument>-Xlint:all</compilerArgument>-->
+                </configuration>
+            </plugin>
+
+            <plugin>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+                <archive>
+                    <manifestEntries>
+                        <Automatic-Module-Name>io.nosqlbench.driver.pulsar</Automatic-Module-Name>
+                    </manifestEntries>
+                </archive>
+            </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
 
 </project>

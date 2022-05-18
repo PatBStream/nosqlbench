@@ -16,10 +16,10 @@
 
 package io.nosqlbench.virtdata.userlibs.apps.docsapp.fdocs;
 
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.processors.DocCtorData;
-import io.nosqlbench.virtdata.api.processors.DocForFuncCtor;
-import io.nosqlbench.virtdata.api.processors.DocFuncData;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.gen.DocCtorData;
+import io.nosqlbench.virtdata.annotations.gen.DocForFuncCtor;
+import io.nosqlbench.virtdata.annotations.gen.DocFuncData;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

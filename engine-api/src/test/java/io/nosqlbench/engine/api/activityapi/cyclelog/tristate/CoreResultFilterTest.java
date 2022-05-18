@@ -16,13 +16,14 @@
 
 package io.nosqlbench.engine.api.activityapi.cyclelog.tristate;
 
+import io.nosqlbench.api.spi.SelectorFilter;
+import io.nosqlbench.engine.api.activityapi.cyclelog.buffers.results.MutableCycleResult;
 import io.nosqlbench.engine.api.activityapi.cyclelog.buffers.results.ResultReadable;
-import io.nosqlbench.engine.api.activityapi.cyclelog.filters.CoreResultValueFilter;
 import io.nosqlbench.engine.api.activityapi.cyclelog.filters.ResultFilterDispenser;
 import io.nosqlbench.engine.api.activityapi.cyclelog.filters.ResultValueFilterType;
-import io.nosqlbench.engine.api.activityapi.cyclelog.buffers.results.MutableCycleResult;
 import org.junit.jupiter.api.Test;
 
+import java.util.ServiceLoader;
 import java.util.function.Predicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,10 +32,8 @@ public class CoreResultFilterTest {
 
     @Test
     public void testComponentLifecycle() {
-        ResultValueFilterType filterType = CoreResultValueFilter.FINDER.get("core")
-                .orElseThrow(() -> new RuntimeException(
-                        "Unable to find " + ResultValueFilterType.class.getSimpleName() + " for 'core'"
-                ));
+        ResultValueFilterType filterType = SelectorFilter.of("core", ServiceLoader.load(ResultValueFilterType.class)).getOne();
+
         ResultFilterDispenser fd = filterType.getDispenser("in:5,ex:6,in:7");
         Predicate<ResultReadable> cycleResultFilter = fd.getResultFilter();
         assertThat(cycleResultFilter.test(new MutableCycleResult(3,3))).isFalse();

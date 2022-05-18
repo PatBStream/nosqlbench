@@ -16,10 +16,10 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.nondeterministic.to_long;
 
-import io.nosqlbench.nb.api.metadata.Indexed;
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.api.metadata.Indexed;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 
 import java.util.function.LongUnaryOperator;
 import java.util.regex.Matcher;

@@ -16,6 +16,9 @@
 
 package io.nosqlbench.engine.api.metrics;
 
+import io.nosqlbench.api.metrics.ConvenientSnapshot;
+import io.nosqlbench.api.metrics.DeltaHdrHistogramReservoir;
+import io.nosqlbench.api.metrics.NicerHistogram;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

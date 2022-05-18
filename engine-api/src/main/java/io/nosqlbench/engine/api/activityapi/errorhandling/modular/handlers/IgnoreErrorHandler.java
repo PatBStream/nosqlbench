@@ -18,9 +18,9 @@ package io.nosqlbench.engine.api.activityapi.errorhandling.modular.handlers;
 
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorDetail;
 import io.nosqlbench.engine.api.activityapi.errorhandling.modular.ErrorHandler;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 
-@Service(value = ErrorHandler.class, selector = "ignore")
+@Selector("ignore")
 public class IgnoreErrorHandler implements ErrorHandler {
 
     @Override

@@ -1,2 +1,137 @@
-- 701122ff6 (HEAD -> nb5-preview, main) implement DeleteTable for dynamodb driver
+- 3be5a1641 (HEAD -> modularity) add ToJavaInstant and ToJodaInstant functions
+- cc158a294 update CodeQL version
+- 8906cb873 (origin/modularity) checkpoint of work in progress
+- 6f9575a97 partial work on modularity - checkpoint
+- 1f81a081c rewrite dynamodb module on top of newer 2.x API which is JPMS compatible
+- 826f15297 merge fixups
+- 3f4b9607a last fixups for module compatibility
+- 1180cae50 use JPMS module services
+- c5c8e4118 update virtdata function resolver for module compatibility
+- 210dce769 rework S3 libs to be JPMS compatible
+- 2b455db47 restructuring to support clean module encapsulation
+- 09e58c763 pom updates
+- 9e3965001 organize packaged assets on nbr
+- 6300cfc5a move integrated script tests to non-test scope
+- ce3c9a288 modules!
+- 19ca46fc2 module compatibility fixes for service layer
+- 6ca25ad5a ensure all necessary source code has license header
+- 36865a739 docs cleanup
+- a09e81004 Merge pull request #557 from nosqlbench/snyk-fix-d2cb54de676826b5f6fdf8f6b7c5990d
+- a9efe2dd4 fix: nb-api/pom.xml to reduce vulnerabilities
+- 98c05e177 Merge pull request #556 from nosqlbench/feature/ddb_delete_updates
+- 6a49348ce Updating the examples and workload with Delete table operation
+- fd857670d Merge pull request #552 from nosqlbench/snyk-upgrade-c100c8cdbbf3900d756922b47d85f21b
+- 1d3c9c04e Merge pull request #553 from nosqlbench/snyk-upgrade-c9683858e8e06d1cd9ac4c2904f28510
+- 75e98a667 fix: upgrade io.dropwizard.metrics:metrics-graphite from 4.1.9 to 4.2.8
+- cc42b78f6 fix: upgrade org.eclipse.jetty:jetty-server from 11.0.3 to 11.0.8
+- b5cf4eaf6 add docs
+- 232e77c14 docs exporter working in single artifact
+- 686cc5cb5 add missing categories
+- ece6a4e4c add missing license
+- 8e452435f code cleanups
+- 4299c19a1 Merge pull request #546 from nosqlbench/snyk-upgrade-3970af466aed5db43cc83cf4f3ca1fe3
+- ec02ac40e Merge pull request #545 from nosqlbench/snyk-upgrade-3c37e9b8b9f311f7cde0fe0764b4634f
+- ded7a36d6 Merge pull request #549 from nosqlbench/snyk-upgrade-d4f83c44c4fc520d13c192464cb29527
+- a5627a62c Merge pull request #551 from nosqlbench/snyk-fix-6ce6645ddbd7e5c57d895c882bb64402
+- aaec40543 fix: nb-api/pom.xml to reduce vulnerabilities
+- 9eca8fb2b remove internal copy of engine docs
+- 77e164d38 docsapi refactoring
+- 3eb3ac424 remove virtdata manifest
+- d7309ab3d remove engine docs manifest from previous docs system
+- 1cb036462 add nb-docsapi module
+- cb721639c version management for docsapi
+- f8ea41608 fix: upgrade com.datastax.oss:java-driver-core from 4.13.0 to 4.14.0
+- b442aa872 fix: upgrade org.yaml:snakeyaml from 1.26 to 1.30
+- fbee21581 fix: upgrade org.slf4j:slf4j-ext from 1.7.26 to 1.7.36
+- 14bd72136 defer construction of optional log messages
+- cca3ac9a1 specify slf4j-ext version for safety
+- 039e501b7 Merge branch 'main' of github.com:nosqlbench/nosqlbench
+- 9daa1fa6a Merge pull request #534 from nosqlbench/snyk-upgrade-60a6cfc04cce38aa145733a3bff6c5a2
+- 6ca700c86 Merge branch 'main' into snyk-upgrade-60a6cfc04cce38aa145733a3bff6c5a2
+- 82879387f Merge pull request #533 from nosqlbench/snyk-upgrade-8195ab761e488f5526cd7562048aec40
+- 980996969 (origin/snyk-upgrade-8195ab761e488f5526cd7562048aec40, snyk-upgrade-8195ab761e488f5526cd7562048aec40) adjusted snyk PR to use co-compatible gremlin and tinkerpop versions wiht CQL driver
+- 876ce0f17 Merge branch 'main' of github.com:nosqlbench/nosqlbench
+- 8b860d150 Merge pull request #518 from nosqlbench/snyk-upgrade-33515ebfdf21dbab7899551bac0158d2
+- eebe56974 Merge pull request #531 from nosqlbench/snyk-upgrade-3bd31053ab4eeb1b55aa935fe9e7356e
+- 1dbc7483a Merge pull request #529 from nosqlbench/snyk-upgrade-e3e81525cd28206c2605050b01986405
+- b7e8a644f Merge pull request #520 from nosqlbench/snyk-upgrade-32762601583c48203b68e466169c18d5
+- 4a7e9f5ef (origin/snyk-upgrade-33515ebfdf21dbab7899551bac0158d2, snyk-upgrade-33515ebfdf21dbab7899551bac0158d2) artifact selection fixed for PR
+- f0aaaabf2 Merge branch 'main' of github.com:nosqlbench/nosqlbench
+- a9fa3ede5 (origin/snyk-upgrade-32762601583c48203b68e466169c18d5) Merge branch 'main' into snyk-upgrade-32762601583c48203b68e466169c18d5
+- f893e1df4 Merge pull request #526 from nosqlbench/snyk-upgrade-d51732eb7ebdf99ab4e76a58601f9e8b
+- 82ce02a1d (origin/snyk-upgrade-e3e81525cd28206c2605050b01986405) Merge branch 'main' into snyk-upgrade-e3e81525cd28206c2605050b01986405
+- 3917537ac Merge pull request #530 from nosqlbench/snyk-upgrade-e5b61ac149bc666ee87aa04852430238
+- 624bd55ca (origin/snyk-upgrade-3bd31053ab4eeb1b55aa935fe9e7356e) Merge branch 'main' into snyk-upgrade-3bd31053ab4eeb1b55aa935fe9e7356e
+- 952f7b758 Merge branch 'main' of github.com:nosqlbench/nosqlbench
+- 29c63d610 Merge pull request #541 from nosqlbench/snyk-fix-63c3b031050cb4a74391f41f1fdd151c
+- f0f65001c Merge pull request #536 from nosqlbench/snyk-upgrade-ffde7001b39e341173bdc483ab357338
+- 3a6cf2eda Merge pull request #532 from nosqlbench/snyk-upgrade-bf6b8f504420803d558e8412973a1e2a
+- 543d169f8 Merge pull request #521 from nosqlbench/snyk-upgrade-0cebcc52015a98696da6ffa01debcad8
+- 9520d1c69 Merge pull request #522 from nosqlbench/snyk-upgrade-64daa1a7e4d65fe739aa704b33b13215
+- 04c5e9a1d Merge pull request #523 from nosqlbench/snyk-upgrade-f1a31502d944fc8683eb5d6f4f6af6eb
+- 8a6437755 Merge pull request #525 from nosqlbench/snyk-upgrade-d409889f25806283b6991403869707d9
+- 40b01db4c Merge pull request #527 from nosqlbench/snyk-upgrade-01e3142d4d2af9bb353f2c4d667e1d60
+- eff2f55d3 Merge pull request #540 from nosqlbench/snyk-fix-537ec985d433ccc2f2b1b5943a1b512a
+- f15e28a9c Merge pull request #537 from nosqlbench/snyk-upgrade-1feabd28dff0fc197c99b462cd60d6fa
+- 56be6c7b0 Merge pull request #535 from nosqlbench/snyk-upgrade-2cf1f3722cab82c7dca584c57ecd2ed9
+- fb2102d0e Merge pull request #528 from nosqlbench/snyk-upgrade-05b4a9493178e0319e8d7e21b5035fc8
+- b8fe371ce Merge pull request #519 from nosqlbench/snyk-upgrade-fe079dffd69006694e03cc2a7e784ed3
+- 07667a4c3 Merge pull request #517 from nosqlbench/snyk-upgrade-83a70c1aea3a313dabbfdf6fd400398d
+- 90d347329 Merge pull request #516 from nosqlbench/snyk-upgrade-cdc79015c08d51b33a720fcce4377895
+- 84fbe3553 Merge pull request #515 from nosqlbench/snyk-upgrade-d74ef3ac29cb08a4243dc5ea9b1b8ff2
+- 866267d15 Merge pull request #514 from nosqlbench/snyk-upgrade-635b8c8c1f77d67fc8b87302da059852
+- 6c2b64434 Merge pull request #513 from nosqlbench/snyk-upgrade-b845d13cd7b1b364886bb330937c20c7
+- 10973e770 Merge pull request #512 from nosqlbench/snyk-upgrade-d0f1b52d7eec2ffc05afb32e0b143922
+- 2793a5a6b Merge pull request #511 from nosqlbench/snyk-upgrade-663a8042d3bd453ce52d3228e9100dfe
+- df9e42193 Merge pull request #510 from nosqlbench/snyk-upgrade-4851ecb367b8057cec71d001bfd815cf
+- 5bc945736 make SSL errors more clear by showing the details of the caught exception
+- 8c1362934 fix: docsys/pom.xml to reduce vulnerabilities
+- 7df62865f fix: nb-api/pom.xml to reduce vulnerabilities
+- b4b9d1bb0 Merge pull request #539 from nosqlbench/snyk-fix-fc8c410ea645c3e1d324a93616d1558e
+- 7afff559c fix: nb-api/pom.xml to reduce vulnerabilities
+- 26aa58cc6 fix: upgrade org.apache.pulsar:pulsar-client from 2.8.2 to 2.9.1
+- be5ae0568 fix: upgrade org.apache.avro:avro from 1.10.1 to 1.11.0
+- d58f4245d fix: upgrade org.mongodb:mongodb-driver-sync from 4.4.0 to 4.5.0
+- 048193ca3 (origin/snyk-upgrade-60a6cfc04cce38aa145733a3bff6c5a2) fix: upgrade org.apache.tinkerpop:tinkergraph-gremlin from 3.4.12 to 3.5.2
+- c4590bcff fix: upgrade org.apache.tinkerpop:gremlin-core from 3.4.12 to 3.5.2
+- a920b9304 fix: upgrade org.xerial.snappy:snappy-java from 1.1.7.3 to 1.1.8.4
+- 1aee0bcea fix: upgrade org.greenrobot:essentials from 3.0.0-RC1 to 3.1.0
+- a51550dd2 (origin/snyk-upgrade-e5b61ac149bc666ee87aa04852430238) fix: upgrade org.mvel:mvel2 from 2.4.10.Final to 2.4.14.Final
+- 6a5e95454 fix: upgrade joda-time:joda-time from 2.9.9 to 2.10.13
+- 258690a36 fix: upgrade io.swagger.core.v3:swagger-models from 2.1.10 to 2.1.13
+- 8b013e674 fix: upgrade org.projectlombok:lombok from 1.18.20 to 1.18.22
+- acd4de302 (origin/snyk-upgrade-d51732eb7ebdf99ab4e76a58601f9e8b) fix: upgrade org.eclipse.jetty:jetty-servlets from 11.0.3 to 11.0.8
+- 432f659fa fix: upgrade org.antlr:antlr4-runtime from 4.9.2 to 4.9.3
+- 88228ea37 fix: upgrade org.eclipse.jetty:jetty-servlet from 11.0.1 to 11.0.8
+- 7a923e499 fix: upgrade org.eclipse.jetty:jetty-rewrite from 11.0.1 to 11.0.8
+- 952809b76 fix: upgrade org.openjdk.jmh:jmh-core from 1.22 to 1.34
+- 2544747c2 fix: upgrade org.apache.commons:commons-csv from 1.8 to 1.9.0
+- 743a57ca1 fix: upgrade com.github.docker-java:docker-java from 3.2.1 to 3.2.13
+- 80deebd64 fix: upgrade com.github.oshi:oshi-core from 5.2.2 to 5.8.7
+- cc2ca6add fix: upgrade org.apache.commons:commons-lang3 from 3.9 to 3.12.0
+- 5f336bbc5 fix: upgrade io.netty:netty-handler from 4.1.51.Final to 4.1.74.Final
+- d6396821c fix: upgrade com.squareup:javapoet from 1.11.1 to 1.13.0
+- 739eb236f fix: upgrade io.dropwizard.metrics:metrics-core from 4.1.9 to 4.2.8
+- b42076dfb fix: upgrade org.apache.avro:avro from 1.10.0 to 1.11.0
+- e17e97108 fix: upgrade org.apache.kafka:kafka-clients from 2.0.0 to 2.8.1
+- 43ec20d73 fix: upgrade org.slf4j:slf4j-api from 1.7.30 to 1.7.36
+- 6c431fdec fix: upgrade org.slf4j:slf4j-log4j12 from 1.7.26 to 1.7.36
+- 00464dbca Merge pull request #497 from nosqlbench/snyk-fix-89791343b6a136cc3fbe4a776e94827a
+- 62712b172 Merge branch 'main' into snyk-fix-89791343b6a136cc3fbe4a776e94827a
+- 0a94d74a1 Merge pull request #493 from nosqlbench/snyk-fix-b0fcb2988f5c33e45d238a7e77bda5aa
+- b7f2fd15d Merge pull request #494 from nosqlbench/snyk-fix-81ca9405fa5373d87fa9f7d501bb1c2a
+- e8e41e372 Merge pull request #496 from nosqlbench/snyk-fix-d61361cb87bc6fd3d5886c3f7b28f6cf
+- bc08d324f Merge pull request #507 from nosqlbench/snyk-fix-237a5aec25029775499b7e4b4c6e0804
+- 782b8cfba Merge pull request #508 from nosqlbench/snyk-fix-1274daf25373867a2f12994f7ef6553e
+- 29e0568ea Merge pull request #509 from nosqlbench/snyk-fix-173e36b7434203e9348fbfac73e7bba9
+- ea7fdc6b8 add initial stepup.js, and better debugging
+- 44d4a97dc Merge branch 'main' of github.com:nosqlbench/nosqlbench
+- 889fc6589 (origin/snyk-fix-173e36b7434203e9348fbfac73e7bba9) fix: engine-rest/pom.xml to reduce vulnerabilities
+- de8a9d91d (origin/snyk-fix-1274daf25373867a2f12994f7ef6553e) fix: nb-api/pom.xml to reduce vulnerabilities
+- 354233d34 (origin/snyk-fix-237a5aec25029775499b7e4b4c6e0804) fix: docsys/pom.xml to reduce vulnerabilities
+- f80aab49d (nb5-preview) debugging updates
+- 15c9632ad update for dynamodb
+- 701122ff6 implement DeleteTable for dynamodb driver
 - 38688dd6c fix path traversal so static analysis can recognize it
+- a77c5e126 Merge pull request #505 from nosqlbench/snyk-fix-4411e32563514505640b1165f36938c1
+- 22c479fe9 fix: nb-api/pom.xml to reduce vulnerabilities

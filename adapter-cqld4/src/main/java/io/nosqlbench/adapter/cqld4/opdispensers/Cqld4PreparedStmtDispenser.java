@@ -23,7 +23,7 @@ import com.datastax.oss.driver.api.core.cql.Statement;
 import io.nosqlbench.adapter.cqld4.RSProcessors;
 import io.nosqlbench.adapter.cqld4.optypes.Cqld4CqlOp;
 import io.nosqlbench.adapter.cqld4.optypes.Cqld4CqlPreparedStatement;
-import io.nosqlbench.engine.api.templating.ParsedOp;
+import io.nosqlbench.adapters.api.templating.ParsedOp;
 import io.nosqlbench.virtdata.core.templates.ParsedTemplate;
 
 import java.util.function.LongFunction;

@@ -18,7 +18,6 @@ package io.nosqlbench.engine.core;
 
 import io.nosqlbench.engine.api.scripting.ScriptEnvBuffer;
 import io.nosqlbench.engine.core.script.Scenario;
-import io.nosqlbench.nb.annotations.Maturity;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,7 +27,7 @@ public class ScenarioTest {
     @Test
     public void shouldLoadScriptText() {
         ScriptEnvBuffer buffer = new ScriptEnvBuffer();
-        Scenario env = new Scenario("testing", Scenario.Engine.Graalvm, "stdout:300", Maturity.Any);
+        Scenario env = new Scenario("testing", Scenario.Engine.Graalvm, "stdout:300");
         env.addScriptText("print('loaded script environment...');\n");
         env.runScenario();
         assertThat(env.getIOLog().get().get(0)).contains("loaded script environment...");

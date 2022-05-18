@@ -18,9 +18,9 @@ package io.nosqlbench.virtdata.library.basics.shared.conversions.from_any;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 
 import java.util.function.Function;
 

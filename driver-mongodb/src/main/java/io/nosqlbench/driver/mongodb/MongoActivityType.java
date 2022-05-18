@@ -16,13 +16,13 @@
 
 package io.nosqlbench.driver.mongodb;
 
+import io.nosqlbench.api.activityimpl.ActivityDef;
 import io.nosqlbench.engine.api.activityapi.core.Action;
 import io.nosqlbench.engine.api.activityapi.core.ActionDispenser;
 import io.nosqlbench.engine.api.activityapi.core.ActivityType;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 
-@Service(value = ActivityType.class, selector = "mongodb")
+@Selector("mongodb")
 public class MongoActivityType implements ActivityType<MongoActivity> {
 
     @Override

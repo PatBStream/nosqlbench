@@ -16,11 +16,11 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.from_long.to_string;
 
-import io.nosqlbench.nb.api.content.NBIO;
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.Example;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.api.content.NBIO;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.Example;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.Logger;

@@ -19,9 +19,9 @@ package io.nosqlbench.adapter.cqld4.opmappers;
 import com.datastax.oss.driver.api.core.CqlSession;
 import io.nosqlbench.adapter.cqld4.opdispensers.Cqld4RawStmtDispenser;
 import io.nosqlbench.adapter.cqld4.optypes.Cqld4CqlOp;
-import io.nosqlbench.engine.api.activityimpl.OpDispenser;
-import io.nosqlbench.engine.api.activityimpl.OpMapper;
-import io.nosqlbench.engine.api.templating.ParsedOp;
+import io.nosqlbench.adapters.api.opmapping.OpDispenser;
+import io.nosqlbench.adapters.api.opmapping.OpMapper;
+import io.nosqlbench.adapters.api.templating.ParsedOp;
 
 import java.util.function.LongFunction;
 

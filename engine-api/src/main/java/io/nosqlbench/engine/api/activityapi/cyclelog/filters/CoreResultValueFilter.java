@@ -20,7 +20,7 @@ import io.nosqlbench.engine.api.activityapi.cyclelog.buffers.results.ResultReada
 import io.nosqlbench.engine.api.activityapi.cyclelog.filters.tristate.ResultFilteringSieve;
 import io.nosqlbench.engine.api.activityapi.cyclelog.filters.tristate.TristateFilter;
 import io.nosqlbench.engine.api.util.ConfigTuples;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
 
 import java.util.function.Predicate;
 
@@ -36,7 +36,7 @@ import java.util.function.Predicate;
  * clause. In the example above, the default policy would be "exclude",
  * given that the fist clause is "include".
  */
-@Service(value = ResultValueFilterType.class, selector = "core")
+@Selector("core")
 public class CoreResultValueFilter implements ResultValueFilterType {
 
     @Override
@@ -81,10 +81,10 @@ public class CoreResultValueFilter implements ResultValueFilterType {
 
         if (section.get(1).matches("\\d+-\\d+")) {
             String[] split = section.get(1).split("-");
-            min = Integer.valueOf(split[0]);
-            max = Integer.valueOf(split[1]);
+            min = Integer.parseInt(split[0]);
+            max = Integer.parseInt(split[1]);
         } else {
-            min = Integer.valueOf(section.get(1));
+            min = Integer.parseInt(section.get(1));
             max = min;
         }
 

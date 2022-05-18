@@ -16,17 +16,16 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.from_long.to_collection;
 
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.Example;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.Example;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 import io.nosqlbench.virtdata.api.bindings.VirtDataConversions;
 import io.nosqlbench.virtdata.library.basics.shared.from_long.to_long.Hash;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.LongFunction;
-import java.util.function.LongToIntFunction;
 
 /**
  * Create a Map from a long input based on a set of provided key and value functions.

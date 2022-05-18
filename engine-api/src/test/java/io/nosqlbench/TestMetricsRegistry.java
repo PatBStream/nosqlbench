@@ -17,13 +17,13 @@
 package io.nosqlbench;
 
 import com.codahale.metrics.MetricRegistry;
-import io.nosqlbench.engine.api.activityapi.core.MetricRegistryService;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.api.activityapi.core.MetricRegistryService;
+import io.nosqlbench.nb.annotations.types.Selector;
 
 /**
  * Provide a local MetricRegistryService for tests
  */
-@Service(value= MetricRegistryService.class, selector="test-registry")
+@Selector("test-registry")
 public class TestMetricsRegistry implements MetricRegistryService {
 
     private final MetricRegistry metricRegistry = new MetricRegistry();

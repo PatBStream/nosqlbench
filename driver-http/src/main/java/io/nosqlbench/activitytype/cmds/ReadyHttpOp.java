@@ -16,10 +16,10 @@
 
 package io.nosqlbench.activitytype.cmds;
 
-import io.nosqlbench.engine.api.activityconfig.yaml.OpTemplate;
-import io.nosqlbench.engine.api.activityimpl.BaseOpDispenser;
-import io.nosqlbench.engine.api.templating.CommandTemplate;
-import io.nosqlbench.nb.api.errors.BasicError;
+import io.nosqlbench.adapters.api.activityconfig.yaml.OpTemplate;
+import io.nosqlbench.adapters.api.opmapping.BaseOpDispenser;
+import io.nosqlbench.adapters.api.templating.CommandTemplate;
+import io.nosqlbench.api.errors.BasicError;
 
 import java.net.URI;
 import java.net.URISyntaxException;

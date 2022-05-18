@@ -16,14 +16,20 @@
 
 package io.nosqlbench.engine.cli;
 
-import io.nosqlbench.docexporter.BundledMarkdownExporter;
-import io.nosqlbench.docsys.core.NBWebServerApp;
+import io.nosqlbench.api.annotations.Annotation;
+import io.nosqlbench.api.annotations.Layer;
+import io.nosqlbench.api.content.Content;
+import io.nosqlbench.api.content.NBIO;
+import io.nosqlbench.api.errors.BasicError;
+import io.nosqlbench.api.logging.NBLogLevel;
+import io.nosqlbench.api.metadata.SessionNamer;
+import io.nosqlbench.api.metadata.SystemId;
+import io.nosqlbench.api.metrics.ActivityMetrics;
 import io.nosqlbench.engine.api.activityapi.cyclelog.outputs.cyclelog.CycleLogDumperUtility;
 import io.nosqlbench.engine.api.activityapi.cyclelog.outputs.cyclelog.CycleLogImporterUtility;
 import io.nosqlbench.engine.api.activityapi.input.InputType;
 import io.nosqlbench.engine.api.activityapi.output.OutputType;
 import io.nosqlbench.engine.api.activityconfig.rawyaml.RawStmtsLoader;
-import io.nosqlbench.engine.api.metrics.ActivityMetrics;
 import io.nosqlbench.engine.core.annotation.Annotators;
 import io.nosqlbench.engine.core.lifecycle.*;
 import io.nosqlbench.engine.core.logging.LoggerConfig;
@@ -34,16 +40,7 @@ import io.nosqlbench.engine.core.script.Scenario;
 import io.nosqlbench.engine.core.script.ScenariosExecutor;
 import io.nosqlbench.engine.core.script.ScriptParams;
 import io.nosqlbench.engine.docker.DockerMetricsManager;
-import io.nosqlbench.nb.annotations.Maturity;
-import io.nosqlbench.nb.api.annotations.Annotation;
-import io.nosqlbench.nb.api.annotations.Layer;
-import io.nosqlbench.nb.api.content.Content;
-import io.nosqlbench.nb.api.content.NBIO;
-import io.nosqlbench.nb.api.errors.BasicError;
-import io.nosqlbench.nb.api.logging.NBLogLevel;
-import io.nosqlbench.nb.api.markdown.exporter.MarkdownExporter;
-import io.nosqlbench.nb.api.metadata.SessionNamer;
-import io.nosqlbench.nb.api.metadata.SystemId;
+import io.nosqlbench.nb.annotations.types.Selector;
 import io.nosqlbench.virtdata.userlibs.apps.VirtDataMainApp;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -188,21 +185,16 @@ public class NBCLI {
         }
 
         if (args.length > 0 && args[0].toLowerCase().equals("export-docs")) {
-            BundledMarkdownExporter.main(Arrays.copyOfRange(args,1,args.length));
-            System.exit(0);
+            throw new RuntimeException("the export-docs command has been deprecated. Update your scripts.");
         }
         if (args.length > 0 && args[0].toLowerCase().equals("virtdata")) {
             VirtDataMainApp.main(Arrays.copyOfRange(args, 1, args.length));
             System.exit(0);
         }
-        if (args.length > 0 && args[0].toLowerCase().matches("docserver|appserver")) {
-            NBWebServerApp.main(Arrays.copyOfRange(args, 1, args.length));
-            System.exit(0);
-        }
-        if (args.length > 0 && args[0].toLowerCase().equals(MarkdownExporter.APP_NAME)) {
-            MarkdownExporter.main(Arrays.copyOfRange(args, 1, args.length));
-            System.exit(0);
-        }
+//        if (args.length > 0 && args[0].toLowerCase().matches("docserver|appserver")) {
+//            NBWebServerApp.main(Arrays.copyOfRange(args, 1, args.length));
+//            System.exit(0);
+//        }
 
         NBCLIOptions options = new NBCLIOptions(args);
         logger = LogManager.getLogger("NBCLI");
@@ -284,12 +276,21 @@ public class NBCLI {
         }
 
         if (options.wantsInputTypes()) {
-            InputType.FINDER.getAllSelectors().forEach((k,v) -> System.out.println(k + " (" + v.name() + ")"));
+            ServiceLoader.load(InputType.class)
+                .stream()
+                .filter(p -> p.type().getAnnotation(Selector.class) != null)
+                .map(p -> p.type().getAnnotation(Selector.class).value())
+                .forEach(name -> System.out.println(" (" + name + ")"));
+
             System.exit(0);
         }
 
         if (options.wantsMarkerTypes()) {
-            OutputType.FINDER.getAllSelectors().forEach((k,v) -> System.out.println(k + " (" + v.name() + ")"));
+            ServiceLoader.load(OutputType.class)
+                .stream()
+                .filter(p -> p.type().getAnnotation(Selector.class) != null)
+                .map(p -> p.type().getAnnotation(Selector.class).value())
+                .forEach(name -> System.out.println(" (" + name + ")"));
             System.exit(0);
         }
 
@@ -385,8 +386,7 @@ public class NBCLI {
             options.wantsCompileScript(),
             options.getReportSummaryTo(),
             String.join("\n", args),
-            options.getLogsDirectory(),
-            Maturity.Unspecified);
+            options.getLogsDirectory());
 
         ScriptBuffer buffer = new BasicScriptBuffer()
             .add(options.getCommands()

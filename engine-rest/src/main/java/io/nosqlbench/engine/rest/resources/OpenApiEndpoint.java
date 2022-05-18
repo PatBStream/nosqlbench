@@ -20,7 +20,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.nosqlbench.docsys.api.WebServiceObject;
 import io.nosqlbench.engine.rest.services.openapi.OpenApiLoader;
-import io.nosqlbench.nb.annotations.Service;
+import io.nosqlbench.nb.annotations.types.Selector;
+import io.nosqlbench.nb.annotations.types.Service;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.util.Json;
 import io.swagger.v3.parser.converter.SwaggerConverter;
@@ -31,8 +32,8 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.Map;
 
-@Service(value = WebServiceObject.class, selector = "openapi")
 @Singleton
+@Selector("openapi")
 @Path("/openapi")
 public class OpenApiEndpoint implements WebServiceObject {
 

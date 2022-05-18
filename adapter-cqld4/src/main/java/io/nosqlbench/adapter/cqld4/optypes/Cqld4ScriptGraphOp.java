@@ -19,7 +19,7 @@ package io.nosqlbench.adapter.cqld4.optypes;
 import com.datastax.dse.driver.api.core.graph.GraphResultSet;
 import com.datastax.dse.driver.api.core.graph.ScriptGraphStatement;
 import com.datastax.oss.driver.api.core.CqlSession;
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.CycleOp;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.CycleOp;
 
 public class Cqld4ScriptGraphOp implements CycleOp<GraphResultSet> {
     private final CqlSession session;

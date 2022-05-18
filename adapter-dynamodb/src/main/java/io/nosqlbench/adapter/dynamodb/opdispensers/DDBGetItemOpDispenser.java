@@ -16,74 +16,40 @@
 
 package io.nosqlbench.adapter.dynamodb.opdispensers;
 
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
-import com.amazonaws.services.dynamodbv2.document.Table;
-import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
+import io.nosqlbench.adapter.dynamodb.converters.ItemValue;
 import io.nosqlbench.adapter.dynamodb.optypes.DDBGetItemOp;
 import io.nosqlbench.adapter.dynamodb.optypes.DynamoDBOp;
-import io.nosqlbench.engine.api.activityimpl.BaseOpDispenser;
-import io.nosqlbench.engine.api.templating.ParsedOp;
+import io.nosqlbench.adapters.api.opmapping.BaseOpDispenser;
+import io.nosqlbench.adapters.api.templating.ParsedOp;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.LongFunction;
 
 public class DDBGetItemOpDispenser extends BaseOpDispenser<DynamoDBOp> {
-    private final DynamoDB ddb;
-    private final LongFunction<Table> targetTableFunction;
-    private final LongFunction<GetItemSpec> getItemSpecFunc;
+    private final DynamoDbClient client;
+    private final LongFunction<GetItemRequest> getItemRequestFunc;
 
-    public DDBGetItemOpDispenser(DynamoDB ddb, ParsedOp cmd, LongFunction<?> targetFunction) {
+    public DDBGetItemOpDispenser(DynamoDbClient client, ParsedOp cmd, LongFunction<?> targetFunction) {
         super(cmd);
-        this.ddb = ddb;
-        this.targetTableFunction = l -> ddb.getTable(targetFunction.apply(l).toString());
-        this.getItemSpecFunc = resolveGetItemSpecFunction(cmd);
+        this.client = client;
+        this.getItemRequestFunc = resolveRequestFunc(cmd);
+
     }
 
-    private LongFunction<GetItemSpec> resolveGetItemSpecFunction(ParsedOp cmd) {
-
-        PrimaryKey primaryKey = null;
-        LongFunction<PrimaryKey> pkfunc = null;
-        String projection = null;
-        LongFunction<String> projfunc = null;
-
-        LongFunction<? extends Map> keysmap_func = cmd.getAsRequiredFunction("key",Map.class);
-        LongFunction<PrimaryKey> pk_func = l -> {
-            PrimaryKey pk = new PrimaryKey();
-            keysmap_func.apply(l).forEach((k,v) -> {
-                pk.addComponent(k.toString(),v);
-            });
-            return pk;
-        };
-        LongFunction<GetItemSpec> gis = l -> new GetItemSpec().withPrimaryKey(pk_func.apply(l));
-
-        Optional<LongFunction<String>> projection_func = cmd.getAsOptionalFunction("projection",String.class);
-        if (projection_func.isPresent()) {
-            LongFunction<GetItemSpec> finalGis = gis;
-            gis = l -> {
-                LongFunction<String> pj = projection_func.get();
-                return finalGis.apply(l).withProjectionExpression(pj.apply(1));
-            };
-        }
-
-        Optional<LongFunction<Boolean>> consistentRead = cmd.getAsOptionalFunction("ConsistentRead", boolean.class);
-        if (consistentRead.isPresent()) {
-            LongFunction<GetItemSpec> finalGis = gis;
-            gis = l -> {
-                LongFunction<Boolean> consistentReadFunc = consistentRead.get();
-                return finalGis.apply(l).withConsistentRead(consistentReadFunc.apply(l));
-            };
-        }
-
-        return gis;
-
+    private LongFunction<GetItemRequest> resolveRequestFunc(ParsedOp cmd) {
+        LongFunction<GetItemRequest.Builder> buildfunc = l -> GetItemRequest.builder();
+        buildfunc = cmd.enhance(buildfunc, "table", String.class, GetItemRequest.Builder::tableName);
+        buildfunc = cmd.enhance(buildfunc,"key",Map.class,(b, v) -> b.key(ItemValue.fromMap(v)));
+        buildfunc = cmd.enhance(buildfunc, "projection", String.class, GetItemRequest.Builder::projectionExpression);
+        buildfunc = cmd.enhance(buildfunc, "ConsistentRead",Boolean.class, GetItemRequest.Builder::consistentRead);
+        LongFunction<GetItemRequest.Builder> finalBuildfunc = buildfunc;
+        return l -> finalBuildfunc.apply(l).build();
     }
 
     @Override
     public DDBGetItemOp apply(long value) {
-        Table table = targetTableFunction.apply(value);
-        GetItemSpec getitemSpec = getItemSpecFunc.apply(value);
-        return new DDBGetItemOp(ddb, table, getitemSpec);
+        return new DDBGetItemOp(client, this.getItemRequestFunc.apply(value));
     }
 }

@@ -16,11 +16,11 @@
 
 package io.nosqlbench.engine.api.activityapi.errorhandling.modular;
 
+import io.nosqlbench.api.config.params.Element;
+import io.nosqlbench.api.config.params.NBParams;
+import io.nosqlbench.api.config.standard.NBMapConfigurable;
 import io.nosqlbench.engine.api.activityapi.errorhandling.ErrorMetrics;
-import io.nosqlbench.nb.annotations.Service;
-import io.nosqlbench.nb.api.config.standard.NBMapConfigurable;
-import io.nosqlbench.nb.api.config.params.Element;
-import io.nosqlbench.nb.api.config.params.NBParams;
+import io.nosqlbench.nb.annotations.types.Selector;
 
 import java.util.*;
 import java.util.ServiceLoader.Provider;
@@ -114,17 +114,17 @@ public class NBErrorHandler {
 
         loader.stream().forEach(provider -> {
             Class<? extends ErrorHandler> type = provider.type();
-            if (!type.isAnnotationPresent(Service.class)) {
+            if (!type.isAnnotationPresent(Selector.class)) {
                 throw new RuntimeException(
                     "Annotator services must be annotated with distinct selectors\n" +
-                        "such as @Service(Annotator.class,selector=\"myimpl42\")"
+                        "such as @Selector(\"myimpl42\")"
                 );
             }
-            Service service = type.getAnnotation(Service.class);
-            if (service.selector().isBlank()) {
+            Selector selector = type.getAnnotation(Selector.class);
+            if (selector.value().isBlank()) {
                 throw new RuntimeException("Services of type ErrorHandler must include the selector property in the Service annotation.");
             }
-            providers.put(service.selector(), provider);
+            providers.put(selector.value(), provider);
         });
 
         return providers;

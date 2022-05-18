@@ -16,9 +16,9 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.functionadapters;
 
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 import io.nosqlbench.virtdata.core.composers.FunctionAssembly;
 import io.nosqlbench.virtdata.core.composers.FunctionComposer;
 import io.nosqlbench.virtdata.core.bindings.ResolvedFunction;

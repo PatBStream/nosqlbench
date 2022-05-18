@@ -16,6 +16,17 @@
 
 package io.nosqlbench.virtdata.library.basics.shared.stateful;
 
+import io.nosqlbench.virtdata.library.basics.shared.stateful.loaders.from_object.LoadString;
+import io.nosqlbench.virtdata.library.basics.shared.stateful.loaders.from_object.LoadLong;
+import io.nosqlbench.virtdata.library.basics.shared.stateful.loaders.from_object.Clear;
+import io.nosqlbench.virtdata.library.basics.shared.stateful.loaders.from_object.LoadDouble;
+import io.nosqlbench.virtdata.library.basics.shared.stateful.loaders.from_object.LoadFloat;
+import io.nosqlbench.virtdata.library.basics.shared.stateful.loaders.from_object.LoadInteger;
+import io.nosqlbench.virtdata.library.basics.shared.stateful.savers.from_double.SaveDouble;
+import io.nosqlbench.virtdata.library.basics.shared.stateful.savers.from_float.SaveFloat;
+import io.nosqlbench.virtdata.library.basics.shared.stateful.savers.from_int.SaveInteger;
+import io.nosqlbench.virtdata.library.basics.shared.stateful.savers.from_long.SaveLong;
+import io.nosqlbench.virtdata.library.basics.shared.stateful.savers.from_string.SaveString;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

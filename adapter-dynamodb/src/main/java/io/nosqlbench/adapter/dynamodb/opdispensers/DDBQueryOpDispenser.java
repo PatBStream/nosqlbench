@@ -16,17 +16,15 @@
 
 package io.nosqlbench.adapter.dynamodb.opdispensers;
 
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
-import com.amazonaws.services.dynamodbv2.document.Table;
-import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
+import io.nosqlbench.adapter.dynamodb.converters.ItemValue;
 import io.nosqlbench.adapter.dynamodb.optypes.DDBQueryOp;
 import io.nosqlbench.adapter.dynamodb.optypes.DynamoDBOp;
-import io.nosqlbench.engine.api.activityimpl.BaseOpDispenser;
-import io.nosqlbench.engine.api.templating.ParsedOp;
+import io.nosqlbench.adapters.api.opmapping.BaseOpDispenser;
+import io.nosqlbench.adapters.api.templating.ParsedOp;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.LongFunction;
 
 /**
@@ -134,64 +132,32 @@ import java.util.function.LongFunction;
  */
 public class DDBQueryOpDispenser extends BaseOpDispenser<DynamoDBOp> {
 
-    private final DynamoDB ddb;
-    private final LongFunction<Table> tableFunc;
-    private final LongFunction<QuerySpec> querySpecFunc;
+    private final LongFunction<QueryRequest> queryRqFunc;
+    private final DynamoDbClient client;
 
-    public DDBQueryOpDispenser(DynamoDB ddb, ParsedOp cmd, LongFunction<?> targetFunc) {
+    public DDBQueryOpDispenser(DynamoDbClient client, ParsedOp cmd, LongFunction<?> targetFunc) {
         super(cmd);
-        this.ddb = ddb;
-        LongFunction<String> tableNameFunc = l -> targetFunc.apply(l).toString();
-        this.tableFunc = l -> ddb.getTable(tableNameFunc.apply(l));
+        this.client = client;
+        this.queryRqFunc = resolveQuerySpecFunc(cmd);
 
-        this.querySpecFunc = resolveQuerySpecFunc(cmd);
+        LongFunction<String> tableNameFunc = l -> targetFunc.apply(l).toString();
     }
 
     @Override
     public DDBQueryOp apply(long cycle) {
-        Table table = tableFunc.apply(cycle);
-        QuerySpec queryspec = querySpecFunc.apply(cycle);
-        return new DDBQueryOp(ddb,table,queryspec);
+        QueryRequest rq = queryRqFunc.apply(cycle);
+        return new DDBQueryOp(client,rq);
     }
 
-    private LongFunction<QuerySpec> resolveQuerySpecFunc(ParsedOp cmd) {
+    private LongFunction<QueryRequest> resolveQuerySpecFunc(ParsedOp cmd) {
 
-        LongFunction<QuerySpec> func = l -> new QuerySpec();
-
-        Optional<LongFunction<String>> projFunc = cmd.getAsOptionalFunction("projection", String.class);
-        if (projFunc.isPresent()) {
-            LongFunction<QuerySpec> finalFunc = func;
-            LongFunction<String> af = projFunc.get();
-            func = l -> finalFunc.apply(l).withAttributesToGet(af.apply(l));
-        }
-
-        Optional<LongFunction<Boolean>> consistentRead = cmd.getAsOptionalFunction("ConsistentRead", boolean.class);
-        if (consistentRead.isPresent()) {
-            LongFunction<QuerySpec> finalFunc = func;
-            LongFunction<Boolean> consistentReadFunc = consistentRead.get();
-            func = l -> finalFunc.apply(l).withConsistentRead(consistentReadFunc.apply(l));
-        }
-
-        Optional<LongFunction<Map>> exclStrtKeyFunc = cmd.getAsOptionalFunction("ExclusiveStartKey",Map.class);
-        if (exclStrtKeyFunc.isPresent()) {
-            LongFunction<QuerySpec> finalFunc = func;
-            LongFunction<Map> skf = exclStrtKeyFunc.get();
-            LongFunction<PrimaryKey> pkf = l -> {
-                PrimaryKey pk = new PrimaryKey();
-                skf.apply(l).forEach((k,v) -> pk.addComponent(k.toString(),v.toString()));
-                return pk;
-            };
-            func = l -> finalFunc.apply(l).withExclusiveStartKey(pkf.apply(l));
-        }
-
-        Optional<LongFunction<Integer>> limitFunc = cmd.getAsOptionalFunction("Limit",Integer.class);
-        if (limitFunc.isPresent()) {
-            LongFunction<Integer> limitf = limitFunc.get();
-            LongFunction<QuerySpec> finalFunc = func;
-            func = l -> finalFunc.apply(l).withMaxResultSize(limitf.apply(l));
-        }
-
-        return func;
+        LongFunction<QueryRequest.Builder> qrb = l -> QueryRequest.builder();
+        qrb = cmd.enhance(qrb,"projection",String.class, QueryRequest.Builder::projectionExpression);
+        qrb = cmd.enhance(qrb,"ConsistentRead",boolean.class, QueryRequest.Builder::consistentRead);
+        qrb = cmd.enhance(qrb,"ExclusiveStartkey",Map.class,(b,v) -> b.exclusiveStartKey(ItemValue.fromMap(v)));
+        qrb = cmd.enhance(qrb,"Limit",Integer.class, QueryRequest.Builder::limit);
+        LongFunction<QueryRequest.Builder> finalQrb = qrb;
+        return l -> finalQrb.apply(l).build();
     }
 
 }

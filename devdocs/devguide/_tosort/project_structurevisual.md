@@ -33,7 +33,6 @@ digraph Test {
    label="engine"
    engine_core[label="engine-core"];
    engine_extensions[label="engine-extensions"];
-   engine_docs[label="engine-docs"];
    engine_cli[label="engine-cli"];
    engine_rest[label="engine-rest"];
    engine_docker[label="engine-docker"];
@@ -67,7 +66,6 @@ digraph Test {
   engine_api -> nb_annotations;
   engine_api -> virtdata_lib_basics[lhead="cluster3"];
   engine_core -> engine_api [ltail="cluster0"];
-  engine_docs -> docsys;
   engine_cli -> engine_core;
   engine_cli -> engine_docker;
   engine_rest -> engine_cli;
@@ -88,7 +86,6 @@ digraph Test {
   nb -> driver_cql_mongodb;
   nb -> engine_rest;
   nb -> engine_cli;
-  nb -> engine_docs;
   nb -> engine_core;
   nb -> engine_extensions;
   **/

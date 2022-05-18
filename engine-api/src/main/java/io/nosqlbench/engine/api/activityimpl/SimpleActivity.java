@@ -17,6 +17,11 @@
 package io.nosqlbench.engine.api.activityimpl;
 
 import com.codahale.metrics.Timer;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.config.standard.NBConfiguration;
+import io.nosqlbench.api.errors.BasicError;
+import io.nosqlbench.api.errors.OpConfigError;
+import io.nosqlbench.api.metrics.ActivityMetrics;
 import io.nosqlbench.engine.api.activityapi.core.*;
 import io.nosqlbench.engine.api.activityapi.cyclelog.filters.IntPredicateDispenser;
 import io.nosqlbench.engine.api.activityapi.errorhandling.ErrorMetrics;
@@ -31,17 +36,13 @@ import io.nosqlbench.engine.api.activityapi.ratelimits.RateLimiter;
 import io.nosqlbench.engine.api.activityapi.ratelimits.RateLimiters;
 import io.nosqlbench.engine.api.activityapi.ratelimits.RateSpec;
 import io.nosqlbench.engine.api.activityconfig.StatementsLoader;
-import io.nosqlbench.engine.api.activityconfig.yaml.OpTemplate;
+import io.nosqlbench.adapters.api.activityconfig.yaml.OpTemplate;
 import io.nosqlbench.engine.api.activityconfig.yaml.StmtsDocList;
 import io.nosqlbench.engine.api.activityimpl.input.ProgressCapable;
-import io.nosqlbench.engine.api.activityimpl.uniform.flowtypes.Op;
-import io.nosqlbench.engine.api.metrics.ActivityMetrics;
-import io.nosqlbench.engine.api.templating.CommandTemplate;
-import io.nosqlbench.engine.api.templating.ParsedOp;
-import io.nosqlbench.engine.api.templating.StrInterpolator;
-import io.nosqlbench.nb.api.config.standard.NBConfiguration;
-import io.nosqlbench.nb.api.errors.BasicError;
-import io.nosqlbench.nb.api.errors.OpConfigError;
+import io.nosqlbench.adapters.api.opmapping.OpDispenser;
+import io.nosqlbench.adapters.api.opmapping.uniform.flowtypes.Op;
+import io.nosqlbench.adapters.api.templating.CommandTemplate;
+import io.nosqlbench.adapters.api.templating.ParsedOp;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -496,6 +497,8 @@ public class SimpleActivity implements Activity, ProgressCapable {
         } else if (op_yaml_loc.isPresent()) {
             stmtsDocList = StatementsLoader.loadPath(logger, op_yaml_loc.get(), activityDef.getParams(), "activities");
             workloadSource = "yaml:" + op_yaml_loc.get();
+        } else {
+            throw new BasicError("No workload YAML or stmt provided.");
         }
 
         List<OpTemplate> stmts = stmtsDocList.getStmts(tagfilter);

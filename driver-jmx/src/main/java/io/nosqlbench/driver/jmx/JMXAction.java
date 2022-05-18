@@ -19,8 +19,8 @@ package io.nosqlbench.driver.jmx;
 import io.nosqlbench.driver.jmx.ops.JmxOp;
 import io.nosqlbench.engine.api.activityapi.core.SyncAction;
 import io.nosqlbench.engine.api.activityapi.planning.OpSequence;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
-import io.nosqlbench.engine.api.activityimpl.OpDispenser;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.adapters.api.opmapping.OpDispenser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

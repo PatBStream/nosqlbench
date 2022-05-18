@@ -20,8 +20,8 @@ import io.nosqlbench.driver.jmx.ops.JMXExplainOperation;
 import io.nosqlbench.driver.jmx.ops.JMXPrintOperation;
 import io.nosqlbench.driver.jmx.ops.JMXReadOperation;
 import io.nosqlbench.driver.jmx.ops.JmxOp;
-import io.nosqlbench.engine.api.activityimpl.BaseOpDispenser;
-import io.nosqlbench.engine.api.templating.CommandTemplate;
+import io.nosqlbench.adapters.api.opmapping.BaseOpDispenser;
+import io.nosqlbench.adapters.api.templating.CommandTemplate;
 
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;

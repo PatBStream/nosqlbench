@@ -19,7 +19,7 @@ package io.nosqlbench.driver.pulsar.ops;
 import io.nosqlbench.driver.pulsar.PulsarActivity;
 import io.nosqlbench.driver.pulsar.PulsarSpace;
 import io.nosqlbench.driver.pulsar.util.PulsarActivityUtil;
-import io.nosqlbench.engine.api.templating.CommandTemplate;
+import io.nosqlbench.adapters.api.templating.CommandTemplate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -16,17 +16,19 @@
 
 package io.nosqlbench.engine.core.metadata;
 
+import io.nosqlbench.adapters.api.opmapping.uniform.DriverAdapter;
+import io.nosqlbench.api.activityimpl.ActivityDef;
+import io.nosqlbench.api.content.Content;
+import io.nosqlbench.api.content.NBIO;
+import io.nosqlbench.api.errors.BasicError;
 import io.nosqlbench.engine.api.activityapi.core.ActivityType;
-import io.nosqlbench.engine.api.activityimpl.ActivityDef;
 import io.nosqlbench.engine.core.lifecycle.ActivityTypeLoader;
-import io.nosqlbench.nb.annotations.Service;
-import io.nosqlbench.nb.api.content.Content;
-import io.nosqlbench.nb.api.content.NBIO;
-import io.nosqlbench.nb.api.errors.BasicError;
+import io.nosqlbench.nb.annotations.types.Selector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
+import java.util.ServiceLoader;
 
 public class MarkdownDocInfo {
     private final static Logger logger = LogManager.getLogger(MarkdownDocInfo.class);
@@ -63,11 +65,15 @@ public class MarkdownDocInfo {
     }
 
     public String forActivityInstance(String s) {
-        ActivityType activityType = new ActivityTypeLoader().load(ActivityDef.parseActivityDef("driver="+s)).orElseThrow(
+        ActivityType activityType = new ActivityTypeLoader().load(
+            ActivityDef.parseActivityDef("driver=" + s),
+            ServiceLoader.load(ActivityType.class),
+            ServiceLoader.load(DriverAdapter.class)
+        ).orElseThrow(
             () -> new BasicError("Unable to find driver for '" + s + "'")
         );
-        return forResourceMarkdown(activityType.getClass().getAnnotation(Service.class)
-            .selector() + ".md", "docs/");
+        return forResourceMarkdown(activityType.getClass().getAnnotation(Selector.class)
+            .value() + ".md", "docs/");
     }
 
 }

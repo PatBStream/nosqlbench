@@ -16,10 +16,10 @@
 
 package io.nosqlbench.datamappers.functions.long_localdate;
 
-import io.nosqlbench.virtdata.api.annotations.Categories;
-import io.nosqlbench.virtdata.api.annotations.Category;
-import io.nosqlbench.virtdata.api.annotations.Example;
-import io.nosqlbench.virtdata.api.annotations.ThreadSafeMapper;
+import io.nosqlbench.virtdata.annotations.types.Categories;
+import io.nosqlbench.virtdata.annotations.types.Category;
+import io.nosqlbench.virtdata.annotations.types.Example;
+import io.nosqlbench.virtdata.annotations.types.ThreadSafeMapper;
 
 import java.time.LocalDate;
 import java.util.function.LongFunction;
