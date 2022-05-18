@@ -23,7 +23,7 @@
     <parent>
         <artifactId>virtdata-lib-template</artifactId>
         <groupId>io.nosqlbench</groupId>
-        <version>4.17.12-SNAPSHOT</version>
+        <version>4.17.15-SNAPSHOT</version>
         <relativePath>../virtdata-lib-template</relativePath>
     </parent>
 
@@ -65,6 +65,12 @@
         <dependency>
             <groupId>com.elega9t</groupId>
             <artifactId>number-to-words</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.nosqlbench</groupId>
+            <artifactId>virtdata-annotations</artifactId>
+            <version>4.17.15-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>
