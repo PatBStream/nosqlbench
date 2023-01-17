@@ -61,6 +61,7 @@
         <module.adapter-mongodb>adapter-mongodb</module.adapter-mongodb>
         <module.adapter-pulsar>adapter-pulsar</module.adapter-pulsar>
         <module.adapter-s4j>adapter-s4j</module.adapter-s4j>
+        <module.adapter-s4r>adapter-s4r</module.adapter-s4r>
         <module.adapter-kafka>adapter-kafka</module.adapter-kafka>
 
         <!-- VIRTDATA MODULES -->
@@ -102,6 +103,7 @@
         <module>adapter-mongodb</module>
         <module>adapter-pulsar</module>
         <module>adapter-s4j</module>
+        <module>adapter-s4r</module>
         <module>adapter-kafka</module>
 
         <!-- VIRTDATA MODULES -->
@@ -231,6 +233,9 @@
                                         <fileset dir="${basedir}/${module.adapter-s4j}/target">
                                             <include name="jacoco.exec"/>
                                         </fileset>
+                                        <fileset dir="${basedir}/${module.adapter-s4r}/target">
+                                            <include name="jacoco.exec"/>
+                                        </fileset>
                                         <fileset dir="${basedir}/${module.adapter-kafka}/target">
                                             <include name="jacoco.exec"/>
                                         </fileset>
@@ -319,6 +324,9 @@
                                                 <fileset dir="${basedir}/${module.adapter-s4j}/target/classes">
                                                     <include name="io/nosqlbench/**/*.class"/>
                                                 </fileset>
+                                                <fileset dir="${basedir}/${module.adapter-s4r}/target/classes">
+                                                    <include name="io/nosqlbench/**/*.class"/>
+                                                </fileset>
                                                 <fileset dir="${basedir}/${module.adapter-kafka}/target/classes">
                                                     <include name="io/nosqlbench/**/*.class"/>
                                                 </fileset>
@@ -367,6 +375,7 @@
                                                 <fileset dir="${basedir}/${module.adapter-mongodb}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.adapter-pulsar}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.adapter-s4j}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.adapter-s4r}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.adapter-kafka}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.virtdata-api}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.virtdata-lang}/src/main/java"/>
