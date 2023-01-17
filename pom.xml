@@ -14,8 +14,7 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>nosqlbench</artifactId>
@@ -24,7 +23,7 @@
     <parent>
         <artifactId>mvn-defaults</artifactId>
         <groupId>io.nosqlbench</groupId>
-        <version>${revision}</version>
+        <version>5.17.1-SNAPSHOT</version>
         <relativePath>mvn-defaults</relativePath>
     </parent>
 
@@ -356,6 +355,7 @@
                                                 </fileset>
                                             </classfiles>
                                             <sourcefiles encoding="UTF-8">
+<<<<<<< HEAD
                                                 <fileset dir="${basedir}/${module.nb-api}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.nb-annotations}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.nb-spectest}/src/main/java"/>
@@ -385,6 +385,36 @@
                                                 <fileset dir="${basedir}/${module.virtdata-lib-curves4}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.virtdata-lib-realer}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.virtdata-userlibs}/src/main/java"/>
+=======
+                                                <fileset dir="${basedir}/${module.nb-api}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.nb-annotations}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.nb-spectest}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.engine-api}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.engine-core}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.engine-extensions}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.engine-docker}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.engine-docs}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.engine-cli}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.adapters-api}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.adapter-diag}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.adapter-stdout}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.adapter-cqld4}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.adapter-http}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.adapter-tcp}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.adapter-dynamodb}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.adapter-mongodb}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.adapter-pulsar}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.adapter-s4j}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.adapter-kafka}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.virtdata-api}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.virtdata-lang}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.virtdata-realdata}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.virtdata-lib-basics}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.virtdata-lib-random}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.virtdata-lib-curves4}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.virtdata-lib-realer}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.virtdata-userlibs}/src/main/java"/>
+>>>>>>> 3cd4a42e644d60cbe84bc47c51c36d4e460072ac
                                             </sourcefiles>
                                         </group>
                                     </structure>

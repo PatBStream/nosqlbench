@@ -14,13 +14,12 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.nosqlbench</groupId>
     <artifactId>mvn-defaults</artifactId>
-    <version>${revision}</version>
+    <version>5.17.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -352,23 +351,23 @@
             <dependency>
                 <groupId>org.graalvm.sdk</groupId>
                 <artifactId>graal-sdk</artifactId>
-                <version>22.2.0</version>
+                <version>22.3.0</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.js</groupId>
                 <artifactId>js</artifactId>
-                <version>22.2.0</version>
+                <version>22.3.0</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.js</groupId>
                 <artifactId>js-scriptengine</artifactId>
-                <version>22.2.0</version>
+                <version>22.3.0</version>
             </dependency>
             <dependency>
                 <groupId>org.graalvm.tools</groupId>
                 <artifactId>profiler</artifactId>
-                <version>22.2.0</version>
+                <version>22.3.0</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
@@ -445,6 +444,16 @@
         <testResources>
             <testResource>
                 <directory>src/test/resources</directory>
+                <excludes>
+                    <exclude>log4j2-test.xml</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <includes>
+                    <include>log4j2-test.xml</include>
+                </includes>
                 <filtering>true</filtering>
             </testResource>
         </testResources>
