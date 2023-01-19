@@ -355,7 +355,6 @@
                                                 </fileset>
                                             </classfiles>
                                             <sourcefiles encoding="UTF-8">
-<<<<<<< HEAD
                                                 <fileset dir="${basedir}/${module.nb-api}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.nb-annotations}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.nb-spectest}/src/main/java"/>
@@ -385,7 +384,6 @@
                                                 <fileset dir="${basedir}/${module.virtdata-lib-curves4}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.virtdata-lib-realer}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.virtdata-userlibs}/src/main/java"/>
-=======
                                                 <fileset dir="${basedir}/${module.nb-api}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.nb-annotations}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.nb-spectest}/src/main/java"/>
@@ -414,7 +412,6 @@
                                                 <fileset dir="${basedir}/${module.virtdata-lib-curves4}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.virtdata-lib-realer}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.virtdata-userlibs}/src/main/java"/>
->>>>>>> 3cd4a42e644d60cbe84bc47c51c36d4e460072ac
                                             </sourcefiles>
                                         </group>
                                     </structure>
