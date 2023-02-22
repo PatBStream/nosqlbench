@@ -1,0 +1,120 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch with Arguments Prompt",
+            "request": "launch",
+            "mainClass": "${file}",
+            "args": "${command:SpecifyProgramArgs}"
+        },
+        {
+            "type": "java",
+            "name": "Launch CGWorkloadExporter",
+            "request": "launch",
+            "mainClass": "io.nosqlbench.cqlgen.core.CGWorkloadExporter",
+            "projectName": "adapter-cqld4"
+        },
+        {
+            "type": "java",
+            "name": "Launch NBWebServerApp",
+            "request": "launch",
+            "mainClass": "io.nosqlbench.docsys.core.NBWebServerApp",
+            "projectName": "docsys"
+        },
+        {
+            "type": "java",
+            "name": "Launch CycleLogDumperUtility",
+            "request": "launch",
+            "mainClass": "io.nosqlbench.engine.api.activityapi.cyclelog.outputs.cyclelog.CycleLogDumperUtility",
+            "projectName": "engine-api"
+        },
+        {
+            "type": "java",
+            "name": "Launch CycleLogImporterUtility",
+            "request": "launch",
+            "mainClass": "io.nosqlbench.engine.api.activityapi.cyclelog.outputs.cyclelog.CycleLogImporterUtility",
+            "projectName": "engine-api"
+        },
+        {
+            "type": "java",
+            "name": "Launch SysPerfBaseliner",
+            "request": "launch",
+            "mainClass": "io.nosqlbench.engine.api.activityapi.sysperf.SysPerfBaseliner",
+            "projectName": "engine-api"
+        },
+        {
+            "type": "java",
+            "name": "Launch NBCLI",
+            "request": "launch",
+            "mainClass": "io.nosqlbench.engine.cli.NBCLI",
+            "projectName": "engine-cli",
+            "args": "${command:SpecifyProgramArgs}"
+        },
+        {
+            "type": "java",
+            "name": "Launch MarkdownExporter",
+            "request": "launch",
+            "mainClass": "io.nosqlbench.api.markdown.exporter.MarkdownExporter",
+            "projectName": "nb-api"
+        },
+        {
+            "type": "java",
+            "name": "Launch BundledMarkdownExporter",
+            "request": "launch",
+            "mainClass": "io.nosqlbench.api.docsapi.docexporter.BundledMarkdownExporter",
+            "projectName": "nbr"
+        },
+        {
+            "type": "java",
+            "name": "Launch FastMath",
+            "request": "launch",
+            "mainClass": "org.apache.commons.math4.util.FastMath",
+            "projectName": "virtdata-lib-curves4"
+        },
+        {
+            "type": "java",
+            "name": "Launch VirtDataMainApp",
+            "request": "launch",
+            "mainClass": "io.nosqlbench.virtdata.userlibs.apps.VirtDataMainApp",
+            "projectName": "virtdata-userlibs"
+        },
+        {
+            "type": "java",
+            "name": "Launch VirtDataDiagnoseApp",
+            "request": "launch",
+            "mainClass": "io.nosqlbench.virtdata.userlibs.apps.diagnoseapp.VirtDataDiagnoseApp",
+            "projectName": "virtdata-userlibs"
+        },
+        {
+            "type": "java",
+            "name": "Launch VirtDataGenDocsApp",
+            "request": "launch",
+            "mainClass": "io.nosqlbench.virtdata.userlibs.apps.docsapp.VirtDataGenDocsApp",
+            "projectName": "virtdata-userlibs"
+        },
+        {
+            "type": "java",
+            "name": "Launch ValueSummarizerApp",
+            "request": "launch",
+            "mainClass": "io.nosqlbench.virtdata.userlibs.apps.summarizer.ValueSummarizerApp",
+            "projectName": "virtdata-userlibs"
+        },
+        {
+            "type": "java",
+            "name": "Launch VirtDataCheckPerfApp",
+            "request": "launch",
+            "mainClass": "io.nosqlbench.virtdata.userlibs.apps.valuechecker.VirtDataCheckPerfApp",
+            "projectName": "virtdata-userlibs"
+        }
+    ]
+}

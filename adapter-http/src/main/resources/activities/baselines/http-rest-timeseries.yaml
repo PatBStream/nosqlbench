@@ -1,4 +1,4 @@
-min_version: "4.17.15"
+min_version: "5.17.1"
 
 description: |
   This workload emulates a time-series data model and access patterns.
@@ -12,10 +12,9 @@ description: |
 
 scenarios:
   default:
-    schema: run driver=cql tags==block:schema threads==1 cycles==UNDEF
-    schema-astra: run driver=cql tags==block:schema-astra threads==1 cycles==UNDEF
-    rampup: run driver=http tags==block:rampup cycles===TEMPLATE(rampup-cycles,10000000) threads=auto
-    main: run driver=http tags==block:"main.*" cycles===TEMPLATE(main-cycles,10000000) threads=auto
+    schema: run driver=http tags==block:"schema.*" threads==1 cycles==UNDEF
+    rampup: run driver=http tags==block:"rampup.*" cycles===TEMPLATE(rampup-cycles,1) threads=auto
+    main: run driver=http tags==block:"main.*" cycles===TEMPLATE(main-cycles,10) threads=auto
 
 bindings:
   # To enable an optional weighted set of hosts in place of a load balancer
@@ -24,11 +23,13 @@ bindings:
   #   multiple hosts: restapi_host=host1,host2,host3
   #   multiple weighted hosts: restapi_host=host1:3,host2:7
   weighted_hosts: WeightedStrings('<<restapi_host:stargate>>')
+
   # http request id
   request_id: ToHashedUUID(); ToString();
+  request_token: Discard(); FirstLines("TEMPLATE(stargate_tokenfile,data/stargate_token.txt)");
 
   machine_id: Mod(<<sources:10000>>); ToHashedUUID() -> java.util.UUID
-  sensor_name: HashedLineToString('data/variable_words.txt')
+  sensor_name: HashedLineToString('data/variable_words.txt');
   time: Mul(<<timespeed:100>>L); Div(<<sources:10000>>L); StringDateWrapper("yyyy-MM-dd'T'hh:mm:ss'Z");
   sensor_value: Normal(0.0,5.0); Add(100.0) -> double
   station_id: Div(<<sources:10000>>);Mod(<<stations:100>>); ToHashedUUID() -> java.util.UUID
@@ -42,20 +43,20 @@ blocks:
         uri: <<protocol:http>>://{weighted_hosts}:<<restapi_port:8082>><<path_prefix:>>/v2/schemas/keyspaces
         Accept: "application/json"
         X-Cassandra-Request-Id: "{request_id}"
-        X-Cassandra-Token: "<<auth_token:my_auth_token>>"
+        X-Cassandra-Token: "{request_token}"
         Content-Type: "application/json"
         body: |
           {
-              "name": "<<keyspace:baselines>>",
-              "replicas": <<rf:1>>
-          }
+            "name": "<<keyspace:baselines>>",
+            "replicas": <<rf:1>>
+          }      
 
       drop-table:
         method: DELETE
         uri: <<protocol:http>>://{weighted_hosts}:<<restapi_port:8082>><<path_prefix:>>/v2/schemas/keyspaces/<<keyspace:baselines>>/tables/<<table:iot>>
         Accept: "application/json"
         X-Cassandra-Request-Id: "{request_id}"
-        X-Cassandra-Token: "<<auth_token:my_auth_token>>"
+        X-Cassandra-Token: "{request_token}"
         Content-Type: "application/json"
         ok-status: "[2-4][0-9][0-9]"
 
@@ -64,58 +65,60 @@ blocks:
         uri: <<protocol:http>>://{weighted_hosts}:<<restapi_port:8082>><<path_prefix:>>/v2/schemas/keyspaces/<<keyspace:baselines>>/tables
         Accept: "application/json"
         X-Cassandra-Request-Id: "{request_id}"
-        X-Cassandra-Token: "<<auth_token:my_auth_token>>"
+        X-Cassandra-Token: "{request_token}"
         Content-Type: "application/json"
         body: |
           {
-              "name": "<<table:iot>>",
-              "columnDefinitions": [
-                  {
-                      "name": "machine_id",
-                      "typeDefinition": "uuid"
-                  },
-                  {
-                      "name": "sensor_name",
-                      "typeDefinition": "text"
-                  },
-                  {
-                      "name": "time",
-                      "typeDefinition": "timestamp"
-                  },
-                  {
-                      "name": "sensor_value",
-                      "typeDefinition": "double"
-                  },
-                  {
-                      "name": "station_id",
-                      "typeDefinition": "uuid"
-                  },
-                  {
-                      "name": "data",
-                      "typeDefinition": "text"
-                  }
-              ],
-              "primaryKey": {
-                  "partitionKey": [
-                      "machine_id",
-                      "sensor_name"
-                  ],
-                  "clusteringKey": [
-                      "time"
-                  ]
+            "name": "<<table:iot>>",
+            "columnDefinitions": |
+            [
+              {
+                "name": "machine_id",
+                "typeDefinition": "uuid"
               },
-              "tableOptions": {
-                  "clusteringExpression": [
-                      {
-                          "column": "time",
-                          "order": "DESC"
-                      }
-                  ]
+              {
+                "name": "sensor_name",
+                "typeDefinition": "text"
               },
-              "ifNotExists": true
+              {
+                "name": "time",
+                "typeDefinition": "timestamp"
+              },
+              {
+                "name": "sensor_value",
+                "typeDefinition": "double"
+              },
+              {
+                "name": "station_id",
+                "typeDefinition": "uuid"
+              },
+              {
+                "name": "data",
+                "typeDefinition": "text"
+              }
+            ],
+            "primaryKey": |
+            {
+              "partitionKey": [
+                "machine_id",
+                "sensor_name"
+                ],
+              "clusteringKey": [
+                "time"
+              ]
+            },
+            "tableOptions": |
+            {
+              "clusteringExpression": | 
+              [
+                {
+                  "column": "time",
+                  "order": "DESC"
+                }
+              ]
+            },
+            "ifNotExists": true
           }
-
-
   rampup:
     ops:
       rampup-insert:
@@ -123,7 +126,7 @@ blocks:
         uri: <<protocol:http>>://{weighted_hosts}:<<restapi_port:8082>><<path_prefix:>>/v2/keyspaces/<<keyspace:baselines>>/<<table:iot>>
         Accept: "application/json"
         X-Cassandra-Request-Id: "{request_id}"
-        X-Cassandra-Token: "<<auth_token:my_auth_token>>"
+        X-Cassandra-Token: "{request_token}"
         Content-Type: "application/json"
         body: |
           {
@@ -134,7 +137,6 @@ blocks:
             "station_id": "{station_id}",
             "data": "{data}"
           }
-
   main-read:
     params:
       ratio: <<read_ratio:1>>
@@ -144,7 +146,7 @@ blocks:
         uri: <<protocol:http>>://{weighted_hosts}:<<restapi_port:8082>><<path_prefix:>>/v2/keyspaces/<<keyspace:baselines>>/<<table:iot>>?where=URLENCODE[[{"machine_id":{"$eq":"{machine_id}"},"sensor_name":{"$eq":"{sensor_name}"}}]]&page-size=<<limit:10>>
         Accept: "application/json"
         X-Cassandra-Request-Id: "{request_id}"
-        X-Cassandra-Token: "<<auth_token:my_auth_token>>"
+        X-Cassandra-Token: "{request_token}"
         Content-Type: "application/json"
 
   main-write:
@@ -156,7 +158,7 @@ blocks:
         uri: <<protocol:http>>://{weighted_hosts}:<<restapi_port:8082>><<path_prefix:>>/v2/keyspaces/<<keyspace:baselines>>/<<table:iot>>
         Accept: "application/json"
         X-Cassandra-Request-Id: "{request_id}"
-        X-Cassandra-Token: "<<auth_token:my_auth_token>>"
+        X-Cassandra-Token: "{request_token}"
         Content-Type: "application/json"
         body: |
           {
