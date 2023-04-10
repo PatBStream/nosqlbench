@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 nosqlbench
+ * Copyright (c) 2023 nosqlbench
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.nosqlbench.virtdata.library.basics.shared.unary_string;
 
-package io.nosqlbench.adapter.mongodb.core;
-
-public enum MongoDBOpTypes {
-    /**
-     * Use direct command structure....
-     *
-     * @see <a href="https://docs.mongodb.com/manual/reference/method/db.runCommand/#command-response">command-response</a>
-     */
-    command,
-
+public abstract class TokenTest {
+    // Intent is to expand for generic (non-Stargate) http-rest test conditions and utils.
 }

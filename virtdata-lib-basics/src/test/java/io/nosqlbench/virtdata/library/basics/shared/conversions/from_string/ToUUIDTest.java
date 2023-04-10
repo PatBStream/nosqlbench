@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 nosqlbench
+ * Copyright (c) 2023 nosqlbench
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package io.nosqlbench.adapter.mongodb.core;
+package io.nosqlbench.virtdata.library.basics.shared.conversions.from_string;
 
-public enum MongoDBOpTypes {
-    /**
-     * Use direct command structure....
-     *
-     * @see <a href="https://docs.mongodb.com/manual/reference/method/db.runCommand/#command-response">command-response</a>
-     */
-    command,
+import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class ToUUIDTest {
+
+    @Test
+    public void testStringToUUID() {
+        assertThat(new ToUUID().apply("ad3b5598-8620-41f7-9631-3ae47c7aa465"))
+            .isEqualTo(UUID.fromString("ad3b5598-8620-41f7-9631-3ae47c7aa465"));
+    }
 }
