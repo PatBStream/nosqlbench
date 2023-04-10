@@ -26,6 +26,9 @@ import org.apache.kafka.common.header.Headers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+
 import java.util.Map;
 
 public class OpTimeTrackS4RConsumer extends OpTimeTrackS4RClient {
@@ -40,19 +43,21 @@ public class OpTimeTrackS4RConsumer extends OpTimeTrackS4RClient {
     private final ThreadLocal<Integer> manualCommitTrackingCnt = ThreadLocal.withInitial(() -> 0);
 
     private final KafkaConsumer<String, String> consumer;
+    private final Channel S4RChannel;
 
     public OpTimeTrackS4RConsumer(S4RSpace s4RSpace,
                                   boolean asyncMsgCommit,
                                   int msgPoolIntervalInMs,
                                   boolean autoCommitEnabled,
                                   int maxMsgCntPerCommit,
-                                  KafkaConsumer<String, String> consumer) {
+                                  KafkaConsumer<String, String> consumer, Channel channel) {
         super(s4RSpace);
         this.msgPoolIntervalInMs = msgPoolIntervalInMs;
         this.asyncMsgCommit = asyncMsgCommit;
         this.autoCommitEnabled = autoCommitEnabled;
         this.maxMsgCntPerCommit = maxMsgCntPerCommit;
         this.consumer = consumer;
+        this.S4RChannel = channel;
     }
 
     public int getManualCommitTrackingCnt() { return manualCommitTrackingCnt.get(); }

@@ -18,21 +18,33 @@ package io.nosqlbench.adapter.s4r.dispensers;
 
 import io.nosqlbench.adapter.s4r.S4RSpace;
 import io.nosqlbench.adapter.s4r.exception.S4RAdapterInvalidParamException;
+import io.nosqlbench.adapter.s4r.exception.S4RAdapterUnexpectedException;
 import io.nosqlbench.adapter.s4r.ops.S4ROp;
 import io.nosqlbench.adapter.s4r.ops.OpTimeTrackS4RClient;
 import io.nosqlbench.adapter.s4r.ops.OpTimeTrackS4RConsumer;
 import io.nosqlbench.adapter.s4r.util.S4RAdapterUtil;
+import io.nosqlbench.adapter.s4r.util.S4RMessageHandler;
 import io.nosqlbench.adapter.s4r.util.S4RAdapterMetrics;
 import io.nosqlbench.engine.api.activityimpl.uniform.DriverAdapter;
 import io.nosqlbench.engine.api.templating.ParsedOp;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
+import com.rabbitmq.client.Connection;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeoutException;
 import java.util.function.LongFunction;
 import java.util.stream.Collectors;
 
@@ -94,6 +106,21 @@ public class MessageConsumerOpDispenser extends S4RBaseOpDispenser {
         List<String> topicNameList,
         String groupId)
     {
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost("localhost");
+        factory.setPort(5672);
+        Connection connection;
+        Channel channel = null;
+        try {
+            connection = factory.newConnection();
+            channel = connection.createChannel();
+            channel.queueDeclare("products_queue", false, false, false, null);
+            DefaultConsumer consumer = new S4RMessageHandler(channel);
+            channel.basicConsume("products_queue", true, consumer);
+        } catch (IOException | TimeoutException e) {
+            throw new S4RAdapterUnexpectedException("*** Error connecting to RabbitMQ Server: " + e.getMessage());
+        }
+
         String topicNameListStr = topicNameList.stream()
             .collect(Collectors.joining("::"));
 
@@ -120,10 +147,10 @@ public class MessageConsumerOpDispenser extends S4RBaseOpDispenser {
             }
 
             opTimeTrackS4RClient = new OpTimeTrackS4RConsumer(
-                    s4RSpace, asyncAPI, msgPollIntervalInSec, autoCommitEnabled, maxMsgCntPerCommit, consumer);
+                    s4RSpace, asyncAPI, msgPollIntervalInSec, autoCommitEnabled, maxMsgCntPerCommit, consumer, channel);
             s4RSpace.addOpTimeTrackS4RClient(cacheKey, opTimeTrackS4RClient);
         }
-
+        logger.info("************  RabbitMQ Client Completed.**************************");
         return opTimeTrackS4RClient;
     }
 
@@ -149,11 +176,12 @@ public class MessageConsumerOpDispenser extends S4RBaseOpDispenser {
         OpTimeTrackS4RClient opTimeTrackS4RConsumer =
             getOrCreateOpTimeTrackS4RConsumer(cycle, topicNameList, groupId);
 
-
+        logger.debug("MessageConsumerOpsDispenser called, cycle #  " + cycle);
         return new S4ROp(
             s4rAdapterMetrics,
                 s4RSpace,
             opTimeTrackS4RConsumer,
             null);
-    }
+    } 
+   
 }

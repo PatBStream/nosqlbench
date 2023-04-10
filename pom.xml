@@ -160,7 +160,6 @@
                 <!--                </executions>-->
             </plugin>
 
-<<<<<<< HEAD
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -411,6 +410,7 @@
                                                 <fileset dir="${basedir}/${module.adapter-mongodb}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.adapter-pulsar}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.adapter-s4j}/src/main/java"/>
+                                                <fileset dir="${basedir}/${module.adapter-s4r}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.adapter-kafka}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.virtdata-api}/src/main/java"/>
                                                 <fileset dir="${basedir}/${module.virtdata-lang}/src/main/java"/>
@@ -439,8 +439,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-=======
->>>>>>> 62d5832d1af7d4184a14cc3e0dd5c50f9ef52677
         </plugins>
 
     </build>
