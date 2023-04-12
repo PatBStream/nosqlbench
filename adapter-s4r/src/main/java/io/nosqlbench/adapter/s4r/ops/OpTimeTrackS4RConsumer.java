@@ -42,7 +42,7 @@ public class OpTimeTrackS4RConsumer extends OpTimeTrackS4RClient {
     // Keep track the manual commit count
     private final ThreadLocal<Integer> manualCommitTrackingCnt = ThreadLocal.withInitial(() -> 0);
 
-    private final KafkaConsumer<String, String> consumer;
+//    private final KafkaConsumer<String, String> consumer;
     private final Channel S4RChannel;
 
     public OpTimeTrackS4RConsumer(S4RSpace s4RSpace,
@@ -50,13 +50,14 @@ public class OpTimeTrackS4RConsumer extends OpTimeTrackS4RClient {
                                   int msgPoolIntervalInMs,
                                   boolean autoCommitEnabled,
                                   int maxMsgCntPerCommit,
-                                  KafkaConsumer<String, String> consumer, Channel channel) {
+//                                  KafkaConsumer<String, String> consumer, 
+                                  Channel channel) {
         super(s4RSpace);
         this.msgPoolIntervalInMs = msgPoolIntervalInMs;
         this.asyncMsgCommit = asyncMsgCommit;
         this.autoCommitEnabled = autoCommitEnabled;
         this.maxMsgCntPerCommit = maxMsgCntPerCommit;
-        this.consumer = consumer;
+//        this.consumer = consumer;
         this.S4RChannel = channel;
     }
 
@@ -111,12 +112,14 @@ public class OpTimeTrackS4RConsumer extends OpTimeTrackS4RClient {
 
     @Override
     void cycleMsgProcess(long cycle, Object cycleObj) {
+        logger.debug("In method cycleMsgProcess called cycle: " + cycle);
         if (s4RSpace.isShuttigDown()) {
             return;
         }
-
+/*
         synchronized (this) {
             ConsumerRecords<String, String> records = consumer.poll(msgPoolIntervalInMs);
+            ConsumerRecords<String, String> records = null;
             for (ConsumerRecord<String, String> record : records) {
                 if (record != null) {
                     if (logger.isDebugEnabled()) {
@@ -168,13 +171,13 @@ public class OpTimeTrackS4RConsumer extends OpTimeTrackS4RClient {
                     }
                 }
             }
-        }
+        } */
     }
 
     @Override
     public void close() {
         try {
-            if (consumer != null) {
+/*            if (consumer != null) {
                 if (!asyncMsgCommit)
                     consumer.commitSync();
                 else
@@ -182,7 +185,7 @@ public class OpTimeTrackS4RConsumer extends OpTimeTrackS4RClient {
 
                 consumer.close();
             }
-
+*/
             this.manualCommitTrackingCnt.remove();
         }
         catch (IllegalStateException ise) {

@@ -27,11 +27,13 @@ import io.nosqlbench.adapter.s4r.util.S4RMessageHandler;
 import io.nosqlbench.adapter.s4r.util.S4RAdapterMetrics;
 import io.nosqlbench.engine.api.activityimpl.uniform.DriverAdapter;
 import io.nosqlbench.engine.api.templating.ParsedOp;
+import scala.noinline;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import org.apache.kafka.clients.consumer.KafkaConsumer;
+//import org.apache.kafka.clients.consumer.KafkaConsumer;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.ConnectionFactory;
@@ -73,7 +75,7 @@ public class MessageConsumerOpDispenser extends S4RBaseOpDispenser {
 
         this.consumerClientConfMap.putAll(s4RSpace.getS4RClientConf().getConsumerConfMap());
         consumerClientConfMap.put("bootstrap.servers", s4RSpace.getBootstrapSvr());
-
+        
         this.msgPollIntervalInSec =
             NumberUtils.toInt(parsedOp.getStaticConfigOr("msg_poll_interval", "0"));
 
@@ -106,21 +108,6 @@ public class MessageConsumerOpDispenser extends S4RBaseOpDispenser {
         List<String> topicNameList,
         String groupId)
     {
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
-        factory.setPort(5672);
-        Connection connection;
-        Channel channel = null;
-        try {
-            connection = factory.newConnection();
-            channel = connection.createChannel();
-            channel.queueDeclare("products_queue", false, false, false, null);
-            DefaultConsumer consumer = new S4RMessageHandler(channel);
-            channel.basicConsume("products_queue", true, consumer);
-        } catch (IOException | TimeoutException e) {
-            throw new S4RAdapterUnexpectedException("*** Error connecting to RabbitMQ Server: " + e.getMessage());
-        }
-
         String topicNameListStr = topicNameList.stream()
             .collect(Collectors.joining("::"));
 
@@ -132,25 +119,58 @@ public class MessageConsumerOpDispenser extends S4RBaseOpDispenser {
             Properties consumerConfProps = new Properties();
             consumerConfProps.putAll(consumerClientConfMap);
             consumerConfProps.put("group.id", groupId);
-
-            KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerConfProps);
-            synchronized (this) {
-                consumer.subscribe(topicNameList);
+            // S4R Connection Factory for Pulsar
+            ConnectionFactory s4rConnFactory = null;
+            Connection s4rConnection = null;
+            Channel s4rChannel = null;
+            String consumerTag = null;
+            String host = s4RSpace.getS4RClientConf().getS4rConnectionMap().get("host");
+            String port = s4RSpace.getS4RClientConf().getS4rConnectionMap().get("port");
+            logger.debug("S4R Pulsar host: " + host + " port: " + port);
+            logger.debug("consumerClientConfMap Map is: " + consumerClientConfMap.toString());
+            try {
+                s4rConnFactory = new ConnectionFactory();
+                s4rConnFactory.setHost(host);
+                s4rConnFactory.setPort(Integer.parseInt(port));
+                s4rConnection = s4rConnFactory.newConnection();
+                s4rChannel = s4rConnection.createChannel();
+                s4rChannel.queueDeclare("s4r_queue1", true, false, false, null);
+                DefaultConsumer consumer = new S4RMessageHandler(s4rChannel);
+                consumerTag = s4rChannel.basicConsume("s4r_queue1", true, consumer);
+//                OpTimeTrackS4RClient opTimeTrackS4RClient = new OpTimeTrackS4RConsumer(
+//                    this, false, 0,false,0, s4rChannel);
+//                addOpTimeTrackS4RClient("1", opTimeTrackS4RClient);
+            } catch (Exception e) {
+                logger.error("Error creating new S4R Pulsar Connection: " + e.getMessage());
+                e.printStackTrace();
             }
+
+//            KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerConfProps);
+//            synchronized (this) {
+//                consumer.subscribe(topicNameList);
+//            }
             if (logger.isDebugEnabled()) {
-                logger.debug("Kafka consumer created: {}/{} -- {}, {}, {}",
+                logger.debug("S4R consumer created: {}/{} -- {}, {}, {}",
                     cacheKey,
-                    consumer,
+//                    consumer,
+                    s4rChannel.getChannelNumber(),
                     topicNameList,
                     autoCommitEnabled,
                     maxMsgCntPerCommit);
             }
-
-            opTimeTrackS4RClient = new OpTimeTrackS4RConsumer(
-                    s4RSpace, asyncAPI, msgPollIntervalInSec, autoCommitEnabled, maxMsgCntPerCommit, consumer, channel);
-            s4RSpace.addOpTimeTrackS4RClient(cacheKey, opTimeTrackS4RClient);
+            synchronized (this) {
+                int cnt;
+                cnt = s4RSpace.getS4RClientsCount();
+                cnt++;
+                opTimeTrackS4RClient = new OpTimeTrackS4RConsumer(
+//                    s4RSpace, asyncAPI, msgPollIntervalInSec, autoCommitEnabled, maxMsgCntPerCommit, consumer, channel);
+                    s4RSpace, asyncAPI, msgPollIntervalInSec, autoCommitEnabled, maxMsgCntPerCommit, s4rChannel);
+//                    s4RSpace, asyncAPI, msgPollIntervalInSec, autoCommitEnabled, maxMsgCntPerCommit, null);
+                s4RSpace.addOpTimeTrackS4RClient(cacheKey, opTimeTrackS4RClient);
+                s4RSpace.setS4RClientsCount(cnt);
+                logger.info("Added new S4R client consumer tag: " + consumerTag + " key: " + cacheKey + " s4rClntCnt is: " + s4rClntCnt);
+            }
         }
-        logger.info("************  RabbitMQ Client Completed.**************************");
         return opTimeTrackS4RClient;
     }
 
@@ -172,9 +192,8 @@ public class MessageConsumerOpDispenser extends S4RBaseOpDispenser {
             throw new S4RAdapterInvalidParamException(
                 "Effective consumer group name and/or topic names  are needed for creating a consumer!");
         }
-
         OpTimeTrackS4RClient opTimeTrackS4RConsumer =
-            getOrCreateOpTimeTrackS4RConsumer(cycle, topicNameList, groupId);
+               getOrCreateOpTimeTrackS4RConsumer(cycle, topicNameList, groupId);
 
         logger.debug("MessageConsumerOpsDispenser called, cycle #  " + cycle);
         return new S4ROp(

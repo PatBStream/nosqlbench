@@ -17,9 +17,9 @@
 package io.nosqlbench.adapter.s4r;
 
 public enum S4ROpType {
-    // Kafka producer
+    // S4R producer
     MessageProduce,
-    // Kafka consumer
+    // S4R consumer
     MessageConsume
 }
 

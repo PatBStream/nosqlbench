@@ -21,8 +21,7 @@ public class S4RMessageHandler extends DefaultConsumer {
         byte[] body) throws IOException {
 
     String message = new String(body, "UTF-8");
-    System.out.println("SR4 Message Consumed: " + message);
-    logger.debug("RabbitMQ S4R Message Consumed: " + message);
+    logger.info("RabbitMQ S4R Message Consumed: " + message);
     }
 
 }

@@ -41,7 +41,7 @@ public class S4RAdapterMetrics implements NBNamedElement {
         return "SR4AdapterMetrics";
     }
 
-    public void initS4JAdapterInstrumentation() {
+    public void initS4RAdapterInstrumentation() {
         // Histogram metrics
         this.messageSizeHistogram =
             ActivityMetrics.histogram(

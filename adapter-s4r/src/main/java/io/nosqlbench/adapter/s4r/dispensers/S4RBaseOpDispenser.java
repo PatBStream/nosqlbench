@@ -37,7 +37,7 @@ import java.util.function.Predicate;
 
 public abstract  class S4RBaseOpDispenser extends BaseOpDispenser<S4ROp, S4RSpace> {
 
-    private final static Logger logger = LogManager.getLogger("PulsarBaseOpDispenser");
+    private final static Logger logger = LogManager.getLogger("S4RBaseOpDispenser");
 
     protected final ParsedOp parsedOp;
     protected final S4RAdapterMetrics s4rAdapterMetrics;
@@ -70,7 +70,7 @@ public abstract  class S4RBaseOpDispenser extends BaseOpDispenser<S4ROp, S4RSpac
 
         String defaultMetricsPrefix = getDefaultMetricsPrefix(this.parsedOp);
         this.s4rAdapterMetrics = new S4RAdapterMetrics(defaultMetricsPrefix);
-        s4rAdapterMetrics.initS4JAdapterInstrumentation();
+        s4rAdapterMetrics.initS4RAdapterInstrumentation();
 
         this.asyncAPI =
             parsedOp.getStaticConfigOr(S4RAdapterUtil.DOC_LEVEL_PARAMS.ASYNC_API.label, Boolean.TRUE);

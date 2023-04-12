@@ -18,8 +18,10 @@ package io.nosqlbench.adapter.s4r;
 
 import io.nosqlbench.adapter.s4r.exception.S4RAdapterUnexpectedException;
 import io.nosqlbench.adapter.s4r.ops.OpTimeTrackS4RClient;
+import io.nosqlbench.adapter.s4r.ops.OpTimeTrackS4RConsumer;
 import io.nosqlbench.adapter.s4r.util.S4RAdapterUtil;
 import io.nosqlbench.adapter.s4r.util.S4RClientConf;
+import io.nosqlbench.adapter.s4r.util.S4RMessageHandler;
 import io.nosqlbench.api.config.standard.ConfigModel;
 import io.nosqlbench.api.config.standard.NBConfigModel;
 import io.nosqlbench.api.config.standard.NBConfiguration;
@@ -31,6 +33,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
+import com.rabbitmq.client.Connection;
 
 public class S4RSpace implements  AutoCloseable {
 
@@ -39,8 +46,6 @@ public class S4RSpace implements  AutoCloseable {
     private final String spaceName;
     private final NBConfiguration cfg;
 
-    // TODO: currently this NB Kafka driver only supports String type for message key and value
-    //       add schema support in the future
     private final ConcurrentHashMap<String, OpTimeTrackS4RClient> opTimeTrackS4RClients = new ConcurrentHashMap<>();
 
     private final String bootstrapSvr;
@@ -72,7 +77,11 @@ public class S4RSpace implements  AutoCloseable {
     private final int consumerGrpNum;
 
     private long totalCycleNum;
-
+    // S4R Connection Factory for Pulsar
+    private ConnectionFactory s4rConnFactory;
+    private Connection s4rConnection;
+    private Channel s4rChannel;
+    private int s4rClientsCount = 0;
     private AtomicBoolean beingShutdown = new AtomicBoolean(false);
 
     public S4RSpace(String spaceName, NBConfiguration cfg) {
@@ -91,6 +100,8 @@ public class S4RSpace implements  AutoCloseable {
         this.s4rClientConfFileName = cfg.get("config");
         this.s4rClientConf = new S4RClientConf(s4rClientConfFileName);
         this.activityStartTimeMills = System.currentTimeMillis();
+//        this.initializeSpace(s4rClientConf);
+        logger.info("Initializing S4RSpace Name: " + spaceName + " Connection Config Maps Values: " + s4rClientConf.getS4rConnectionMap().toString());
     }
 
     @Override
@@ -105,11 +116,11 @@ public class S4RSpace implements  AutoCloseable {
             .add(Param.defaultTo("config", "config.properties")
                 .setDescription("Kafka client connection configuration property file."))
             .add(Param.defaultTo("num_clnt", 1)
-                .setDescription("Number of Kafka clients. For consumer, this is the number of consumers per consumer group"))
+                .setDescription("Number of S4R clients. For consumer, this is the number of consumers per consumer group"))
             .add(Param.defaultTo("num_cons_grp", 1)
-                .setDescription("Number of consumer groups (only relevant for Kafka consumer workload). "))
+                .setDescription("Number of consumer groups (only relevant for S4R consumer workload). "))
             .add(Param.defaultTo("max_op_time", 0)
-                .setDescription("Maximum time (in seconds) to run NB Kafka testing scenario."))
+                .setDescription("Maximum time (in seconds) to run NB S4R testing scenario."))
             .add(Param.defaultTo("strict_msg_error_handling", false)
                 .setDescription("Whether to do strict error handling which is to stop NB Kafka execution."))
             .asReadOnly();
@@ -134,6 +145,34 @@ public class S4RSpace implements  AutoCloseable {
 
     public long getTotalCycleNum() { return totalCycleNum; }
     public void setTotalCycleNum(long cycleNum) { totalCycleNum = cycleNum; }
+    
+    public int getS4RClientsCount() {return s4rClientsCount; }
+    public void setS4RClientsCount(int cnt) {s4rClientsCount = cnt;}
+
+    public void initializeSpace(S4RClientConf s4rClientConnInfo) {
+        logger.info("Initializing S4RSpace Name: " + spaceName + " Connection Config Maps Values: " + s4rClientConnInfo.getS4rConnectionMap().toString());
+        String host = s4rClientConnInfo.getS4rConnectionMap().get("host");
+        String port = s4rClientConnInfo.getS4rConnectionMap().get("port");
+        if (s4rConnFactory == null) {
+            try {
+                s4rConnFactory = new ConnectionFactory();
+                s4rConnFactory.setHost(host);
+                s4rConnFactory.setPort(Integer.parseInt(port));
+                s4rConnection = s4rConnFactory.newConnection();
+                s4rChannel = s4rConnection.createChannel();
+                s4rChannel.queueDeclare("s4r_queue1", true, false, false, null);
+                DefaultConsumer consumer = new S4RMessageHandler(s4rChannel);
+                s4rChannel.basicConsume("s4r_queue1", true, consumer);
+//                OpTimeTrackS4RClient opTimeTrackS4RClient = new OpTimeTrackS4RConsumer(
+//                    this, false, 0,false,0, s4rChannel);
+//                addOpTimeTrackS4RClient("1", opTimeTrackS4RClient);
+            } catch (Exception e) {
+                logger.error("Error creating new S4R Pulsar Connection: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     public boolean isShuttigDown() {
         return beingShutdown.get();

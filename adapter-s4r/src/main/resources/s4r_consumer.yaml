@@ -12,7 +12,6 @@ blocks:
         ## The value represents the topic names
         #  - for consumer, a list of topics (separated by comma) are supported
         MessageConsume: "nbktest1,nbktest2"
-
         # The timeout value to poll messages (unit: milli-seconds)
         # - default: 0
         msg_poll_interval: "10"

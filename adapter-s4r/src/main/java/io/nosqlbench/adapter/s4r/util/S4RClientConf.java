@@ -39,11 +39,13 @@ public class S4RClientConf {
     public static final String TOPIC_CONF_PREFIX = "topic";
     public static final String PRODUCER_CONF_PREFIX = "producer";
     public static final String CONSUMER_CONF_PREFIX = "consumer";
+    public static final String S4RCONNECTION_PREFIX = "s4rconnection";
 
     // https://kafka.apache.org/documentation/#topicconfigs
     private Map<String, String> topicConfMap = new HashMap<>();
     private Map<String, String> producerConfMap = new HashMap<>();
     private Map<String, String> consumerConfMap = new HashMap<>();
+    private Map<String, String> s4rConnectionMap = new HashMap<>();
 
 
     public S4RClientConf(String clientConfFileName) {
@@ -102,6 +104,10 @@ public class S4RClientConf {
                     else if (StringUtils.startsWith(confKey, CONSUMER_CONF_PREFIX)) {
                         consumerConfMap.put(confKey.substring(CONSUMER_CONF_PREFIX.length() + 1), confVal);
                     }
+                    else if (StringUtils.startsWith(confKey, S4RCONNECTION_PREFIX)) {
+                        s4rConnectionMap.put(confKey.substring(S4RCONNECTION_PREFIX.length() + 1), confVal);
+                    }
+
                 }
             }
         } catch (IOException ioe) {
@@ -116,12 +122,14 @@ public class S4RClientConf {
     public Map<String, String> getTopicConfMap() { return topicConfMap; }
     public Map<String, String> getProducerConfMap() { return producerConfMap; }
     public Map<String, String> getConsumerConfMap() { return consumerConfMap; }
+    public Map<String, String> getS4rConnectionMap() { return s4rConnectionMap; }
 
     public String toString() {
         return new ToStringBuilder(this).
             append("topicConfMap", topicConfMap).
             append("producerConfMap", producerConfMap).
             append("consumerConfMap", consumerConfMap).
+            append("s4rConnectionMap", s4rConnectionMap).
             toString();
     }
 }
