@@ -112,81 +112,17 @@ public class OpTimeTrackS4RConsumer extends OpTimeTrackS4RClient {
 
     @Override
     void cycleMsgProcess(long cycle, Object cycleObj) {
-        logger.debug("In method cycleMsgProcess called cycle: " + cycle);
+        logger.debug("cycleMsgProcess called cycle: " + cycle);
         if (s4RSpace.isShuttigDown()) {
             return;
         }
-/*
-        synchronized (this) {
-            ConsumerRecords<String, String> records = consumer.poll(msgPoolIntervalInMs);
-            ConsumerRecords<String, String> records = null;
-            for (ConsumerRecord<String, String> record : records) {
-                if (record != null) {
-                    if (logger.isDebugEnabled()) {
-                        logger.debug(
-                            "Receiving message is successful: [{}] - offset({}), cycle ({})",
-                            printRecvedMsg(record),
-                            record.offset(),
-                            cycle);
-                    }
-
-                    if (!autoCommitEnabled) {
-                        boolean bCommitMsg = msgCommitNeeded(cycle);
-                        if (bCommitMsg) {
-                            if (!asyncMsgCommit) {
-                                consumer.commitSync();
-
-                                if (logger.isDebugEnabled()) {
-                                    logger.debug(
-                                        "Sync message commit is successful: cycle ({}), maxMsgCntPerCommit ({})",
-                                        cycle,
-                                        maxMsgCntPerCommit);
-                                }
-                            } else {
-                                consumer.commitAsync(new OffsetCommitCallback() {
-                                    @Override
-                                    public void onComplete(Map<TopicPartition, OffsetAndMetadata> map, Exception e) {
-                                        if (logger.isDebugEnabled()) {
-                                            if (e == null) {
-                                                logger.debug(
-                                                    "Async message commit succeeded: cycle({}), maxMsgCntPerCommit ({})",
-                                                    cycle,
-                                                    maxMsgCntPerCommit);
-                                            } else {
-                                                logger.debug(
-                                                    "Async message commit failed: cycle ({}), maxMsgCntPerCommit ({}), error ({})",
-                                                    cycle,
-                                                    maxMsgCntPerCommit,
-                                                    e.getMessage());
-                                            }
-                                        }
-                                    }
-                                });
-                            }
-
-                            resetManualCommitTrackingCnt();
-                        } else {
-                            incManualCommitTrackingCnt();
-                        }
-                    }
-                }
-            }
-        } */
     }
 
     @Override
     public void close() {
         try {
-/*            if (consumer != null) {
-                if (!asyncMsgCommit)
-                    consumer.commitSync();
-                else
-                    consumer.commitAsync();
+            // TODO add S4R close channel and connection 
 
-                consumer.close();
-            }
-*/
-            this.manualCommitTrackingCnt.remove();
         }
         catch (IllegalStateException ise) {
             // If a consumer is already closed, that's fine.

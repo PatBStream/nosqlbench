@@ -150,27 +150,26 @@ public class S4RSpace implements  AutoCloseable {
     public void setS4RClientsCount(int cnt) {s4rClientsCount = cnt;}
 
     public void initializeSpace(S4RClientConf s4rClientConnInfo) {
+        // Placeholder for potential initializing S4R connections
         logger.info("Initializing S4RSpace Name: " + spaceName + " Connection Config Maps Values: " + s4rClientConnInfo.getS4rConnectionMap().toString());
-        String host = s4rClientConnInfo.getS4rConnectionMap().get("host");
-        String port = s4rClientConnInfo.getS4rConnectionMap().get("port");
-        if (s4rConnFactory == null) {
-            try {
-                s4rConnFactory = new ConnectionFactory();
-                s4rConnFactory.setHost(host);
-                s4rConnFactory.setPort(Integer.parseInt(port));
-                s4rConnection = s4rConnFactory.newConnection();
-                s4rChannel = s4rConnection.createChannel();
-                s4rChannel.queueDeclare("s4r_queue1", true, false, false, null);
-                DefaultConsumer consumer = new S4RMessageHandler(s4rChannel);
-                s4rChannel.basicConsume("s4r_queue1", true, consumer);
+//        String host = s4rClientConnInfo.getS4rConnectionMap().get("host");
+//        String port = s4rClientConnInfo.getS4rConnectionMap().get("port");
+//        if (s4rConnFactory == null) {
+//            try {
+//                s4rConnFactory = new ConnectionFactory();
+//                s4rConnFactory.setHost(host);
+//                s4rConnFactory.setPort(Integer.parseInt(port));
+//                s4rConnection = s4rConnFactory.newConnection();
+//                s4rChannel = s4rConnection.createChannel();
+//                s4rChannel.queueDeclare("s4r_queue1", true, false, false, null);
 //                OpTimeTrackS4RClient opTimeTrackS4RClient = new OpTimeTrackS4RConsumer(
 //                    this, false, 0,false,0, s4rChannel);
 //                addOpTimeTrackS4RClient("1", opTimeTrackS4RClient);
-            } catch (Exception e) {
-                logger.error("Error creating new S4R Pulsar Connection: " + e.getMessage());
-                e.printStackTrace();
-            }
-        }
+//            } catch (Exception e) {
+//                logger.error("Error creating new S4R Pulsar Connection: " + e.getMessage());
+//                e.printStackTrace();
+//            }
+//        }
     }
 
 
